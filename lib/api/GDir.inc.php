@@ -77,13 +77,13 @@ class GDir{
 		return self::rmpath($path,$removeSelf);
 	}
 	
-	/**
+/*	*//**
 	 * 统绝对路径
 	 *
 	 * @param string $path
 	 * @param string arg1 可选。arg2,arg3,...
 	 * @return string
-	 */
+	 *//*
 	public static function getAbsPath($path){
 		$path = preg_replace(PATH_REGULATION,'/',$path);
 		
@@ -99,13 +99,13 @@ class GDir{
 		return preg_replace(PATH_REGULATION,'/',$path);
 	}
 	
-	/**
+	*//**
 	 * 得到相对路径，相对于网站所在的文件夹（网站根目录，和这个文件夹可以不是同一级目录）
 	 *如目录是：www/bbs/admin/,common.inc.php位于bbs目录下,想得到admin的相对路径，请用：getRelativePath('/admin')。
 	 * 
 	 * @param string $path 
 	 * @return string
-	 */
+	 *//*
 	public static function getRelativePath($path){
 
 		$path = self::getAbsPath($path);
@@ -123,7 +123,7 @@ class GDir{
 	}
 	
 	/**
-	 * Enter description here...
+	 * 文件列表，可根据扩展名过滤
 	 *
 	 * @param string $dir
 	 * @param string $exts 格式如: jpg|png|gif
@@ -132,14 +132,14 @@ class GDir{
 	 */
 	public static function getFileList($dir,$exts = null,$nodir = true){
 		$r = array();
-		if(is_dir(GDir::getAbsPath($dir))){
-			$files = scandir(GDir::getAbsPath($dir));
+		if(is_dir($dir)){
+			$files = scandir($dir);
 			foreach ($files as $file){
 				if($file == "." || $file == "..") continue;
-				if($nodir && !is_file(GDir::getAbsPath($dir,$file))) continue;
+				if($nodir && !is_file($dir.DIRECTORY_SEPARATOR.$file)) continue;
 				//if(is_string($exts) && !preg_match("/(.+)(\\.+)(jpg|png|gif)+$/i",$file)) continue;
 				if(is_string($exts) && !preg_match("/(.+)(\\.+)($exts)+$/i",$file)) continue;
-				array_push($r,self::getRelativePath($dir,$file));
+				array_push($r,$file);
 			}
 		}
 		

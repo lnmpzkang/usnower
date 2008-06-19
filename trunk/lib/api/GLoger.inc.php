@@ -15,8 +15,8 @@ class GLoger {
 	 * @param string $pFile
 	 * @param string $pMsg
 	 */
-	public static function logToFile($pFile,$pMsg){
-		error_log($pMsg,3,$pFile);
+	public static function logToFile($pMsg,$pFile = GConfig::FILE_APP_LOG ){
+		error_log($pMsg.SYMBOL_NEWLINE,3,$pFile);
 	}
 	
 	/**

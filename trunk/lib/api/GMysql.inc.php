@@ -13,18 +13,18 @@ class GMysql {
 	 * @param string $dbCode
 	 * @return link_identifier
 	 */
-	public static function getConn($dbHost,$dbUser,$dbPwd,$dbName,$dbCode = null){
+	public static function getConn($dbHost,$dbUser,$dbPwd,$dbName,$dbCharset = null){
 		$conn = @mysql_pconnect($dbHost,$dbUser,$dbPwd);
 		if(!$conn){
 			$msg = sprintf("Time:%s\t Msg:数据库连接出错！",date("Ymd H:i:s"));
-			GLoger::logToFile();
+			GLoger::logToFile($msg);
 			GLoger::reportToAdmin($msg,GConfig::ADMIN_EMAIL);
 			throw new Exception($msg);
 		}
 		
 		mysql_select_db($dbName,$conn);
-		if(null != dbCode)
-			mysql_query("SET NAMES ".$dbCode);
+		if(null != $dbCharset)
+			mysql_query("SET NAMES ".$dbCharset);
 		
 		return $conn;
 	}
@@ -35,8 +35,10 @@ class GMysql {
 	 * @return link_identifier
 	 */
 	public static function getDefaultConn(){
-		return self::getConn(GConfig::DB_HOST,GConfig::DB_USER,GConfig::DB_PWD,GConfig::DB_NAME,GConfig::DB_CODE);
+		return self::getConn(GConfig::DB_HOST,GConfig::DB_USER,GConfig::DB_PWD,GConfig::DB_NAME,GConfig::DB_CHARSET);
 	}
 }
 
+//只有调用这个类的时候，取Conn,不放到 common.inc.php的原因是，有些页面不用连接数据库
+GMysql::$conn = GMysql::getDefaultConn();
 ?>

@@ -30,10 +30,9 @@ class GLoger {
 			error_log($pMsg,1,$pAdminEmail);
 	}
 	
-	public static function reportErrorPage(){
+/*	public static function reportErrorPage(){
 		
-	}
+	}*/
 	
 }
-
 ?>

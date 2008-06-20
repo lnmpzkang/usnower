@@ -20,8 +20,23 @@ set_include_path(join(DIRECTORY_SEPARATOR == "/" ? ":" : ";",$includePath));
  * @param string $class
  */
 function __autoload($class){
-	include("$class.inc.php");
+	require("$class.inc.php");
 }
 
+/**
+ * 最外层异常处理
+ *
+ * @param Exception $e
+ */
+function __showMsg($e){
+	if(headers_sent()){
+		echo $e->getMessage();
+	}else{
+		$msg = GEncrypt::encrypt($e->getMessage(),GConfig::ENCRYPT_KEY);
+		header("location:msg.php?msg=$msg");
+	}
+}
+
+set_exception_handler("__showMsg");
 
 ?>

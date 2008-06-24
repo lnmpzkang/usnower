@@ -1,0 +1,11 @@
+create user usnower@'localhost' identified by 'usnower';
+create database usnower default charset utf8;
+grant all on usnower.* to usnower;
+
+
+/*------------------------------------------------
+USNOWER_ADMIN
+------------------------------------------------*/
+CREATE TABLE USNOWER_ADMIN (
+
+);

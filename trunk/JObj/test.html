@@ -7,14 +7,14 @@
 </head>
 
 <body>
-<div id="a">
-<div id="b">
+<ul id="aa">
+	<li>aaa</li>
+	<li>bbb</li>
+</ul>
 <script>
-JObj.plugin("JGrid");
-
-var grid = JObj.Plugin.JGrid.getInstance();
+JObj.use("ChainDom");
+var objs;
+JObj.ChainDom.$(document.body).save("objs");
 </script>
-</div>
-</div>
 </body>
 </html>

@@ -14,7 +14,6 @@ class GConfig {
 	 * 数据库配置
 	 *
 	 */
-	const DB_TYPE		= GDb::TYPE_MYSQL;
 	const DB_HOST 		= "127.0.0.1";
 	const DB_PORT		= 3306;
 	const DB_USER		= "usnower";

@@ -97,6 +97,18 @@ var JObj = {};
 			return $$.$((undefined == node || null == node || "" == node.trim() ? document : node)).getElementsByName(name);
 		}
 		
+		$$.$class = $.$class = function(className){
+			var objs = document.all || document.getElementsById("*");
+			var o,i,arr = [];
+			for(i=0;o=objs[i];i++){
+				if(o.className == className){
+					arr.push(o);
+				}	
+			}
+			
+			return arr;
+		}
+		
 	})($.Dom,$);
 	
 	var scripts = $.$tag("SCRIPT"),script,i;
@@ -195,7 +207,8 @@ var JObj = {};
 		
 		$.getXMLHttp = function(){
 			var xmlHttp = null;
-			if($$.Browser.ie && $$.Browser.version < 7){
+			//if($$.Browser.ie && $$.Browser.version < 7){ //用IE7内置的 XMLHttpRequest 对象，不能加载本地文件．
+			if($$.Browser.ie){
 				var v = ['MSXML2.XMLHTTP.8.0', 'MSXML2.XMLHTTP.7.0', 'MSXML2.XMLHTTP.6.0', 'MSXML2.XMLHTTP.5.0', 'MSXML2.XMLHTTP.4.0', 'MSXML2.XMLHTTP.3.0', 'MSXML2.XMLHTTP.2.6', 'MSXML2.XMLHTTP', 'Microsoft.XMLHTTP'];
 				if(typeof(vars.ACTIVEXOBJECT_XMLHTTP) == "string")
 					v[0] = vars.ACTIVEXOBJECT_XMLHTTP;
@@ -331,6 +344,7 @@ var JObj = {};
 				
 				if(http.readyState == 4){
 					switch(http.status){
+						case 0:
 						case 200:
 							$$.isFunction($.onSuccess) ? $.onSuccess(http,200,rule,dataRule) : null;
 							break;
@@ -375,10 +389,12 @@ var JObj = {};
 		}
 		*/
 		
-		if($$.Browser.ie)
+/*		if($$.Browser.ie)
 			var fp = document.createDocumentFragment();
 		else
-			var fp = document.body;
+			var fp = document.body;*/
+			
+		var fp = document.createDocumentFragment();
 		
 			
 		var SUCCESS = {}; // 以载入，
@@ -440,7 +456,6 @@ var JObj = {};
 			delete QUEUE[rule.url];
 			
 			window.eval(xmlHttp.responseText);
-			rule.successCallBack();
 		}
 		
 		var script_onUnsuccess = function(xmlHttp,status,rule,dataRule){
@@ -451,10 +466,9 @@ var JObj = {};
 			$$.isFunction(rule.unsuccessCallBack) ? rule.unsuccessCallBack() : null;
 		}
 		
-		var script = function(path,succCallBack,unsuccCallBack,async){
+		var script = function(path,async){
 			if(async === null) async = false;// 默认为同步加载
 			var p = $.getFullPath(path);
-			var f = $$.isFunction(succCallBack);
 			var h = location.host != "" && location.host == $.getUrlHost( p );
 			
 			QUEUE[p] = {
@@ -463,14 +477,11 @@ var JObj = {};
 				time:1
 			};
 			
-			if(f && h){
+			if(location.protocol == "file:" || h){
 				$$.Ajax.send({
 							 	async:async, // true 异步加载，false 同步加载
 								method:"GET",
 								url:p,
-								
-								successCallBack:succCallBack,
-								unsuccessCallBack:unsuccCallBack,
 								
 								onSuccess:script_onSuccess,
 								onUnsuccess:script_onUnsuccess
@@ -480,8 +491,8 @@ var JObj = {};
 				script.src = p;
 				
 				if($$.Browser.ie){
-					//script.onreadystatechange = $$.doFunction(script_onreadystatechange,p,succCallBack);	
-					script.onreadystatechange = function(){script_onreadystatechange(script,p,succCallBack);};
+					script.onreadystatechange = $$.doFunction(script_onreadystatechange,p,succCallBack);	
+					//script.onreadystatechange = function(){script_onreadystatechange(script,p,succCallBack);};
 				}else{
 					script.onload = $$.doFunction(script_onload,p,succCallBack);
 					script.onerror = $$.doFunction(script_onerror,p,unsuccCallBack);
@@ -492,25 +503,26 @@ var JObj = {};
 		}
 		
 		$.include = function(path,succCallBack,unsuccCallBack,async){
-			script(path,succCallBack,unsuccCallBack,async);
+			script(path,async);
 		}
 		
 		$.includeOnce = function(path,succCallBack,unsuccCallBack,async){
 			var p = $.getFullPath(path);
 			if(p in QUEUE || p in SUCCESS) return;
-			script(path,succCallBack,unsuccCallBack,async);
+			script(path,async);
 		}
 		
 		$$.setLoadedModule("JObj.Loader",true);
 		
 	})($.Loader,$);
 	
-	$.plugin = function(pluginName){
-		$.Loader.includeOnce($.path + "plugins/" + pluginName + "/" + pluginName + ".js");
+	$.plugin = function(pluginName,async){
+		async = (async == undefined || async == null || async.toString() != true || async.toString() != false) ? async : false;
+		$.Loader.includeOnce($.path + "plugins/" + pluginName + "/" + pluginName + ".js",null,null,async);
 	}
 	
 	$.use = function(lib,async){
 		async = (async == undefined || async == null || async.toString() != true || async.toString() != false) ? async : false;
-		$.Loader.includeOnce($.path + "lib/" + lib + ".js",null,null,async);
+		$.Loader.includeOnce($.path + "lib/" + lib + ".js",async);
 	}
 })(JObj)

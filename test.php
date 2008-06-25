@@ -9,5 +9,9 @@ include("common.inc.php");
 
 //var_dump(GDir::getFileList(PATH_DOC_ROOT.DIRECTORY_SEPARATOR."aa"));
 
-echo GMysql::$conn;
+$vo = new VO_Admin();
+$vo->setAdmin("xlingfairy");
+$vo->setPwd("fp51gfa");
+MO_Admin::login($vo);
+MO_Admin::checkLoginStatus();
 ?>

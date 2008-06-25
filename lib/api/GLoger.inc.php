@@ -16,7 +16,7 @@ class GLoger {
 	 * @param string $pMsg
 	 */
 	public static function logToFile($pMsg,$pFile = GConfig::FILE_APP_LOG ){
-		error_log($pMsg.SYMBOL_NEWLINE,3,$pFile);
+		error_log(date("Ymd H:i:s")."---------------------------".SYMBOL_NEWLINE.$pMsg.SYMBOL_NEWLINE,3,$pFile);
 	}
 	
 	/**

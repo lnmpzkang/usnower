@@ -37,7 +37,49 @@ class GMysql {
 	public static function getDefaultConn(){
 		return self::getConn(GConfig::DB_HOST,GConfig::DB_USER,GConfig::DB_PWD,GConfig::DB_NAME,GConfig::DB_CHARSET);
 	}
+	
+	/**
+	 * 执行SQL语句，如果出错，抛出SQLException
+	 *
+	 * @exception SQLException
+	 * @param string $sql
+	 * @return resource
+	 */
+	public static function query($sql){
+		$result = mysql_query($sql);
+		if(mysql_errno() != 0){
+			throw new GAppException(mysql_error(self::$conn).SYMBOL_NEWLINE.$sql);
+		}else 
+			return $result;
+	}
+
+	public static function getInsertId($conn = null){
+		$conn == null ? $conn = self::$conn : $conn;
+		return mysql_insert_id($conn);
+	}
+	
+	public static function getAffectedRows($conn = null){
+		$conn == null ? $conn = self::$conn : $conn;
+		return mysql_affected_rows($conn);
+	}	
+	
+	public static function fetchArray($rst,$case = CASE_LOWER){
+		if(false != ($arr = mysql_fetch_array($rst))){
+			$arr = array_change_key_case($arr,$case);
+			return $arr;
+		}else 
+			return false;
+	}
+
+	public static function fetchRow($rst){
+		if(false != ($arr = mysql_fetch_row($rst))){
+			return $arr;
+		}else{
+			return false;
+		}
+	}
 }
+
 
 //只有调用这个类的时候，取Conn,不放到 common.inc.php的原因是，有些页面不用连接数据库
 GMysql::$conn = GMysql::getDefaultConn();

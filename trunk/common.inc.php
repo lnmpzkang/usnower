@@ -1,6 +1,7 @@
 <?php
-define("PATH_DOC_ROOT",$_SERVER['DOCUMENT_ROOT']);
-define("PATH_FILE_DIR",dirname(__FILE__));
+//define("PATH_DOC_ROOT",$_SERVER['DOCUMENT_ROOT']);
+//define("PATH_FILE_DIR",dirname(__FILE__));
+define("PATH_DOC_ROOT",dirname(__FILE__));
 
 define("SYMBOL_NEWLINE","\r\n");
 

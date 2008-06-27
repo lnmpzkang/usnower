@@ -81,7 +81,8 @@ class MO_Admin extends MO {
 	}
 	
 	public static function logout(){
-		
+		session_unregister(GConfig::SSN_KEY_ADMIN_ENCRYPT_NAME);
+		session_unregister(GConfig::SSN_KEY_ADMIN_NAME);
 	}
 	
 	/**

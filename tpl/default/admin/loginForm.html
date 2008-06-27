@@ -1,0 +1,17 @@
+<!--block blk_adminLoginForm-->
+	<!--cond cond_noLogin-->
+<div>
+	<form action="{:formAction}" method="post">
+	<input type="hidden" value="{@GToken::newToken('adminLogin')}" />
+	Login Name:<input type="text" value="{:admin}" />
+	Password:<input type="password" value="" />
+	</form>
+</div>
+	<!--/cond-->
+	<!--cond cond_logined-->
+<div>
+	<a href="/admin/index.php">Control Center</a>
+	<a href="/admin/quit.php">Logout!</a>
+<div>
+	<!--/cond-->
+<!--/block-->

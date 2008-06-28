@@ -52,7 +52,7 @@ class MO_Admin extends MO {
 	/**
 	 * 登陆
 	 *
-	 * @param unknown_type $vo
+	 * @param VO_Admin $vo
 	 */
 	public static function login($vo){
 		self::checkVO($vo,"VO_Admin");
@@ -91,13 +91,23 @@ class MO_Admin extends MO {
 	 * @param string $url 默认为null.如果不为NULL，就跳转到 $url上。否则向上抛出异常。
 	 */
 	public static function checkLoginStatus($url=null){
-		if($_SESSION[GConfig::SSN_KEY_ADMIN_NAME] != GEncrypt::decrypt($_SESSION[GConfig::SSN_KEY_ADMIN_ENCRYPT_NAME],GConfig::ENCRYPT_KEY)){
+		//if($_SESSION[GConfig::SSN_KEY_ADMIN_NAME] != GEncrypt::decrypt($_SESSION[GConfig::SSN_KEY_ADMIN_ENCRYPT_NAME],GConfig::ENCRYPT_KEY)){
+		if(self::isLogined()){
 			if(null == $url){
 				throw new GDataException("Please login!");
 			}else{
 				header("location:$url");
 			}
 		}
+	}
+	
+	/**
+	 * 检查是否以登陆
+	 *
+	 * @return boolean
+	 */
+	public static function isLogined(){
+		return ($_SESSION[GConfig::SSN_KEY_ADMIN_NAME] === GEncrypt::decrypt($_SESSION[GConfig::SSN_KEY_ADMIN_ENCRYPT_NAME],GConfig::ENCRYPT_KEY));
 	}
 }
 

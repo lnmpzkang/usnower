@@ -43,7 +43,7 @@ function __showMsg($e){
 		echo $e->getMessage();
 	}else{
 		$msg = GEncrypt::encrypt( $msg != "" ? $msg : $e->getMessage(),GConfig::ENCRYPT_KEY);
-		header("location:msg.php?msg=$msg");
+		header("location:".PATH_CONTENT_ROOT."msg.php?msg=$msg");
 	}
 }
 

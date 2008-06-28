@@ -26,7 +26,8 @@ class GEncrypt {
 		return (base64_encode ( self::keyED ( $tmp, $key ) ));
 	}
 	
-	public static function decrypt($txt, $key) {   
+	public static function decrypt($txt, $key) {
+		if($txt == ""){ return false;} 
 		$txt = self::keyED ( (base64_decode ( $txt )), $key );
 		$tmp = "";
 		for($i = 0; $i < strlen ( $txt ); $i ++) {

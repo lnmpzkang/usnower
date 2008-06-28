@@ -43,6 +43,7 @@ class GConfig {
 	
 	const SSN_KEY_ADMIN_NAME 				= "SSN_A10";
 	const SSN_KEY_ADMIN_ENCRYPT_NAME		= "SSN_A20";
+	const SSN_KEY_TOKEN						= "SSN_Z10";
 }
 
 ?>

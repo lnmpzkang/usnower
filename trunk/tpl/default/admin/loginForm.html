@@ -1,10 +1,12 @@
 <!--block blk_adminLoginForm-->
 	<!--cond cond_noLogin-->
 <div>
-	<form action="{:formAction}" method="post">
-	<input type="hidden" value="{@GToken::newToken('adminLogin')}" />
-	Login Name:<input type="text" value="{:admin}" />
-	Password:<input type="password" value="" />
+	<form action="{@$_SERVER['PHP_SELF']}" method="post">
+	<input name="token" type="hidden" value="{@GToken::newToken('adminLogin')}" />
+	Login Name:<input name="admin" type="text" value="{@$_POST['admin']}" />
+	Password:<input name="pwd" type="password" value="" />
+	<input type="submit" value="Login!"  />
+	{:msg}
 	</form>
 </div>
 	<!--/cond-->
@@ -15,4 +17,3 @@
 <div>
 	<!--/cond-->
 <!--/block-->
-{include admin/includeTest.html}

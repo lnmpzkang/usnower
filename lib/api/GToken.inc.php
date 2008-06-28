@@ -12,7 +12,7 @@ class GToken {
 	 * @return array
 	 */
 	public static function getTokens(){
-		$tokens = $_SESSION[GConfig::SESSION_KEY_TOKEN ];
+		$tokens = $_SESSION[GConfig::SSN_KEY_TOKEN ];
 		if (empty($tokens) && !is_array($tokens)) {
 			$tokens = array();
 		}

@@ -3,7 +3,7 @@
  * GTpl
  *  {:key}		: 程序执行时就进行关键字替换
  *  {@fun()} 	: 执行时替换为：<?php echo fun() ?>
- *
+ *	 {include file} : 把 file 所指的tpl文件包含进来。file 的路径是以 baseDir 为基础的。
  */
 class GTpl {
 	private $debugMode = true;
@@ -48,10 +48,44 @@ class GTpl {
 	"footer" => "footer.html"
 	);
 	*/
+	
+	/**
+	 * 解析 {include file}
+	 *
+	 * @param string $file
+	 * @return string
+	 */
+	private function parseInclude($file){
+		if(!is_file($file)){
+			self::log("找不到文件： $file");
+			return false;
+		}else{
+			$source = file_get_contents($file);
+
+			//-------------------------------------------------------------------------------
+			$inReg="/{include(.*)}/iUs";
+			$ma = array();
+			if( preg_match_all( $inReg , $source ,$ma)){
+				while(list($k,$path) = each($ma[1])){
+					
+					$path = trim($path);
+					if($file == $this->baseDir.DIRECTORY_SEPARATOR.$path){
+						self::log("include的文件 $file 不能include自己");
+					}else{
+						$source = str_replace($ma[0][$k],$this->parseInclude($this->baseDir.DIRECTORY_SEPARATOR.trim($path)),$source);
+					}
+				}
+			}
+			
+			return $source;
+			//-------------------------------------------------------------------------------			
+		}
+	}
+	
 	/**
 	 * 载入模板文件
 	 *
-	 * @param unknown_type $name
+	 * @param String | array $name
 	 * @example $tpl->load(array("header"=>"header.html","footer"=>"footer.html"));
 	 * @example $tpl->load("header","header.html");
 	 */
@@ -78,10 +112,13 @@ class GTpl {
 			self::log("在文件夹 ： $this->baseDir 中，找不到文件 ： $tplFile");
 			return;
 		}else{
-			//$source = join("",@file($file));
+			/*
 			$source = file_get_contents($file);
+			*/
+			$source = $this->parseInclude($file);
 		}
 
+		
 
 		$this->tpl[$name] = array(
 			"name"=>$name,
@@ -237,7 +274,7 @@ class GTpl {
 	
 	private function parsePhpCall($match){
 		$fun = substr($match[1],0,strpos($match[1],"("));
-		if(function_exists($fun) || is_callable($fun)){
+		if(function_exists($fun) || is_callable($fun) || defined($fun) || isset($fun)){
 			return "<?php echo $match[1] ?>";
 		}else{
 			return $match[0];
@@ -318,6 +355,30 @@ class GTpl {
 	
 	protected function log($msg){
 		GLoger::logToFile($msg.SYMBOL_NEWLINE.__FILE__,$this->logFile);
+	}
+	
+	/**
+	 * 保存序列化后的GTpl实例
+	 *
+	 * @param string $path 保存的路径
+	 */
+	public function saveToFile($path){
+		GSerialize::save($this,$path);
+	}
+	
+	/**
+	 * 从序列化的文件中加载GTpl,如果不成功，返回 false,否则返回序列化前的实例
+	 *
+	 * @param string $path
+	 * @return mixed
+	 */
+	public static function loadTpl($path){
+		$tpl = GSerialize::load($path);
+		if(false === $tpl || get_class($tpl) != "GTpl"){
+			return false;
+		}else{
+			return $tpl;
+		}
 	}
 }
 ?>

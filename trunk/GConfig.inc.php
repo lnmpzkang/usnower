@@ -7,6 +7,8 @@ class GConfig {
 	/*----------------------------------------------------
 	 * 以下信息可以修改
 	----------------------------------------------------*/
+	const WEBSITE_NAME="uSnower!";
+	
 	const ADMIN_EMAIL = "nickr@copacast.com";
 	const ENCRYPT_KEY = "vpqdt234b";
 	
@@ -22,6 +24,10 @@ class GConfig {
 	const DB_NAME		= "usnower";
 	const DB_CHARSET	= "utf8";
 	
+	
+	const DIR_TPL_CACHED = "cached/tpl";//必须存在，可读写
+	const DIR_TPL			= "tpl/default";
+	
 	/*---------------------------------------------------
 	 * 以下信息不要修改
 	----------------------------------------------------*/
@@ -29,6 +35,7 @@ class GConfig {
 	//const SSN_KEY_ERROR_INFO 	= "SSN_KEY_ERROR_INFO";
 	
 	const FILE_APP_LOG	= "logs/app.log";//logs 必须存在，可读写	
+	const FILE_TPL_LOG	= "logs/tpl.log";
 	
 	/*------------------------------------------------------
 	 * session key

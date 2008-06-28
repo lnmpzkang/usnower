@@ -50,14 +50,20 @@ function aa1(){
 $str = eval(" ?>".preg_replace_callback($reg,"callback",$str)."<?php ");
 echo $str;*/
 /*$begin = microtime(TRUE);*/
-$tpl = new GTpl(PATH_DOC_ROOT."/tpl/default",PATH_DOC_ROOT."/logs/tpl.log");
-$tpl->load("adminLogin","admin/loginForm.html");
-$tpl->assign(array(
-	"formAction"	=>	$_SERVER['PHP_SELF'],
-	"admin"			=>	$_POST["admin"]
-));
+/*$sFile = PATH_DOC_ROOT."/cached/tpl/default/admin/loginForm";
+if(false === ($tpl = GTpl::loadTpl($sFile))){
+	$tpl = new GTpl(PATH_DOC_ROOT."/tpl/default",PATH_DOC_ROOT."/logs/tpl.log");
+	$tpl->load("adminLogin","admin/loginForm.html");
+	$tpl->assign(array(
+		"formAction"	=>	$_SERVER['PHP_SELF'],
+		"admin"			=>	$_POST["admin"]
+	));
+	$tpl->saveToFile($sFile);
+}
 
 $tpl->parseBlock("blk_adminLoginForm","cond_noLogin");
-$tpl->parse("adminLogin");
+$tpl->parse("adminLogin");*/
 /*echo (microtime(TRUE) - $begin);*/
+echo PATH_DOC_ROOT;
+echo $_SERVER['DOCUMENT_ROOT']
 ?>

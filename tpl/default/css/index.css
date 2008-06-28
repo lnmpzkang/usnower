@@ -1,0 +1,10 @@
+@charset "utf-8";
+.header {
+	height:80px;
+	background-color:#333333;
+}
+.logo{
+	position:absolute;
+	left:20px;
+	top:20px;
+}

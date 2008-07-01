@@ -1,19 +1,29 @@
-<!--block blk_adminLoginForm-->
-	<!--cond cond_noLogin-->
-<div>
-	<form action="{@$_SERVER['PHP_SELF']}" method="post">
-	<input name="token" type="hidden" value="{@GToken::newToken('adminLogin')}" />
-	Login Name:<input name="admin" type="text" value="{@$_POST['admin']}" />
-	Password:<input name="pwd" type="password" value="" />
-	<input type="submit" value="Login!"  />
-	{:msg}
-	</form>
+﻿<div class="outer loginForm">
+	<div class="inner">
+		<div class="container">
+			<div class="title">Sign In</div>
+			<div class="lineH"></div>
+
+			<!--block blk_adminLoginForm-->
+				<!--cond cond_noLogin-->
+			<div>
+				<form action="{@$_SERVER['PHP_SELF']}" method="post">
+				<input name="token" type="hidden" value="{@GToken::newToken('adminLogin')}" />
+				<div class="field"><label>Login Name:</label><input name="admin" type="text" value="{@$_POST['admin']}" /></div>
+				<div class="field"><label>Password:</label><input name="pwd" type="password" value="" /></div>
+				<div class="field"><label>　　</label><input type="submit" value="Login!"  /></div>
+				{:msg}
+				</form>
+			</div>
+				<!--/cond-->
+				<!--cond cond_logined-->
+			<div>
+				<a href="/admin/index.php">Control Center</a>
+				<a href="/admin/quit.php">Logout!</a>
+			<div>
+				<!--/cond-->
+			<!--/block-->
+			
+		</div>
+	</div>
 </div>
-	<!--/cond-->
-	<!--cond cond_logined-->
-<div>
-	<a href="/admin/index.php">Control Center</a>
-	<a href="/admin/quit.php">Logout!</a>
-<div>
-	<!--/cond-->
-<!--/block-->

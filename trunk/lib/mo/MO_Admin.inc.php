@@ -76,7 +76,7 @@ class MO_Admin extends MO {
 			GSession::set(GConfig::SSN_KEY_ADMIN_ENCRYPT_NAME,GEncrypt::encrypt($vo->getAdmin(),GConfig::ENCRYPT_KEY));
 			GSession::set(GConfig::SSN_KEY_ADMIN_NAME,$vo->getAdmin());
 		}else{
-			throw new GDataException("Invalid Admin name or password!");
+			throw new GDataException("Authentication failure.Invalid name or password!");
 		}
 	}
 	

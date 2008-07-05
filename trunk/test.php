@@ -1,13 +1,16 @@
 <?php
-include("common.inc.php");
+include ("common.inc.php");
 //GLoger::reportToAdmin("sadfasfd");
 //GLoger::logToFile("custom.log","aaaa");
+
 
 //GDir::mkpath("/aa/bb/CC/DD");
 //echo $_SERVER['REMOTE_ADDR'];
 //var_dump(GDir::rmpath(PATH_DOC_ROOT.DIRECTORY_SEPARATOR."aa"));
 
+
 //var_dump(GDir::getFileList(PATH_DOC_ROOT.DIRECTORY_SEPARATOR."aa"));
+
 
 /*$vo = new VO_Admin();
 $vo->setAdmin("xlingfairy");
@@ -64,6 +67,44 @@ if(false === ($tpl = GTpl::loadTpl($sFile))){
 $tpl->parseBlock("blk_adminLoginForm","cond_noLogin");
 $tpl->parse("adminLogin");*/
 /*echo (microtime(TRUE) - $begin);*/
-echo PATH_DOC_ROOT;
-echo $_SERVER['DOCUMENT_ROOT']
+/*echo PATH_DOC_ROOT;
+echo $_SERVER['DOCUMENT_ROOT']*/
+
+class TestClass {
+	var $thisVar = 0;
+	
+	function TestClass($value) {
+		$this->thisVar = $value;
+	}
+	
+	function &getTestClass($value) {
+		static $classes;
+		
+		if (! isset ( $classes [$value] )) {
+			$classes [$value] = new TestClass ( $value );
+		}
+		
+		return $classes [$value];
+	}
+}
+
+echo "<pre>";
+
+echo "Getting class1 with a value of 432\n";
+$class1 = & TestClass::getTestClass ( 432 );
+echo "Value is: " . $class1->thisVar . "\n";
+
+echo "Getting class2 with a value of 342\n";
+$class2 = & TestClass::getTestClass ( 342 );
+echo "Value is: " . $class2->thisVar . "\n";
+
+echo "Getting class3 with the same value of 432\n";
+$class3 = & TestClass::getTestClass ( 432 );
+echo "Value is: " . $class3->thisVar . "\n";
+
+echo "Changing the value of class1 to 3425, which should also change class3\n";
+$class1->thisVar = 3425;
+
+echo "Now checking value of class3: " . $class3->thisVar . "\n";
+
 ?>

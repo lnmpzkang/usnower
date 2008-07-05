@@ -14,10 +14,18 @@ if(GToken::isToken($token,"adminLogin",true)){
 }
 
 if(MO_Admin::isLogined()){
-	
+	$sFile = PATH_DOC_ROOT."/".GConfig::DIR_TPL_CACHED."/admin/main.tpl";
+	if(false === ($tpl = GTpl::loadTpl($sFile))){
+		$tpl = new GTpl(PATH_DOC_ROOT."/".GConfig::DIR_TPL,PATH_DOC_ROOT."/".GConfig::FILE_TPL_LOG);
+		$tpl->load(array(
+			"main"	=>	"admin/main.html"
+		));
+		$tpl->saveToFile($sFile);
+	}
+	$tpl->parse("main");
 }else{
 	
-	$sFile = PATH_DOC_ROOT.DIRECTORY_SEPARATOR.GConfig::DIR_TPL_CACHED.DIRECTORY_SEPARATOR."admin/index.tpl";
+	$sFile = PATH_DOC_ROOT."/".GConfig::DIR_TPL_CACHED."/admin/index.tpl";
 	if(false === ($tpl = GTpl::loadTpl($sFile))){
 		$tpl = new GTpl( PATH_DOC_ROOT."/".GConfig::DIR_TPL, PATH_DOC_ROOT."/".GConfig::FILE_TPL_LOG);
 		$tpl->load(array(

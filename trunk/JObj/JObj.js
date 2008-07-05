@@ -537,15 +537,14 @@ var JObj = {};
 
 
         $.loadCss = function(cssFile) {
-            if (document.createStyleSheet)
+            if (document.createStyleSheet){
                 document.createStyleSheet(cssFile);
-            else {
+            }else {
                 if (styleSheet == null) {
                     styleSheet = $$.$c("STYLE");
                     $$.$tag("HEAD")[0].appendChild(styleSheet);
                 }
-
-                styleSheet.sheet.insertRule("@import url('" + cssFile + "');", styleSheet.sheet.length);
+                styleSheet.sheet.insertRule("@import url('" + cssFile + "');", styleSheet.sheet.cssRules.length);
             }
         }
 

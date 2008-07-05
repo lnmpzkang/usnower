@@ -12,6 +12,6 @@
 <script>
     var sheet = document.styleSheets[0];
     sheet.insertRule("body{background-color:#ccc}",0)
-    sheet.insertRule('@import url("http://usnower/tpl/default/css/adminCommon.css")',0);
+    sheet.insertRule("@import url('http://usnower/tpl/default/css/adminCommon.css');",sheet.cssRules.length);
 </script>
 </html>

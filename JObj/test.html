@@ -2,19 +2,29 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>无标题文档</title>
-<script src="JObj.js"></script>
+<title>aaa</title>
+<script language="javascript" type="text/javascript" src="JObj.js"></script>
 </head>
 
 <body>
-<ul id="aa">
-	<li>aaa</li>
-	<li>bbb</li>
-</ul>
 <script>
-JObj.use("ChainDom");
-var objs;
-JObj.ChainDom.$(document.body).save("objs");
+/*    var xmlHttp = new XMLHttpRequest();
+    xmlHttp.onreadystatechange = function(){
+        alert(xmlHttp.readyState);
+    }
+    xmlHttp.open("GET","http://usnower/JObj/test.html",false);
+    xmlHttp.send(null);
+    alert("outer" + xmlHttp.status);*/
+	
+	JObj.Ajax.send({
+		url:"http://usnower/JObj/test.html",
+		async:false,
+		method:"GET",
+		
+		onSuccess:function(xmlHttp){
+			alert(xmlHttp.responseText);
+		}
+	})
 </script>
 </body>
 </html>

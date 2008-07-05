@@ -1,46 +1,46 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>menu</title>
-<!--block design1-->
-<link href="../css/adminCommon.css" rel="stylesheet" type="text/css" />
-<link href="../css/adminFun.css" rel="stylesheet" type="text/css" />
-<script language="javascript" type="text/javascript" src="../../../JObj/JObj.js"></script>
-<!--/block-->
-<link href="{@PATH_CONTENT_ROOT}tpl/default/css/adminCommon.css" rel="stylesheet" type="text/css">
-<link href="{@PATH_CONTENT_ROOT}tpl/default/css/adminFun.css" rel="stylesheet" type="text/css">
-<script type="text/javascript" src="{@PATH_CONTENT_ROOT}JObj/JObj.js"></script>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>menu</title>
+    <!--block design1-->
+    <link href="../css/adminCommon.css" rel="stylesheet" type="text/css"/>
+    <link href="../css/adminFun.css" rel="stylesheet" type="text/css"/>
+    <script language="javascript" type="text/javascript" src="../../../JObj/JObj.js"></script>
+    <!--/block-->
+    <link href="{@PATH_CONTENT_ROOT}tpl/default/css/adminCommon.css" rel="stylesheet" type="text/css">
+    <link href="{@PATH_CONTENT_ROOT}tpl/default/css/adminFun.css" rel="stylesheet" type="text/css">
+    <script type="text/javascript" src="{@PATH_CONTENT_ROOT}JObj/JObj.js"></script>
 </head>
 
 <body>
 <div class="btnGrp_sliveGray floatRight">
-	<div class="left"></div>
-	<div class="body">Login</div>
-	<div class="separator"></div>
-	<div class="body">Register</div>
-	<div class="right"></div>
+    <div class="left"></div>
+    <div class="body">Login</div>
+    <div class="separator"></div>
+    <div class="body">Register</div>
+    <div class="right"></div>
 </div>
 <div id="showMenu" class="clearBoth">
-	
+
 </div>
 <xml id="menuSource">
-<l caption="Control Center">
-	<l caption="Article System">
-		<l caption="Article Category" url="artCategory.php" />
-		<l caption="Argicle Topic" url="artTopic.php" />
-	</l>
-</l>
+    <l caption="Control Center">
+        <l caption="Article System">
+            <l caption="Article Category" url="artCategory.php"></l>
+            <l caption="Argicle Topic" url="artTopic.php"></l>
+        </l>
+    </l>
 </xml>
 <script>
-//alert(document.getElementById("menuSource"));
-JObj.plugin("JTree");
-
-var mt = JObj.Plugin.JTree.getInstance("showMenu");
-    alert(mt);
+    //alert(document.getElementById("menuSource"));
+    JObj.plugin("JTree");
+    alert(JObj.$("menuSource").innerHTML)
+    var mt = JObj.Plugin.JTree.getInstance("showMenu");
     mt.loadFromString(JObj.$("menuSource").innerHTML);
-    mt.onclick = function(){
-        alert(JObj.Xml.getNodeAtt(mt.selectNode,"caption"));
+    mt.onclick = function() {
+        alert(JObj.Xml.getNodeAtt(mt.selectNode, "caption"));
     }
     mt.create();
 </script>

@@ -14,8 +14,4 @@ html{overflow:hidden}
 }
 #mainBody #menu {width:200px;height:100%;float:left}
 #mainBody #separatorV {width:5px;height:100%;position:relative;top:0px;float:left;background:url(../res/line.v.jpg) repeat-y}
-#mainBody #view {height:100%;float:none;word-break:break-all;overflow:auto;padding:5px;}
-
-#ctlMainMenu {}
-#ctlMainMenu a:link .sub{display:none}
-#ctlMainMenu a:hover .sub{}
+#mainBody #view {height:100%;float:none;word-break:break-all;overflow:auto;}

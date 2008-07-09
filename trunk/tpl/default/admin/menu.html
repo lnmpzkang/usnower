@@ -34,13 +34,17 @@
     </l>
 </xml>
 <script>
-    //alert(document.getElementById("menuSource"));
     JObj.plugin("JTree");
-    alert(JObj.$("menuSource").innerHTML)
+
+	var url = false,ifr = JObj.$("frmView",top.document);
+	
     var mt = JObj.Plugin.JTree.getInstance("showMenu");
     mt.loadFromString(JObj.$("menuSource").innerHTML);
     mt.onclick = function() {
-        alert(JObj.Xml.getNodeAtt(mt.selectNode, "caption"));
+        url = JObj.Xml.getNodeAtt(mt.selectNode, "url");
+		if(url !== false){
+			ifr.src = url;
+		}
     }
     mt.create();
 </script>

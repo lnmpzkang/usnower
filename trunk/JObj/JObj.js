@@ -70,7 +70,22 @@ var JObj = {};
         return function() {
             fun.apply(null, args)
         };
-		//return _doFunction(fun,args);
+    }
+
+    $.getEvent = function(evt) {
+        evt = window.event || evt;
+
+        if (!evt) {
+            var fun = $.getEvent.caller;
+            while (fun != null) {
+                evt = fun.arguments[0];
+                if (evt && evt.constructor == Event)
+                    break;
+                fun = fun.caller;
+            }
+        }
+
+        return evt;
     }
 
     /*------------------------*/
@@ -117,6 +132,13 @@ var JObj = {};
             }
 
             return arr;
+        }
+
+        $.getRuntimeStyle = function(obj, k) {
+            var v = null;
+            if (obj.currentStyle) v = obj.currentStyle[k];
+            else v = window.getComputedStyle(obj, null).getPropertyValue(k);
+            return v;
         }
 
     })($.Dom, $);
@@ -537,9 +559,9 @@ var JObj = {};
 
 
         $.loadCss = function(cssFile) {
-            if (document.createStyleSheet){
+            if (document.createStyleSheet) {
                 document.createStyleSheet(cssFile);
-            }else {
+            } else {
                 if (styleSheet == null) {
                     styleSheet = $$.$c("STYLE");
                     $$.$tag("HEAD")[0].appendChild(styleSheet);

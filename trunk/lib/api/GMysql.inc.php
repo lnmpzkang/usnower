@@ -63,6 +63,13 @@ class GMysql {
 		return mysql_affected_rows($conn);
 	}	
 	
+	/**
+	 * 将rst 的内容取出
+	 *
+	 * @param resource $rst
+	 * @param string $case
+	 * @return mixed if success then array else false.
+	 */
 	public static function fetchArray($rst,$case = CASE_LOWER){
 		if(false != ($arr = mysql_fetch_array($rst))){
 			$arr = array_change_key_case($arr,$case);

@@ -21,7 +21,7 @@ JObj.UI = {};
 	
 		$.getEventPos = function(evt){
 				var _x,_y;
-				evt = JEvent.getEvent(evt);
+				evt = JObj.getEvent(evt);
 				if(evt.pageX || evt.pageY){
 					_x = evt.pageX;
 					_y = evt.pageY;

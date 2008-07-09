@@ -1,30 +1,65 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>aaa</title>
-<script language="javascript" type="text/javascript" src="JObj.js"></script>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>aaa</title>
+    <script language="javascript" type="text/javascript" src="JObj.js"></script>
+    <link href="../tpl/default/css/adminCommon.css" rel="stylesheet" type="text/css"/>
 </head>
 
 <body>
+<TABLE style="BORDER-COLLAPSE: collapse" cellSpacing="0" cellPadding="0" width="100%" border="0">
+    <TBODY>
+        <TR>
+            <TD class="title_left_top" style="CURSOR: nw-resize"></TD>
+            <TD class="title_center_top" style="CURSOR: n-resize"></TD>
+            <TD class="title_right_top" style="CURSOR: ne-resize"></TD>
+        </TR>
+        <TR>
+            <TD class="title_left_middle" style="CURSOR: nw-resize"></TD>
+            <TD class="title_center_middle">
+                    <div class="sysIconArea"></div>
+                    <div class="winTitleArea"></div>
+                    <div class="sysBtnArea"></div>
+            </TD>
+            <TD class="title_right_middle" style="CURSOR: ne-resize"></TD>
+        </TR>
+        <TR>
+            <TD class="title_left_bottom"></TD>
+            <TD class="title_center_bottom"></TD>
+            <TD class="title_right_bottom"></TD>
+        </TR>
+        <TR>
+            <TD class="mainBody_left" style="CURSOR: w-resize"></TD>
+            <TD class="mainBody_center">
+                <div></div>
+            </TD>
+            <TD class="mainBody_right" style="CURSOR: e-resize"></TD>
+        </TR>
+        <TR>
+            <TD class="status_left_top"></TD>
+            <TD class="status_center_top"></TD>
+            <TD class="status_right_top"></TD>
+        </TR>
+        <TR>
+            <TD class="status_left_middle" style="CURSOR: sw-resize"></TD>
+            <TD class="status_center_middle"></TD>
+            <TD class="status_right_middle" style="CURSOR: se-resize"></TD>
+        </TR>
+        <TR>
+            <TD class="status_left_bottom" style="CURSOR: sw-resize"></TD>
+            <TD class="status_center_bottom" style="CURSOR: s-resize"></TD>
+            <TD class="status_right_bottom" style="CURSOR: se-resize"></TD>
+        </TR>
+    </TBODY>
+</TABLE>
 <script>
-/*    var xmlHttp = new XMLHttpRequest();
-    xmlHttp.onreadystatechange = function(){
-        alert(xmlHttp.readyState);
-    }
-    xmlHttp.open("GET","http://usnower/JObj/test.html",false);
-    xmlHttp.send(null);
-    alert("outer" + xmlHttp.status);*/
-	
-	JObj.Ajax.send({
-		url:"http://usnower/JObj/test.html",
-		async:false,
-		method:"GET",
-		
-		onSuccess:function(xmlHttp){
-			alert(xmlHttp.responseText);
-		}
-	})
+    JObj.plugin("JWin");
+    var jwin = JObj.Plugin.JWin.getInstance(500, 300);
+    jwin.setTitle("USnower!");
+    jwin.setSysButtons(false, false, true);
+    jwin.showModal();
 </script>
 </body>
 </html>

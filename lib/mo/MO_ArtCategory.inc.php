@@ -5,7 +5,7 @@ class MO_ArtCategory extends MO {
 		//$vo = new VO_ArtCategory();
 		self::checkVO($vo,"VO_ArtCategory");
 		
-		$sql = sprintf("INSERT INTO %ART_CATEGORY (NAME,FA_ID) VALUES ('%s',%d)",
+		$sql = sprintf("INSERT INTO %sART_CAT (NAME,FA_ID) VALUES ('%s',%d)",
 										GConfig::DB_PREFIX,
 										$vo->getName(),
 										$vo->getFatherId()
@@ -49,6 +49,40 @@ class MO_ArtCategory extends MO {
 												);
 		GMysql::query($sql);
 		return GMysql::getAffectedRows();
+	}
+	
+	public static function getList($vo){
+		self::checkVO($vo,"VO_ArtCategory");
+		$vo = new VO_ArtCategory();
+		if($vo->getId() != null){
+			$sql = sprintf("SELECT *, %sF_ART_CAT_PATH(ID) AS CAT_PATH FROM %sV_ART_CAT WHERE ID = %d",
+											GConfig::DB_PREFIX,
+											GConfig::DB_PREFIX,
+											$vo->getId()
+								);
+								
+		}else if($vo->getFatherId() != null){
+			$sql = sprintf("SELECT *, %sF_ART_CAT_PATH(ID) AS CAT_PATH FROM %sV_ART_CAT WHERE FA_ID = %d",
+												GConfig::DB_PREFIX,
+												GConfig::DB_PREFIX,
+												$vo->getFatherId()
+								);
+								
+		}else if($vo->getName() != null || $vo->getFatherName() != null){
+			$sql = sprintf("SELECT *, %sF_ART_CAT_PATH(ID) AS CAT_PATH FROM %sV_ART_CAT WHERE NAME LIKE '%s' OR FA_NAME LIKE '%s'",
+													GConfig::DB_PREFIX,
+													GConfig::DB_PREFIX,
+													$vo->getName(),
+													$vo->getFatherName()
+								);
+		}else{
+			$sql = sprintf("SELECT *, %sF_ART_CAT_PATH(ID) AS CAT_PATH FROM %sV_ART_CAT",
+												GConfig::DB_PREFIX,
+												GConfig::DB_PREFIX
+								);
+		}
+		
+		return GMysql::query($sql);
 	}
 }
 

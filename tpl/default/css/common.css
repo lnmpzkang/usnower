@@ -5,6 +5,8 @@ a {color: #999999;}
 a:hover {color: #CC3300;}
 a:active {color: #CC3300;}
 
+form{margin:0}
+
 #header{height:50px;background-color: #474747;background:url(../res/bg.header.jpg) repeat-x left bottom;}
 #header #btnTop{background:url(../res/btn.top.png) no-repeat 0px 0px;width:24px;height:12px;position:relative;right:10px;top:38px;display:block;cursor:pointer;float:right;}
 

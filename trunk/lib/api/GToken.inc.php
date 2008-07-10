@@ -75,5 +75,11 @@ class GToken {
 		$source = GEncrypt::decrypt($token,$key);
 		return $source != "" ? str_replace(session_id(),"",$source) : false;
 	}
+	
+	public function newTokenForSmarty($params){
+		$form = null;
+		extract($params);
+		return self::newToken($form);
+	}
 }
 ?>

@@ -70,7 +70,7 @@ $tpl->parse("adminLogin");*/
 /*echo PATH_DOC_ROOT;
 echo $_SERVER['DOCUMENT_ROOT']*/
 
-class TestClass {
+/*class TestClass {
 	var $thisVar = 0;
 	
 	function TestClass($value) {
@@ -105,6 +105,47 @@ echo "Value is: " . $class3->thisVar . "\n";
 echo "Changing the value of class1 to 3425, which should also change class3\n";
 $class1->thisVar = 3425;
 
-echo "Now checking value of class3: " . $class3->thisVar . "\n";
+echo "Now checking value of class3: " . $class3->thisVar . "\n";*/
 
+/*echo MO_ArtCategory::exportTree();
+
+$imgs = $_FILES["img"];
+$dir = $_SERVER['DOCUMENT_ROOT']."/"."uploads";
+for($i = 0;$i < 5 ;$i++){
+	if(empty($imgs[$i])) continue;
+	$img = $imgs[$i];
+	
+	if ( $img["size"] > 100 * 1024 ){
+		continue;
+	}
+	$file = $dir."/".$img["name"];
+	if(file_exists($file)){
+		continue;
+	}
+	
+	move_uploaded_file($img["tmpname"],$dir);
+}
+*/
+
+/*$content = "aa";
+$reg = "~('?)(.*)('?)~";
+$ma = array();
+preg_match_all($reg,$content,$ma);
+var_dump($ma);*/
+
+/*$content = 'asadf<img width="100" src    =   http://www.google.com/q.gif alt= aa />dfa<img src=  "http://www.baidu.com/logo.gif" alt= "bbb" />';
+$reg = "~(<img.*src\\s*=\\s*[\"'])(.*)([\"'].*>)~iUs";
+//$reg = "~(<img.*alt\\s*=\\s*[\"']?)(?<alt>[^\"']*)([\"']?\\b.*>)~iUs";
+$reg = "~(<img.*alt\\s*=\\s*[\"']?)(?<alt>[^\"']*)([\"']?\\b.*>)~iUs";
+
+$reg="~<img.*src\\s*=\\s*(?<mark>[\"'])?\\s*(?<imgUrl>[^\\s\"']*)\\s*(\\k<mark>)?\\b.?\\s*>~iUs";
+
+
+$ma = array();
+preg_match_all($reg,$content,$ma);
+var_dump($ma)*/
+
+//var_dump(GValidate::checkString(null,array("required"=>false,"min"=>3,"max"=>10)));
+//var_dump(GValidate::checkNumRange(2,array("required"=>false,"min"=>-1)));
+var_dump($_GET);
 ?>

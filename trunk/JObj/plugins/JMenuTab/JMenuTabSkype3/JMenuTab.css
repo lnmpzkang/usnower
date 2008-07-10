@@ -1,0 +1,194 @@
+#JMenuTabSkype3 {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	padding: 2px;
+	border-right-width: 1px;
+	border-bottom-width: 1px;
+	border-left-width: 1px;
+}
+#JMenuTabSkype3 .oInnerline {
+	background-color: #FFFFFF;
+}
+#JMenuTabSkype3 .oTitleOutline {
+	height: 30px;
+	color: #333333;
+	overflow:hidden;
+}
+
+#JMenuTabSkype3 .oTitleOutline .oTopLeft {
+	width:8px;
+	background-image: url(left.gif);
+	background-repeat: no-repeat;
+}
+#JMenuTabSkype3 .oTitleOutline .oTitleArea {
+	background-image: url(mid.gif);
+}
+#JMenuTabSkype3 .oTitleOutline .oTopRight {
+	width:8px;
+	background-image: url(right.gif);
+	background-repeat: no-repeat;
+}
+/*--------------------------------------------*/
+#JMenuTabSkype3 .oTabBtn {
+	float: left;
+	padding-left: 3px;
+	padding-right: 3px;
+	margin-left: 2px;
+	cursor: pointer;
+}
+#JMenuTabSkype3 .oTabBtn a{
+	text-decoration:none;
+	color: #666;
+}
+#JMenuTabSkype3 .oTabBtn .oTabBtnLeft{
+	float:left;
+}
+#JMenuTabSkype3 .oTabBtn .oTabBtnCenter{
+	text-align:center;
+	float:left;
+	padding-top:8px;
+	color:#666;
+}
+#JMenuTabSkype3 .oTabBtn .oTabBtnRight{
+	float:left;
+}
+
+/*------------------------------------------*/
+
+#JMenuTabSkype3 .oTabBtnActive {
+	float: left;
+	height: 30px;
+}
+
+#JMenuTabSkype3 .oTabBtnActive a{
+	text-decoration:none;
+	color:#fff;
+}
+
+#JMenuTabSkype3 .oTabBtnActive .oTabBtnRight {
+	background-image: url(activeRight.gif);
+	float: left;
+	height: 100%;
+	width: 8px;
+}
+#JMenuTabSkype3 .oTabBtnActive .oTabBtnLeft {
+	background-image: url(activeLeft.gif);
+	float: left;
+	width: 8px;
+	height:100%;
+}
+#JMenuTabSkype3 .oTabBtnActive .oTabBtnCenter {
+	background-image: url(activeMid.gif);
+	text-align:center;
+	float:left;
+	height:100%;
+	color: #fff;
+	padding-left:10px;
+	padding-right:10px;
+	padding-top:8px;
+	cursor:pointer;
+	font-size:12px;
+	font-weight:bold;
+}
+
+/*-----------------------------------*/
+#JMenuTabSkype3 .oTabBtnHover {
+	float: left;
+	padding-left: 3px;
+	padding-right: 3px;
+	margin-left: 2px;
+	cursor: pointer;
+}
+#JMenuTabSkype3 .oTabBtnHover a{
+	text-decoration:none;
+	color:#999;
+}
+#JMenuTabSkype3 .oTabBtnHover .oTabBtnLeft{
+	float:left;
+}
+#JMenuTabSkype3 .oTabBtnHover .oTabBtnCenter{
+	text-align:center;
+	float:left;
+	padding-top:8px;
+	color:#999;
+}
+#JMenuTabSkype3 .oTabBtnHover .oTabBtnRight{
+	float:left;
+}
+/*------------------------------------*/
+
+#JMenuTabSkype3 .oPageOutline .oBottomLeft {
+	background-image: url(bottomLeft.gif);
+	background-repeat: no-repeat;
+	background-position: left bottom;
+	width: 8px;
+}
+#JMenuTabSkype3 .oPageOutline .oPageAreaOutline {
+	background-image: url(bottomMid.gif);
+	background-repeat: repeat-x;
+	padding:10px 10px 5px 10px;
+}
+#JMenuTabSkype3 .oPageOutline .oBottomRight {
+	background-image: url(bottomRight.gif);
+	background-repeat: no-repeat;
+	background-position: right bottom;
+	width: 8px;
+}
+#JMenuTabSkype3 .oPageOutline .oBottomCenter {
+	background-image: url(bottomMid.gif);
+	background-repeat: repeat-x;
+	background-position: bottom;
+	height: 3px;
+}
+/*------------------------------------*/
+
+#JMenuTabSkype3 .oCloseBtnNormal{
+	background: url(close.gif) no-repeat 0 -28px;
+	width:14px;
+	height:14px;
+	float:left;
+}
+
+#JMenuTabSkype3 .oCloseBtnActive{
+	background: url(close.gif) no-repeat -14px -28px;
+	width:14px;
+	height:14px;
+	float:left;
+	cursor:default;
+}
+
+.oMoveBtnArea{
+	background-image: url(mid.gif);
+	width:35px;
+}
+
+/*------------------------------------*/
+#JMenuTabSkype3 .oMoveLeftBtnNormal{
+	background: url(close.gif) no-repeat 0 0;
+	width:14px;
+	height:14px;
+	float:left;	
+}
+
+#JMenuTabSkype3 .oMoveLeftBtnActive{
+	background: url(close.gif) no-repeat 0 -14px;
+	width:14px;
+	height:14px;
+	float:left;		
+}
+/*------------------------------------*/
+#JMenuTabSkype3 .oMoveRightBtnNormal{
+	background: url(close.gif) no-repeat -14px 0px;
+	width:14px;
+	height:14px;
+	float:left;	
+	margin-left:5px;
+}
+
+#JMenuTabSkype3 .oMoveRightBtnActive{
+	background: url(close.gif) no-repeat -14px -14px;
+	width:14px;
+	height:14px;
+	float:left;	
+	margin-left:5px;
+}

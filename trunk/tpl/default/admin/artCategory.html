@@ -4,14 +4,14 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <title>Article Category</title>
-    <!--block design1-->
+	{design}
     <link href="../css/adminCommon.css" rel="stylesheet" type="text/css"/>
     <link href="../css/adminFun.css" rel="stylesheet" type="text/css"/>
     <script language="javascript" type="text/javascript" src="../../../JObj/JObj.js"></script>
-    <!--/block-->
-    <link href="{@PATH_CONTENT_ROOT}tpl/default/css/adminCommon.css" rel="stylesheet" type="text/css">
-    <link href="{@PATH_CONTENT_ROOT}tpl/default/css/adminFun.css" rel="stylesheet" type="text/css">
-    <script type="text/javascript" src="{@PATH_CONTENT_ROOT}JObj/JObj.js"></script>
+	{/design}
+    <link href="{const key="PATH_CONTENT_ROOT"}tpl/default/css/adminCommon.css" rel="stylesheet" type="text/css">
+    <link href="{const key="PATH_CONTENT_ROOT"}tpl/default/css/adminFun.css" rel="stylesheet" type="text/css">
+    <script type="text/javascript" src="{const key="PATH_CONTENT_ROOT"}JObj/JObj.js"></script>
 </head>
 
 <body>
@@ -21,12 +21,14 @@
     <div class="separator"></div>
     <div class="body"><a href="javascript:addNew()">Add</a></div>
     <div class="separator"></div>
+    <div class="body"><a href="{$action}?token={token->newTokenForSmarty form='refreshArtCat'}">Force Refresh</a></div>	
+    <div class="separator"></div>
     <div class="body">Back</div>
     <div class="right"></div>
 </div>
 <div class="clearBoth">
-    <form action="{:action}" method="post">
-        <input type="hidden" name="token" value="{@GToken::newToken(" artCategory")}" />
+    <form action="{$action}" method="post">
+        <input type="hidden" name="token" value="{$token}" />
         <table border="0">
             <tr>
                 <td>ID</td>
@@ -36,29 +38,30 @@
                 <td>Artegory Num</td>
                 <td>Delete</td>
             </tr>
-            <!--block blk_list-->
+			{section name=idx loop=$artCat}
+			{assign var="idx_" value=$smarty.section.idx.index}
             <tr>
-                <td>{:id}<input type="hidden" name="id[{:idx}]" value="{:id}"/></td>
-                <td><input type="text" name="name[{:idx}]" value="{:name}"/><input type="hidden" name="_name[{:idx}]"
-                                                                                   value="{:name}"/></td>
+                <td>{$artCat[idx].id}<input type="hidden" name="id[{$idx_}]" value="{$artCat[idx].id}"/></td>
+                <td><input type="text" name="name[{$idx_}]" value="{$artCat[idx].name}"/><input type="hidden" name="_name[{$idx_}]" value="{$artCat[idx].name}"/></td>
                 <td>
                     <div class="btnGrp_sliveGray">
                         <div class="left"></div>
-                        <div class="body">{:catNamePath}</div>
+                        <div class="body">{$artCat[idx].namepath|default:"Top Level"}</div>
                         <div class="separator"></div>
                         <div class="body">Reset</div>
                         <div class="right"></div>
                     </div>
-                    <input type="hidden" name="faId[{:idx}]" value="{:faid}"/>
+                    <input type="hidden" name="faId[{$idx_}]" value="{$artCat[idx].fa_id}"/>
+                    <input type="hidden" name="_faId[{$idx_}]" value="{$artCat[idx].fa_id}"/>
                 </td>
-                <td>{:subNum}&nbsp;</td>
-                <td>{:artNum}&nbsp;</td>
+                <td>{$artCat[idx].sub_num}&nbsp;</td>
+                <td>{$artCat[idx].art_num|default:0}&nbsp;</td>
                 <td>&nbsp;</td>
             </tr>
-            <!--/block-->
+            {/section}
             <tr id="newTr">
                 <td>*</td>
-                <td><input type="text" name="name[{:idx}]" value=""/></td>
+                <td><input type="text" name="name[{$idx_}]" value=""/></td>
                 <td colspan="4">
                     <div class="btnGrp_sliveGray">
                         <div class="left"></div>
@@ -67,16 +70,21 @@
                         <div class="body">Clear</div>
                         <div class="right"></div>
                     </div>
-                    <input type="hidden" name="faId[{:idx}]" value=""/>
+                    <input type="hidden" name="faId[{$idx_}]" value=""/>
                 </td>
             </tr>
         </table>
         <input type="submit" value="Submit"/>
+		{if $msg ne ""}
+		<div>{$msg}</div>
+		{/if}
     </form>
 </div>
-
+<span id="artCatXML"><!--{$artCatXML}--></span>
+<div id="showArtCatTree"></div>
+<script> var idx = {$idx_};</script>
+{literal}
 <script>
-    var idx = {:idx};
     var addNew = function() {
         var tpl = JObj.$("newTr");
         var tr = tpl.cloneNode(true);
@@ -89,15 +97,22 @@
     JObj.plugin("JTree", false);
 
     var jwin = null;
+	var jtree = null;
     var showWin = function(){
         if(jwin == null){
             jwin = JObj.Plugin.JWin.getInstance(500,300);
             jwin.setTitle("Usnower...");
             jwin.setSysButtons(false,true,true);
+			jtree = JObj.Plugin.JTree.getInstance("showArtCatTree");
+			jtree.loadFromString(  JObj.$("artCatXML").innerHTML.replace(/((<!--)|(-->))/g,"").trim() );
+            jtree.CAPTIONATT = "name";
+            jtree.create();
+			jwin.setBody(JObj.$("showArtCatTree"));
             jwin.setDrag(true);
         }
         jwin.showModal();
     }
 </script>
+{/literal}
 </body>
 </html>

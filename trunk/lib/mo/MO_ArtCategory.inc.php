@@ -25,7 +25,7 @@ class MO_ArtCategory extends MO {
 		//$vo = new VO_ArtCategory();
 		self::checkVO($vo,"VO_ArtCategory");
 		
-		$sql = sprintf("UPDATE %sART_CATEGORY SET NAME = '%s' , FA_ID = %d WHERE ID = %d",
+		$sql = sprintf("UPDATE %sART_CAT SET NAME = '%s' , FA_ID = %d WHERE ID = %d",
 										GConfig::DB_PREFIX,
 										$vo->getName(),
 										$vo->getFatherId(),
@@ -83,6 +83,46 @@ class MO_ArtCategory extends MO {
 		}
 		
 		return GMysql::query($sql);
+	}
+	
+	/**
+	 * 输出 ArtCategory 的 XML 目录结构
+	 *
+	 * @param DOMElement $faNode
+	 * @param int $parentId
+	 * @return DOMDocument
+	 */
+	public static function exportTree($faNode = null,$parentId = 0){
+		static $dom = null;
+		if($dom == null) $dom = new DOMDocument('1.0', 'utf-8');
+		
+		if($faNode == null){
+			$faNode = $dom->createElement("l");
+			$faNode->setAttribute("name","Article Category");
+			$dom->appendChild($faNode);
+		}
+		
+		$sql = sprintf("SELECT *,%sF_ART_CAT_PATH(ID) AS CAT_PATH FROM %sV_ART_CAT WHERE FA_ID = %d",
+										GConfig::DB_PREFIX,
+										GConfig::DB_PREFIX,
+										$parentId
+										);
+																		
+		$rst = GMysql::query($sql);
+		while(false != ($arr = GMysql::fetchArray($rst))){
+			$node = $dom->createElement("l");
+			$faNode->appendChild($node);
+			$node->setAttribute("id",$arr["id"]);
+			$node->setAttribute("name",$arr["name"]);
+			$node->setAttribute("faId",$arr["fa_id"]);
+			$node->setAttribute("faName",$arr["fa_name"]);
+			$node->setAttribute("catPath",$arr["cat_path"]);
+			$node->setAttribute("subNum",$arr["sub_num"]);
+			
+			self::exportTree($node,$arr["id"]);
+		}
+		
+		return $dom;
 	}
 }
 

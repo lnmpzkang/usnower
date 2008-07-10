@@ -24,9 +24,9 @@ class GConfig {
 	const DB_NAME		= "usnower";
 	const DB_CHARSET	= "utf8";
 	
-	
-	const DIR_TPL_CACHED = "cached/tpl";//必须存在，可读写
 	const DIR_TPL			= "tpl/default";
+	const DIR_TPL_CACHED = "data/cached/tpl";//必须存在，可读写
+	const DIR_TPL_COMPILE= "data/compile";//必须存在，可读写
 	
 	/*---------------------------------------------------
 	 * 以下信息不要修改
@@ -34,8 +34,8 @@ class GConfig {
 	
 	//const SSN_KEY_ERROR_INFO 	= "SSN_KEY_ERROR_INFO";
 	
-	const FILE_APP_LOG	= "logs/app.log";//logs 必须存在，可读写	
-	const FILE_TPL_LOG	= "logs/tpl.log";
+	const FILE_APP_LOG	= "data/logs/app.log";//data/logs 必须存在，可读写	
+	const FILE_TPL_LOG	= "data/logs/tpl.log";
 	
 	/*------------------------------------------------------
 	 * session key

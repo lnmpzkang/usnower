@@ -8,6 +8,8 @@ define("SYMBOL_NEWLINE","\r\n");
 
 define("REMOTE_ADDR",$_SERVER["REMOTE_ADDR"]);
 
+define("MUTI_CHAR_LEN",strlen("－"));
+
 
 $includePath = array(
 	PATH_DOC_ROOT."/lib",

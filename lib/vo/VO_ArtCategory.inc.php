@@ -92,8 +92,18 @@ class VO_ArtCategory {
 	/**
 	 * @param unknown_type $name
 	 */
-	public function setName($name) {
-		$this->name = $name;
+	public function setName($name) {			
+		$rule = array(
+			"required"	=>	true,
+			"type"	=>	GValidate::TYPE_STRING,
+			"min"		=>	1,
+			"max"		=>	30
+		);
+		if(!GValidate::checkString(trim($name),$rule)){
+			throw new GDataException("Article Category Name required.And it's length must between 1 and 30 (one Chinese character ".MUTI_CHAR_LEN." length).");
+		}
+		
+		$this->name = trim($name);
 	}
 	
 	/**

@@ -23,12 +23,13 @@ class GEncrypt {
 			$tmp .= substr ( $encrypt_key, $ctr, 1 ) . (substr ( $txt, $i, 1 ) ^ substr ( $encrypt_key, $ctr, 1 ));
 			$ctr ++;
 		}
-		return (base64_encode ( self::keyED ( $tmp, $key ) ));
+		return ( preg_replace("/\\+/s","_", base64_encode ( self::keyED ( $tmp, $key ) ) ));
 	}
-	
+	//base64 [A-Za-z0-9\+\/=]
 	public static function decrypt($txt, $key) {
 		if($txt == ""){ return false;} 
-		$txt = self::keyED ( (base64_decode ( $txt )), $key );
+		//echo preg_replace("/_/s","+",$txt);
+		$txt = self::keyED (base64_decode ( preg_replace("/_/s","+", $txt) ), $key );
 		$tmp = "";
 		for($i = 0; $i < strlen ( $txt ); $i ++) {
 			$md5 = substr ( $txt, $i, 1 );

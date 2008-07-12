@@ -39,6 +39,9 @@ function __showMsg($e){
 	if(get_class($e) == "GAppException"){
 		$msg = "Application Error!";
 		GLoger::logToFile($e->__toString());
+	}elseif(get_class($e) == "GSQLException"){
+		$msg = "Application SQL Error!";
+		GLoger::logToFile($e->getErrMsg().SYMBOL_NEWLINE.$e->getErrSql().SYMBOL_NEWLINE.$e->__toString());
 	}
 	
 	if(headers_sent()){

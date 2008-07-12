@@ -48,7 +48,11 @@ class GMysql {
 	public static function query($sql){
 		$result = mysql_query($sql);
 		if(mysql_errno() != 0){
-			throw new GAppException(mysql_error(self::$conn).SYMBOL_NEWLINE.$sql);
+			$e = new GSQLException("Application[SQL] error!");
+			$e->setErrCode(mysql_errno(self::$conn));
+			$e->setErrSql($sql);
+			$e->setErrMsg(mysql_error(self::$conn));
+			throw $e;
 		}else 
 			return $result;
 	}

@@ -12,23 +12,30 @@
     <link href="{const key="PATH_CONTENT_ROOT"}tpl/default/css/adminCommon.css" rel="stylesheet" type="text/css">
     <link href="{const key="PATH_CONTENT_ROOT"}tpl/default/css/adminFun.css" rel="stylesheet" type="text/css">
     <script type="text/javascript" src="{const key="PATH_CONTENT_ROOT"}JObj/JObj.js"></script>
+	{literal}
+	<style>
+	<!--
+	.JTree .caption{color: #333333;	}
+	-->
+	</style>
+	{/literal}
 </head>
 
 <body>
 <div class="btnGrp_sliveGray">
     <div class="left"></div>
-    <div class="body"><a href="javascript:showWin()">Goto Category...</a></div>
+    <div class="body"><a href="javascript:void(0)" onclick="javascript:showWin(this,'GOTO')">Goto Category...</a></div>
     <div class="separator"></div>
     <div class="body"><a href="javascript:addNew()">Add</a></div>
     <div class="separator"></div>
-    <div class="body"><a href="{$action}?token={token->newTokenForSmarty form='refreshArtCat'}">Force Refresh</a></div>	
+    <div class="body"><a href="{$action}?token={token->newTokenForSmarty form='refreshArtCat'}">Force Refresh</a></div>
     <div class="separator"></div>
     <div class="body">Back</div>
     <div class="right"></div>
 </div>
 <div class="clearBoth">
-    <form action="{$action}" method="post">
-        <input type="hidden" name="token" value="{$token}" />
+    <form action="{$action}" method="post" name="form1">
+        <input type="hidden" name="token" value="{token->newTokenForSmarty form='artCategory'}" />
         <table border="0">
             <tr>
                 <td>ID</td>
@@ -38,14 +45,16 @@
                 <td>Artegory Num</td>
                 <td>Delete</td>
             </tr>
+			{counter start=-1 print=false}
 			{section name=idx loop=$artCat}
-			{assign var="idx_" value=$smarty.section.idx.index}
+			{counter assign="idx_" print=false}
             <tr>
                 <td>{$artCat[idx].id}<input type="hidden" name="id[{$idx_}]" value="{$artCat[idx].id}"/></td>
                 <td><input type="text" name="name[{$idx_}]" value="{$artCat[idx].name}"/><input type="hidden" name="_name[{$idx_}]" value="{$artCat[idx].name}"/></td>
                 <td>
                     <div class="btnGrp_sliveGray">
                         <div class="left"></div>
+                        <!--<div class="body"><a href="javascript:void(0)" onclick="javascript:showWin(this,'FAID','{$artCat[idx].name}',{$artCat[idx].id})">{$artCat[idx].namepath|default:"Top Level"}</a></div>-->
                         <div class="body">{$artCat[idx].namepath|default:"Top Level"}</div>
                         <div class="separator"></div>
                         <div class="body">Reset</div>
@@ -56,16 +65,17 @@
                 </td>
                 <td>{$artCat[idx].sub_num}&nbsp;</td>
                 <td>{$artCat[idx].art_num|default:0}&nbsp;</td>
-                <td>&nbsp;</td>
+                <td>{if $artCat[idx].sub_num eq 0 && $artCat[idx].art_num eq 0}<input name="delete[]" value="{$artCat[idx].id}" type="checkbox" />{/if}</td>
             </tr>
             {/section}
+			{counter assign="idx_" print=false}
             <tr id="newTr">
                 <td>*</td>
                 <td><input type="text" name="name[{$idx_}]" value=""/></td>
                 <td colspan="4">
                     <div class="btnGrp_sliveGray">
                         <div class="left"></div>
-                        <div class="body">Select Parent Category...</div>
+                        <div class="body"><a href="javascript:void(0)" onclick="showWin(this,'FAID',{$idx_})">Select Parent Category...</a></div>
                         <div class="separator"></div>
                         <div class="body">Clear</div>
                         <div class="right"></div>
@@ -73,7 +83,8 @@
                     <input type="hidden" name="faId[{$idx_}]" value=""/>
                 </td>
             </tr>
-        </table>
+        </table>                
+        <input type="hidden" name="fatherid" value="{$fatherid|default:0}" />
         <input type="submit" value="Submit"/>
 		{if $msg ne ""}
 		<div>{$msg}</div>
@@ -98,7 +109,30 @@
 
     var jwin = null;
 	var jtree = null;
-    var showWin = function(){
+
+	var jtree_ondblclick_goto = function(){
+		var faId = JObj.Xml.getNodeAtt(jtree.selectNode,"id");
+        window.location.href = "?fatherid=" + faId;
+    }
+
+	var jtree_ondblclick_faid = function(obj,idx){
+		try{
+        var catPath = JObj.Xml.getNodeAtt(jtree.selectNode,"catPath");
+        var faId = JObj.Xml.getNodeAtt(jtree.selectNode,"id");
+
+        var arr = catPath.split("|");
+		var namePath = arr[0];
+
+        //alert(document.form1["faId[" + idx + "]"].value);
+        document.form1["faId[" + idx + "]"].value = faId;
+        obj.innerHTML = namePath + JObj.Xml.getNodeAtt(jtree.selectNode,"name");
+        jwin.hidden();
+		}catch(e){
+			alert(e.message);
+		}
+	}
+
+    var showWin = function(obj,type,idx){
         if(jwin == null){
             jwin = JObj.Plugin.JWin.getInstance(500,300);
             jwin.setTitle("Usnower...");
@@ -110,6 +144,9 @@
 			jwin.setBody(JObj.$("showArtCatTree"));
             jwin.setDrag(true);
         }
+        if(type == "FAID") jtree.ondblclick = JObj.doFunction(jtree_ondblclick_faid,obj,idx);
+        else if(type == "GOTO") jtree.ondblclick = JObj.doFunction(jtree_ondblclick_goto);
+        jwin.setStatus("");
         jwin.showModal();
     }
 </script>

@@ -64,7 +64,9 @@ var JObj = {};
 
     $.doFunction = function(fun) {
         var args = [];
-        for (var i = 1; arg = arguments[i]; i++) {
+        //for (var i = 1; arg = arguments[i]; i++) { // 如果 arguments 的某个值为 0,这样写就会从0处断开循环。
+		for(var i=1;i<arguments.length;i++){
+			arg = arguments[i];
             args.push(arg);
         }
         return function() {

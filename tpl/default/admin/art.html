@@ -1,0 +1,128 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Article Editor</title>
+	{design}
+    <link href="../css/adminCommon.css" rel="stylesheet" type="text/css"/>
+    <link href="../css/adminFun.css" rel="stylesheet" type="text/css"/>
+    <script language="javascript" type="text/javascript" src="../../../JObj/JObj.js"></script>
+	{/design}
+    <link href="{const key="PATH_CONTENT_ROOT"}tpl/default/css/adminCommon.css" rel="stylesheet" type="text/css">
+    <link href="{const key="PATH_CONTENT_ROOT"}tpl/default/css/adminFun.css" rel="stylesheet" type="text/css">
+    <script type="text/javascript" src="{const key="PATH_CONTENT_ROOT"}JObj/JObj.js"></script>
+	{literal}
+	<style>
+	#artAlbum label{
+		width:150px;
+		display:block;
+		float:left;
+	}
+	</style>
+	{/literal}
+</head>
+
+<body>
+<form action="{$action}" method="post">
+<input type="hidden" name="token" value="{token->newTokenForSmarty form='articleEditor'}" />
+<input type="hidden" name="id" value="{$art.id}" />
+<table width="100%">
+  <tr>
+    <td width="120">Title:</td>
+    <td><input type="text" name="title" value="{$art.title}"  />	</td>
+  </tr>
+  <tr>
+    <td>Style in list </td>
+    <td>
+			<div class="btnGrp_sliveGray">
+				<div class="left"></div>
+				<div class="body">Style in list...</div>
+				<div class="separator"></div>
+				<div class="body"><a href="javascript:showWin()">Set</a></div>
+				<div class="right"></div>
+			</div>		
+	</td>
+  </tr>
+  <tr>
+    <td>Author</td>
+    <td><input type="text" name="author" value="{$art.author}" /></td>
+  </tr>
+  <tr>
+    <td>Come From</td>
+    <td><input type="text" name="comeFrom" value="{$art.comeFrom}" /></td>
+  </tr>
+  <tr>
+    <td>Category &amp;&amp; Album </td>
+    <td>
+			<div class="btnGrp_sliveGray">
+				<div class="left"></div>
+				<div class="body">Please select a category...</div>
+				<div class="separator"></div>
+				<div class="body"><a href="javascript:selectArtCat()">Select</a></div>
+				<div class="right"></div>
+			</div>
+			
+			<div class="btnGrp_sliveGray">
+				<div class="left"></div>
+				<div class="body">Select some album</div>
+				<div class="separator"></div>
+				<div class="body"><a href="javascript:selectAlbum()">Select</a></div>
+				<div class="right"></div>
+			</div>	</td>
+  </tr>
+  <tr>
+    <td colspan="2">{FCKEditor->createForSmarty name="content" width="800px" height="500px"}</td>
+    </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+  </tr>
+</table>
+<input type="submit" value="Submit" />
+</form>
+<span id="catXML"><!--{$artCatXML}--></span>
+<div id="winBody" style="display:none">
+	<div style="display:none" id="catTree"></div>
+	<div style="display:none" id="artAlbum">{html_checkboxes name="album" options=$artAlbum}</div>
+</div>
+{literal}
+<script>
+JObj.plugin("JWin",false);
+JObj.plugin("JTree",false);
+
+var jwin = null,jtree = null;
+
+var initWin = function(){
+	if(jwin == null){
+		jwin = JObj.Plugin.JWin.getInstance(500,300);
+		jwin.setSysButtons(false,true,true);
+		jwin.setBody(JObj.$("winBody"));
+		JObj.$("winBody").style.display = "";
+	}
+}
+
+var selectArtCat = function(){
+	if(jtree == null){
+		jtree = JObj.Plugin.JTree.getInstance("catTree");
+		jtree.CAPTIONATT = "name";
+		jtree.loadFromString(JObj.$("catXML").innerHTML.replace(/(<!--)|(-->)/g,""));
+		jtree.create();
+	}
+	initWin();
+	jwin.setTitle("Please select a category...");
+	JObj.$("catTree").style.display = "";
+	JObj.$("artAlbum").style.display = "none";
+	jwin.showModal();
+}
+
+var selectAlbum = function(){
+	initWin();
+	jwin.setTitle("Select some album...");
+	JObj.$("catTree").style.display = "none";
+	JObj.$("artAlbum").style.display = "";
+	jwin.showModal();
+}
+</script>
+{/literal}
+</body>
+</html>

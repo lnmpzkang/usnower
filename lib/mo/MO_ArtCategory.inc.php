@@ -10,6 +10,7 @@ class MO_ArtCategory extends MO {
 										$vo->getName(),
 										$vo->getFatherId()
 										);
+
 		GMysql::query($sql);
 		return GMysql::getInsertId();
 	}
@@ -43,7 +44,7 @@ class MO_ArtCategory extends MO {
 	 */
 	public static function delete($vo){
 		//$vo = new VO_ArtCategory();
-		$sql = sprintf("DELETE FROM %sART_CATEGORY WHERE ID = %d",
+		$sql = sprintf("DELETE FROM %sART_CAT WHERE ID = %d",
 												GConfig::DB_PREFIX,
 												$vo->getId()
 												);
@@ -53,7 +54,7 @@ class MO_ArtCategory extends MO {
 	
 	public static function getList($vo){
 		self::checkVO($vo,"VO_ArtCategory");
-		$vo = new VO_ArtCategory();
+		//$vo = new VO_ArtCategory();
 		if($vo->getId() != null){
 			$sql = sprintf("SELECT *, %sF_ART_CAT_PATH(ID) AS CAT_PATH FROM %sV_ART_CAT WHERE ID = %d",
 											GConfig::DB_PREFIX,
@@ -81,7 +82,6 @@ class MO_ArtCategory extends MO {
 												GConfig::DB_PREFIX
 								);
 		}
-		
 		return GMysql::query($sql);
 	}
 	
@@ -99,6 +99,7 @@ class MO_ArtCategory extends MO {
 		if($faNode == null){
 			$faNode = $dom->createElement("l");
 			$faNode->setAttribute("name","Article Category");
+			$faNode->setAttribute("id",0);
 			$dom->appendChild($faNode);
 		}
 		

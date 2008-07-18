@@ -10,7 +10,7 @@ class MO_ArtKeyword extends MO {
 	 */
 	public static function add($vo){
 		self::checkVO($vo,"VO_ArtKeyword");
-		$sql = sprintf("INSERT INTO %ART_KEYWORD (ART,KEYWORD) VALUES (%d,%d)",
+		$sql = sprintf("INSERT INTO %sART_KEYWORD (ART,KEYWORD) VALUES (%d,%d)",
 											GConfig::DB_PREFIX,
 											$vo->getArt(),
 											$vo->getKeyword()

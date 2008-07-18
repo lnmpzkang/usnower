@@ -29,7 +29,7 @@ JObj.UI.JDrag = {};
 
 	var changeZIndex = function(obj){
 		if(lastObj){
-			JObj.$(lastObj).style.zIndex = 2147483645;
+            JObj.$(lastObj).style.zIndex = 2147483645;
 			JObj.$(obj).style.zIndex = 2147483646;
 		}
 		lastObj = obj;

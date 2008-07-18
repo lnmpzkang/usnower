@@ -10,15 +10,17 @@ class MO_Article extends MO {
 	 */
 	public static function add($vo){
 		self::checkVO($vo,"VO_Article");
-		$sql = sprintf("INSERT INTO %sART (TITLE,AUTHOR,COME_FROM,CONTENT,TITLE_COLOR,TITLE_B,TITLE_I,SHOW_ABLE,COMMENT_ABLE,CATEGORY) VALUES 
-													  ('%s','%s','%s','%s','%s','%s','%s','%s','%s')",
+		$sql = sprintf("INSERT INTO %sART (TITLE,AUTHOR,COME_FROM,CONTENT,TITLE_COLOR,TITLE_B,TITLE_I,TITLE_U,SHOW_ABLE,COMMENT_ABLE,CATEGORY) VALUES 
+													  ('%s','%s',  '%s',     '%s',   '%s',        %d,     %d,     %d,     %d,       %d,          %d)",
 											GConfig::DB_PREFIX,
 											$vo->getTitle(),
+											$vo->getAuthor(),
 											$vo->getComeFrom(),
 											$vo->getContent(),
 											$vo->getTitleColor(),
 											$vo->getTitleB(),
 											$vo->getTitleI(),
+											$vo->getTitleU(),
 											$vo->getShowAble(),
 											$vo->getCommentAble(),
 											$vo->getCategory()
@@ -26,20 +28,112 @@ class MO_Article extends MO {
 		GMysql::query($sql);
 		$vo->setId(GMysql::getInsertId());
 		
-		$akVo = new VO_ArtKeyword();
-		$akVo->setArt($vo->getId());//设置文章ID
+		//更新 art_keyword（文章－＞关键字对应，一对多） 表
+		$artKeywordVo = new VO_ArtKeyword();
+		$artKeywordVo->setArt($vo->getId());//设置文章ID
 		
-		$keywords = split("|",$vo->getKeywords());//将关键字们折分
-		$kVo = new VO_Keyword();
+		$keywords = array_unique( explode("|",$vo->getKeywords()) );//将关键字们折分
+		$keywordVo = new VO_Keyword();
 		
 		foreach ($keywords as $key){
 			if(trim($key) == "") continue;
-			$kVo->setKeyword($key);
-			$akVo->setKeyword(MO_Keyword::getId($kVo));//设置KEYWORD ID
-			MO_ArtKeyword::add($akVo);
+			$keywordVo->setKeyword($key);
+			$artKeywordVo->setKeyword(MO_Keyword::getId($keywordVo));//设置KEYWORD ID
+			MO_ArtKeyword::add($artKeywordVo);
+		}
+		
+		//更新文章－＞专辑表，一对多
+		$albums = $vo->getAlbums();
+		$albumVo = new VO_ArtAlbum();
+		if(is_array($albums)){
+			foreach ($albums as $album){
+				$albumVo->setAlbum($album);
+				$albumVo->setArt($vo->getId());
+				MO_ArtAlbum::add($albumVo);
+			}
 		}
 	}
 	
+	/**
+	 * Enter description here...
+	 *
+	 * @param VO_Article $vo
+	 * @return unknown
+	 */
+	public static function edit($vo){
+		$sql = sprintf("UPADTE %sART SET TITLE = '%s', AUTHOR = '%s' , COME_FROM = '%s' , CONTENT = '%s' , TITLE_COLOR ='%s' , TITLE_B = %d , TITLE_I = %d , TITLE_U = %d ,SHOW_ABLE = %d ,COMMENT_ABLE = %d , CATEGORY = %d WHERE ID = %d",
+										GConfig::DB_PREFIX,
+										$vo->getTitle(),
+										$vo->getAuthor(),
+										$vo->getComeFrom(),
+										$vo->getContent(),
+										$vo->getTitleColor(),
+										$vo->getTitleB(),
+										$vo->getTitleI(),
+										$vo->getTitleU(),
+										$vo->getShowAble(),
+										$vo->getCommentAble(),
+										$vo->getCategory(),
+										$vo->getId());
+		GMysql::query($sql);
+		
+
+		//更新文章－＞关键字表，插入新的，删除不存在的，保留相同的
+		function removeEmpty($var){
+			if($var == null || trim($var) == "") return false;
+			else return true;
+		}		
+		function addQuote($item){
+			return "'".$item."'";
+		}
+		$keywords = array_unique( explode("|",$vo->getKeywords()) );
+		$keywords = array_filter($keywords,"removeEmpty");
+		$keywords = array_map("addQuote",$keywords);
+		$keywordString = implode(",",$keywords);
+		
+		//删除不存在
+		$sql = sprintf("DELETE FROM %sART_KEYWORD WHERE ID IN (
+					SELECT C.ID FROM(
+					      SELECT
+						    A.ID
+					      FROM
+						    %sART_KEYWORD A LEFT JOIN
+						    %sKEYWORD B  ON A.KEYWORD = B.ID
+					      WHERE
+						    A.ART = IN_ART AND
+						    B.KEYWORD NOT IN (%s)
+					) C
+				)",GConfig::DB_PREFIX,GConfig::DB_PREFIX,GConfig::DB_PREFIX,$keywordString);
+		GMysql::query($sql);
+		
+		
+		//更新文章－＞专辑表，插入新的，删除不存的，保留相同的。
+	}
+	
+	public static function getList(){
+		$sql = sprintf("SELECT * FROM %sV_ART",GConfig::DB_PREFIX);
+		$rst = GMysql::query($sql);
+		return $rst;
+	} 
+	
+	/**
+	 * Enter description here...
+	 *
+	 * @param VO_Article $vo
+	 */
+	public static function get($vo){
+		$sql = sprintf("SELECT * FROM %sV_ART WHERE ID = %d",GConfig::DB_PREFIX,$vo->getId());
+		$rst = GMysql::query($sql);
+		return $rst;
+	}
+	
+	public static function getContent($id){
+		$sql = sprintf("SELECT CONTENT FROM %sART WHERE ID = %d",GConfig::DB_PREFIX,$id);
+		$rst = GMysql::query($sql);
+		if(false != ($arr = GMysql::fetchRow($rst))){
+			return $arr[0];
+		}else return null;
+	}
 }
 
 ?>

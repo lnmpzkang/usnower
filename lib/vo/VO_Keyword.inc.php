@@ -29,7 +29,7 @@ class VO_Keyword {
 	 */
 	public function setKeyword($keyword) {
 		$keyword = trim($keyword);
-		if (GValidate::checkString ($keyword,array("required"=>true,"max"=>30))){
+		if (!GValidate::checkString ($keyword,array("required"=>true,"max"=>30))){
 			throw new GDataException("Keyword's length must less than 30");
 		}
 		$this->keyword = $keyword;

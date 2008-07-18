@@ -147,5 +147,51 @@ var_dump($ma)*/
 
 //var_dump(GValidate::checkString(null,array("required"=>false,"min"=>3,"max"=>10)));
 //var_dump(GValidate::checkNumRange(2,array("required"=>false,"min"=>-1)));
-var_dump($_GET);
+//var_dump($_GET);
+
+
+//var_dump(GValidate::checkString ("xling",array("required"=>true,"max"=>30)));
+
+//var_dump( explode("|",null) );
+//echo sprintf("aa%d",true);
+
+/*function test(){
+		function removeBlank($var){
+			if($var == null || trim($var) == "") return false;
+			else return true;
+		}
+	$arr = explode("|","a|b|c|");
+	//var_dump( array_filter($arr,"removeBlank"));	
+	var_dump(implode(",",$arr));	
+}
+test();*/
+//var_dump($arr);
+
+
+if (preg_match('/^[\\x{4e00}-\\x{9fa5}]+$/u', '奥运')){
+  echo '全是汉字';
+}else{
+  echo '不全是汉字';
+}
+
+//echo preg_replace("/^[\\x{4e00}-\\x{9fa5}]+$/s","","aa'|bb_|大小，");
+//echo preg_replace('/[\\x{4e00}-\\x{9fa5}]+/s',"","abc一二三cde");
+
+//echo preg_replace('/[^a-z0-9\x{4e00}-\x{9fa5}\|]/iu',"","aa'|bb_|大小，");
+
+/*function addQuote($item){
+	return "'".$item."'";
+}
+$str = preg_replace('/[^a-z0-9\x{4e00}-\x{9fa5}\|]/isu',"","aa'|bb_|大小，");
+$arr = explode("|",$str);
+//array_walk($arr,"addQuote");
+$arr = array_map("addQuote",$arr);
+var_dump($arr);*/
+
+function test(){
+		$arr = array("aa","bb","cc");
+		$keywordsString = implode(",",$arr);
+		echo $keywordsString;
+}
+test();
 ?>

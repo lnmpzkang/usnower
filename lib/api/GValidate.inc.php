@@ -67,8 +67,13 @@ class GValidate {
 	}
 	
 	public static function checkString($value,$rule){
-
-		$arr = array($rule["min"],$rule["max"]);
+		
+		$min = $rule["min"];$max = $rule["max"];
+		
+		if($min == null) $min = 0;
+		if($max == null) $max = INF;
+		
+		$arr = array($min,$max);
 		$min = min($arr);
 		$max = max($arr);
 		

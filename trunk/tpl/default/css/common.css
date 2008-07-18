@@ -26,6 +26,7 @@ form{margin:0}
 
 .floatRight{ float:right; }
 .clearBoth{	clear:both; }
+.cursorPointer{cursor:pointer;}
 
 .field { padding:5px;}
 .field label{width:100px;display:block;float:left;}

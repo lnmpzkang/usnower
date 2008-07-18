@@ -265,7 +265,7 @@ JObj.Plugin.JWin = {};
             objs.oMask.style.backgroundColor = "#999";
             objs.oMask.style.filter = "Alpha(Opacity=90)";
             objs.oMask.style.opacity = 0.9;
-            objs.oMask.style.zIndex = 2147483645;
+            objs.oMask.style.zIndex = 1;// 2147483645;
 
             objs.oOutline.style.display = "";
             objs.oOutline.style.zIndex = 2147483646;
@@ -298,9 +298,9 @@ JObj.Plugin.JWin = {};
         }
     }
 
-    $.getInstance = function(pWidth,pHeight){
+    $.getInstance = function(pWidth,pHeight,pParent){
         JObj.Loader.loadCss(JObj.path + "plugins/JWin/JWinRes/JWin.css");
-        var jwin = new JWin(pWidth,pHeight);
+        var jwin = new JWin(pWidth,pHeight,pParent);
         jwin.create();
         jwin.setSkin("JWinDefault");
         return jwin;

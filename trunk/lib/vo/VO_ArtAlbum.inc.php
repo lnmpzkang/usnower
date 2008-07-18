@@ -1,20 +1,20 @@
 <?php
 
 class VO_ArtAlbum {
-	private $id,$name,$description,$artNum;
+	private $id,$art,$album;
 	
 	/**
 	 * @return unknown
 	 */
-	public function getArtNum() {
-		return $this->artNum;
+	public function getAlbum() {
+		return $this->album;
 	}
 	
 	/**
 	 * @return unknown
 	 */
-	public function getDescription() {
-		return $this->description;
+	public function getArt() {
+		return $this->art;
 	}
 	
 	/**
@@ -25,27 +25,17 @@ class VO_ArtAlbum {
 	}
 	
 	/**
-	 * @return unknown
+	 * @param unknown_type $album
 	 */
-	public function getName() {
-		return $this->name;
+	public function setAlbum($album) {
+		$this->album = $album;
 	}
 	
 	/**
-	 * @param unknown_type $artNum
+	 * @param unknown_type $art
 	 */
-	public function setArtNum($artNum) {
-		$this->artNum = $artNum;
-	}
-	
-	/**
-	 * @param unknown_type $description
-	 */
-	public function setDescription($description) {
-		if(!GValidate::checkString($description,array("required"=>false,"max"=>1000))){
-			throw new GDataException("Article Album Description is Optional.And it's length must less than 1000.(One Chinese Character ".MUTI_CHAR_LEN." length.) ");
-		}
-		$this->description = $description;
+	public function setArt($art) {
+		$this->art = $art;
 	}
 	
 	/**
@@ -53,16 +43,6 @@ class VO_ArtAlbum {
 	 */
 	public function setId($id) {
 		$this->id = $id;
-	}
-	
-	/**
-	 * @param unknown_type $name
-	 */
-	public function setName($name) {
-		if(!GValidate::checkString(trim($name),array("required"=>true,"min"=>1,"max"=>30))){
-			throw new GDataException("Article Album Name required.And it's length must between 1 and 30.(One Chinese Character ".MUTI_CHAR_LEN." length)");
-		}
-		$this->name = trim($name);
 	}
 	
 }

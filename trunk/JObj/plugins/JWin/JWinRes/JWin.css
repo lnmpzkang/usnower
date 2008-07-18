@@ -1,3 +1,4 @@
+@charset "utf-8";
 .JWinDefault {
 	width:300px;
 	z-index:100;
@@ -68,6 +69,7 @@
 	background: url(v.png) repeat-y -20px 0;
 }
 .JWinDefault .mainBody_center{
+	color:#333333;
 	background-color:#fff;
 	overflow:hidden;
 }

@@ -13,35 +13,40 @@
     <script type="text/javascript" src="{const key="PATH_CONTENT_ROOT"}JObj/JObj.js"></script>
 	{literal}
 	<style>
+	form input[type=text]{width:650px;}
 	#artAlbum label{
 		width:150px;
 		display:block;
 		float:left;
 	}
+	.JTree .caption{color: #333333;	}	
 	</style>
 	{/literal}
 </head>
 
 <body>
-<form action="{$action}" method="post">
-<input type="hidden" name="token" value="{token->newTokenForSmarty form='articleEditor'}" />
+<form action="{$action}" method="post" name="form1">
+<input type="hidden" name="token" value="{if $art.id eq ''}{token->newTokenForSmarty form='addArt'}{else}{token->newTokenForSmarty form='editArt'}{/if}" />
 <input type="hidden" name="id" value="{$art.id}" />
+<div class="btnGrp_sliveGray">
+	<div class="left"></div>
+	<div class="body cursorPointer" onclick="document.form1.submit()">Submit</div>
+	<div class="separator"></div>
+	<div class="body cursorPointer" onclick="document.form1.reset()">Reset</div>
+	<div class="separator"></div>
+	<div class="body cursorPointer" onclick="history.back()">Back to List</div>
+	<div class="right"></div>
+</div>
+<div class="clearBoth"></div>
+{if $msg ne ""}
+<div class="msg">
+{$msg}
+</div>
+{/if}
 <table width="100%">
   <tr>
     <td width="120">Title:</td>
     <td><input type="text" name="title" value="{$art.title}"  />	</td>
-  </tr>
-  <tr>
-    <td>Style in list </td>
-    <td>
-			<div class="btnGrp_sliveGray">
-				<div class="left"></div>
-				<div class="body">Style in list...</div>
-				<div class="separator"></div>
-				<div class="body"><a href="javascript:showWin()">Set</a></div>
-				<div class="right"></div>
-			</div>		
-	</td>
   </tr>
   <tr>
     <td>Author</td>
@@ -52,39 +57,74 @@
     <td><input type="text" name="comeFrom" value="{$art.comeFrom}" /></td>
   </tr>
   <tr>
+    <td>Keywords:</td>
+    <td><input type="text" name="keywords" value="{$art.keywords}" /></td>
+  </tr>
+  <tr>
     <td>Category &amp;&amp; Album </td>
     <td>
 			<div class="btnGrp_sliveGray">
 				<div class="left"></div>
-				<div class="body">Please select a category...</div>
+				<div class="body" id="selectedCat">{$art.catPathName|default:"Please select a category..."}</div>
 				<div class="separator"></div>
-				<div class="body"><a href="javascript:selectArtCat()">Select</a></div>
+				<div class="body"><a href="javascript:selectArtCat()">Select a category</a></div>
+				<div class="separator"></div>
+				<div class="body" id="selectedAlbums">{$art.albumNames|default:"No selected Album"}</div>
+				<div class="separator"></div>
+				<div class="body"><a href="javascript:showAlbum()">Select album</a></div>				
 				<div class="right"></div>
 			</div>
-			
+			<input type="hidden" name="category" value="{$art.category}"  />
+			</td>
+  </tr>
+  <tr>
+    <td>Style in list </td>
+    <td>
 			<div class="btnGrp_sliveGray">
 				<div class="left"></div>
-				<div class="body">Select some album</div>
+				<div class="body">Title Color</div>
 				<div class="separator"></div>
-				<div class="body"><a href="javascript:selectAlbum()">Select</a></div>
+				<div class="body">
+					<label><input type="checkbox" name="titleB" value="1"  {if $art.titleB eq "1"}checked="checked"{/if} /><b>B</b></label>
+					<label><input type="checkbox"  name="titleI" value="1"  {if $art.titleI eq "1"}checked="checked"{/if} /><i>I</i></label>
+					<label><input type="checkbox" name="titleU" value="1"  {if $art.titleU eq "1"}checked="checked"{/if}  /><u>U</u></label>
+					</div>
 				<div class="right"></div>
 			</div>	</td>
   </tr>
+  
   <tr>
-    <td colspan="2">{FCKEditor->createForSmarty name="content" width="800px" height="500px"}</td>
-    </tr>
-  <tr>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
+    <td>Other</td>
+    <td>
+			<div class="btnGrp_sliveGray">
+				<div class="left"></div>
+				<div class="body"><label><input type="checkbox" value="1" name="autoUploadOtherSItePic" />Auto upload other sites picture.</label></div>
+				<div class="separator"></div>
+				<div class="body"><label><input type="checkbox" value="1" name="preventCopy" />Prevent copy</label></div>
+				<div class="right"></div>
+			</div>	
+	</td>
   </tr>
+  <tr>
+    <td colspan="2">{FCKEditor->createForSmarty name="content" width="800px" height="500px" value=$art.content}</td>
+    </tr>
 </table>
-<input type="submit" value="Submit" />
-</form>
+<div class="btnGrp_sliveGray">
+	<div class="left"></div>
+	<div class="body cursorPointer" onclick="document.form1.submit()">Submit</div>
+	<div class="separator"></div>
+	<div class="body cursorPointer" onclick="document.form1.reset()">Reset</div>
+	<div class="separator"></div>
+	<div class="body cursorPointer" onclick="history.back()">Back to List</div>
+	<div class="right"></div>
+</div>
+
 <span id="catXML"><!--{$artCatXML}--></span>
 <div id="winBody" style="display:none">
 	<div style="display:none" id="catTree"></div>
-	<div style="display:none" id="artAlbum">{html_checkboxes name="album" options=$artAlbum}</div>
+	<div style="display:none" id="artAlbum">{html_checkboxes name="album" options=$artAlbum checked=$albumIds}</div>
 </div>
+</form>
 {literal}
 <script>
 JObj.plugin("JWin",false);
@@ -94,16 +134,23 @@ var jwin = null,jtree = null;
 
 var initWin = function(){
 	if(jwin == null){
-		jwin = JObj.Plugin.JWin.getInstance(500,300);
+		jwin = JObj.Plugin.JWin.getInstance(500,300,document.form1);
 		jwin.setSysButtons(false,true,true);
 		jwin.setBody(JObj.$("winBody"));
 		JObj.$("winBody").style.display = "";
 	}
 }
 
+var artCat_ondblclick = function(){
+	document.form1.category.value = JObj.Xml.getNodeAtt( jtree.selectNode,"id" );
+	JObj.$("selectedCat").innerHTML = JObj.Xml.getNodeAtt( jtree.selectNode ,"catPath").split("|")[0] + JObj.Xml.getNodeAtt(jtree.selectNode,"name");
+	jwin.hidden();
+}
+
 var selectArtCat = function(){
 	if(jtree == null){
 		jtree = JObj.Plugin.JTree.getInstance("catTree");
+		jtree.ondblclick = artCat_ondblclick;
 		jtree.CAPTIONATT = "name";
 		jtree.loadFromString(JObj.$("catXML").innerHTML.replace(/(<!--)|(-->)/g,""));
 		jtree.create();
@@ -112,14 +159,25 @@ var selectArtCat = function(){
 	jwin.setTitle("Please select a category...");
 	JObj.$("catTree").style.display = "";
 	JObj.$("artAlbum").style.display = "none";
+	jwin.setStatus("");
 	jwin.showModal();
 }
 
 var selectAlbum = function(){
+	var i,album,arr = [];
+	for(i=0;album = document.form1["album[]"][i];i++){
+		if(album.checked)  arr.push(album.nextSibling.nodeValue);
+	}
+	JObj.$("selectedAlbums").innerHTML = arr.length != 0 ? arr.join(",") : "No selected Album";
+	jwin.hidden();
+}
+
+var showAlbum = function(){
 	initWin();
 	jwin.setTitle("Select some album...");
 	JObj.$("catTree").style.display = "none";
 	JObj.$("artAlbum").style.display = "";
+	jwin.setStatus("<input type='button' value='OK' onclick='selectAlbum()' />");
 	jwin.showModal();
 }
 </script>

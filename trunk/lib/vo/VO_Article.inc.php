@@ -2,11 +2,41 @@
 
 class VO_Article {
 	private $id,$title,$author,$comeFrom,$inTime,$content;
-	private $titleColor,$titleB,$titleI;
-	private $showAble,$commentAble;
-	private $category;
+	private $titleColor,$titleB = false,$titleI = false,$titleU = false;
+	private $showAble = true,$commentAble = true;
+	private $category,$albums;
 	private $keywords;
 	
+	private $autoUploadOtherSItePic;
+	private $preventCopy;
+	
+	/**
+	 * @return unknown
+	 */
+	public function getAutoUploadOtherSItePic() {
+		return $this->autoUploadOtherSItePic;
+	}
+	
+	/**
+	 * @param unknown_type $autoUploadOtherSItePic
+	 */
+	public function setAutoUploadOtherSItePic($autoUploadOtherSItePic) {
+		$this->autoUploadOtherSItePic = $autoUploadOtherSItePic;
+	}
+	/**
+	 * @return unknown
+	 */
+	public function getPreventCopy() {
+		return $this->preventCopy;
+	}
+	
+	
+	/**
+	 * @param unknown_type $preventCopy
+	 */
+	public function setPreventCopy($preventCopy) {
+		$this->preventCopy = $preventCopy;
+	}
 	/**
 	 * @return unknown
 	 */
@@ -18,6 +48,8 @@ class VO_Article {
 	 * @param unknown_type $keywords
 	 */
 	public function setKeywords($keywords) {
+		//删除符号
+		$keywords = preg_replace('/[^a-z0-9\x{4e00}-\x{9fa5}\|]/isu',"",$keywords);
 		$this->keywords = $keywords;
 	}
 	/**
@@ -201,6 +233,34 @@ class VO_Article {
 	public function setTitleI($titleI) {
 		$this->titleI = $titleI;
 	}
+	/**
+	 * @return unknown
+	 */
+	public function getTitleU() {
+		return $this->titleU;
+	}
+	
+	/**
+	 * @param unknown_type $titleU
+	 */
+	public function setTitleU($titleU) {
+		$this->titleU = $titleU;
+	}
+	/**
+	 * @return unknown
+	 */
+	public function getAlbums() {
+		return $this->albums;
+	}
+	
+	/**
+	 * @param unknown_type $albums
+	 */
+	public function setAlbums($albums) {
+		$this->albums = $albums;
+	}
+
+
 	
 }
 

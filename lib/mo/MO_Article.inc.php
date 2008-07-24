@@ -2,6 +2,30 @@
 
 class MO_Article extends MO {
 	
+	private static function addKeywords($artId,$keywords){
+		$vo = new VO_ArtKeyword();
+		$vo->setArt($artId);
+		$voKeyword = new VO_Keyword();
+		$arr = array_unique( explode('|',$keywords) );
+		foreach ($arr as $key){
+			if(trim($key) == "") continue;
+			$voKeyword->setKeyword($key);
+			$vo->setKeyword( MO_Keyword::getId($voKeyword));
+			MO_ArtKeyword::add( $vo );
+		}
+	}
+	
+	public static function addAlbum($artId,$albums){
+		$vo = new VO_ArtAlbum();
+		$vo->setArt($artId);
+		if(is_array($albums)){
+			foreach ($albums as $album){
+				$vo->setAlbum($album);
+				MO_ArtAlbum::add($vo);
+			}
+		}
+	}
+	
 	/**
 	 * Enter description here...
 	 *
@@ -29,7 +53,7 @@ class MO_Article extends MO {
 		$vo->setId(GMysql::getInsertId());
 		
 		//更新 art_keyword（文章－＞关键字对应，一对多） 表
-		$artKeywordVo = new VO_ArtKeyword();
+/*		$artKeywordVo = new VO_ArtKeyword();
 		$artKeywordVo->setArt($vo->getId());//设置文章ID
 		
 		$keywords = array_unique( explode("|",$vo->getKeywords()) );//将关键字们折分
@@ -40,10 +64,11 @@ class MO_Article extends MO {
 			$keywordVo->setKeyword($key);
 			$artKeywordVo->setKeyword(MO_Keyword::getId($keywordVo));//设置KEYWORD ID
 			MO_ArtKeyword::add($artKeywordVo);
-		}
+		}*/
+		self::addKeywords($vo->getId(),$vo->getKeywords());
 		
 		//更新文章－＞专辑表，一对多
-		$albums = $vo->getAlbums();
+/*		$albums = $vo->getAlbums();
 		$albumVo = new VO_ArtAlbum();
 		if(is_array($albums)){
 			foreach ($albums as $album){
@@ -51,7 +76,8 @@ class MO_Article extends MO {
 				$albumVo->setArt($vo->getId());
 				MO_ArtAlbum::add($albumVo);
 			}
-		}
+		}*/
+		self::addAlbum($vo->getId(),$vo->getAlbums());
 	}
 	
 	/**
@@ -61,7 +87,7 @@ class MO_Article extends MO {
 	 * @return unknown
 	 */
 	public static function edit($vo){
-		$sql = sprintf("UPADTE %sART SET TITLE = '%s', AUTHOR = '%s' , COME_FROM = '%s' , CONTENT = '%s' , TITLE_COLOR ='%s' , TITLE_B = %d , TITLE_I = %d , TITLE_U = %d ,SHOW_ABLE = %d ,COMMENT_ABLE = %d , CATEGORY = %d WHERE ID = %d",
+		$sql = sprintf("UPDATE %sART SET TITLE = '%s', AUTHOR = '%s' , COME_FROM = '%s' , CONTENT = '%s' , TITLE_COLOR ='%s' , TITLE_B = %d , TITLE_I = %d , TITLE_U = %d ,SHOW_ABLE = %d ,COMMENT_ABLE = %d , CATEGORY = %d WHERE ID = %d",
 										GConfig::DB_PREFIX,
 										$vo->getTitle(),
 										$vo->getAuthor(),
@@ -78,7 +104,7 @@ class MO_Article extends MO {
 		GMysql::query($sql);
 		
 
-		//更新文章－＞关键字表，插入新的，删除不存在的，保留相同的
+/*		//更新文章－＞关键字表，插入新的，删除不存在的，保留相同的
 		function removeEmpty($var){
 			if($var == null || trim($var) == "") return false;
 			else return true;
@@ -104,15 +130,63 @@ class MO_Article extends MO {
 						    B.KEYWORD NOT IN (%s)
 					) C
 				)",GConfig::DB_PREFIX,GConfig::DB_PREFIX,GConfig::DB_PREFIX,$keywordString);
+		GMysql::query($sql);*/
+		
+		//由于上面的计划删除以不存在的容易，但是新增新加的不容易实现，所以把原有记录全删了算了。
+		$sql = sprintf("DELETE FROM %sART_KEYWORD WHERE ART = %d",GConfig::DB_PREFIX,$vo->getId());
 		GMysql::query($sql);
 		
+		self::addKeywords($vo->getId(),$vo->getKeywords());
 		
 		//更新文章－＞专辑表，插入新的，删除不存的，保留相同的。
+		$sql = sprintf("DELETE FROM %sART_ALBUM WHERE ART = %d",GConfig::DB_PREFIX,$vo->getId());
+		GMysql::query($sql);
+		
+		self::addAlbum($vo->getId(),$vo->getAlbums());
 	}
 	
-	public static function getList(){
-		$sql = sprintf("SELECT * FROM %sV_ART",GConfig::DB_PREFIX);
-		$rst = GMysql::query($sql);
+	/**
+	 * Enter description here...
+	 *
+	 * @param VO_Article $vo
+	 * @return int
+	 */
+	public static function delete($vo){
+		$sql = sprintf("DELETE FROM %sART WHERE ID = %d",GConfig::DB_PREFIX,$vo->getId());
+		GMysql::query($sql);
+		
+		$sql = sprintf("DELETE FROM %sART_KEYWORD WHERE ART = %d",GConfig::DB_PREFIX,$vo->getId());
+		GMysql::query($sql);
+		
+		$sql = sprintf("DELETE FROM %sART_ALBUM WHERE ART = %d",GConfig::DB_PREFIX,$vo->getId());
+		GMysql::query($sql);
+	}
+	
+	/**
+	 * 根据 id 集合，进行批量删除。
+	 *
+	 * @param String $ids 1,2,3
+	 */
+	public static function deleteInIds($ids){
+		$sql = sprintf("DELETE FROM %sART WHERE ID IN (%s)",GConfig::DB_PREFIX,$ids);
+		GMysql::query($sql);
+		
+		$sql = sprintf("DELETE FROM %sART_KEYWORD WHERE ART IN (%s)",GConfig::DB_PREFIX,$ids);
+		GMysql::query($sql);
+		$sql = sprintf("DELETE FROM %sART_ALBUM WHERE ART IN (%s)",GConfig::DB_PREFIX,$ids);
+		GMysql::query($sql);
+	}
+	
+	/**
+	 * Enter description here...
+	 *
+	 * @param GPagination $page
+	 * @return resource
+	 */
+	public static function getList(&$page){
+		$sql = sprintf("SELECT * FROM %sV_ART ORDER BY IN_TIME DESC",GConfig::DB_PREFIX);
+		$page->setQuery($sql);
+		$rst = $page->process();
 		return $rst;
 	} 
 	

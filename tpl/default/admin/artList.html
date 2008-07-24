@@ -1,0 +1,70 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Article List</title>
+	{design}
+    <link href="../css/adminCommon.css" rel="stylesheet" type="text/css"/>
+    <link href="../css/adminFun.css" rel="stylesheet" type="text/css"/>
+    <script language="javascript" type="text/javascript" src="../../../JObj/JObj.js"></script>
+	{/design}
+    <link href="{const key="PATH_CONTENT_ROOT"}tpl/default/css/adminCommon.css" rel="stylesheet" type="text/css">
+    <link href="{const key="PATH_CONTENT_ROOT"}tpl/default/css/adminFun.css" rel="stylesheet" type="text/css">
+    <script type="text/javascript" src="{const key="PATH_CONTENT_ROOT"}JObj/JObj.js"></script>
+</head>
+
+<body>
+<div class="btnGrp_sliveGray">
+	<div class="left"></div>
+	<div class="body"><a href="javascript:if(confirm('Are you shure delete selected article?')) document.form1.submit()">Delete selected</a></div>
+	<div class="separator"></div>
+	<div class="body">Add</div>
+	<div class="right"></div>
+</div>
+<div class="clearBoth"></div>
+<div class="separatorHr"></div>
+<form action="{$action}" method="post" name="form1">
+<input type="hidden" name="token" value="{token->newTokenForSmarty form='deleteArtInIds'}" />
+<input type="hidden" name="url" value="{$smarty.server.REQUEST_URI}" />
+<table>
+  <tr>
+    <td>ID</td>
+    <td>Title</td>
+    <td>Show ? </td>
+    <td>Comment able?  </td>
+    <td>Category</td>
+    <td>Albums</td>
+    <td>Keywords</td>
+    <td>Action</td>
+  </tr>
+  {section name="idx" loop=$artList}
+  <tr>
+    <td>{$artList[idx].id}&nbsp;</td>
+    <td>
+	{if $artList[idx].title_b eq 1}<b>{/if}{if $artList[idx].title_i eq 1}<i>{/if}{if $artList[idx].title_u eq 1}<u>{/if}{if $artList[idx].title_color ne ""}<font color="{$artList[idx].title_color}">{/if}
+	{$artList[idx].title}&nbsp;
+	{if $artList[idx].title_color ne ""}</font>{/if}{if $artList[idx].title_u eq 1}</u>{/if}{if $artList[idx].title_i eq 1}</i>{/if}{if $artList[idx].title_b eq 1}</b>{/if}	</td>
+    <td>{$artList[idx].show_able}&nbsp;</td>
+    <td>{$artList[idx].comment_able}&nbsp;</td>
+    <td>{$artList[idx].catPathName}&nbsp;</td>
+    <td>{$artList[idx].albumNames}&nbsp;</td>
+    <td>{$artList[idx].keywords}&nbsp;</td>
+    <td>
+                    <div class="btnGrp_sliveGray">
+                        <div class="left"></div>
+                        <div class="body"><label><input type="checkbox"  value="{$artList[idx].id}" name="delete[]" />Delete?<label></div>
+                        <div class="separator"></div>
+                        <div class="body"><a href="art.php?id={$artList[idx].id}&token={token->newTokenForSmarty form='getArt'}">Edit?</a></div>
+                        <div class="separator"></div>
+                        <div class="body">View</div>
+
+                        <div class="right"></div>
+                    </div>	</td>
+  </tr>
+  {/section}
+</table>
+</form>
+<div class="separatorHr"></div>
+{include file="page.html"}
+</body>
+</html>

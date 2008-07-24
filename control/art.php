@@ -63,6 +63,7 @@ if(GToken::isToken($token,"addArt",true)){
 		$vo->setPreventCopy($_POST["preventCopy"]);
 		
 		MO_Article::add($vo);
+		$gmt->clear_cache(null,"artList");
 	}catch(Exception $e){
 		$msg .= $e->getMessage()."<br />";
 		if(get_class($e) == "GSQLException"){
@@ -71,8 +72,7 @@ if(GToken::isToken($token,"addArt",true)){
 	}
 	$gmt->assign_by_ref("art",$_POST);
 	
-}elseif(GTOken::isToken($token,"editArt",true)){
-	
+}elseif(GTOken::isToken($token,"editArt")){
 	try{
 		$vo = new VO_Article();
 		$vo->setId($_POST["id"]);
@@ -92,10 +92,18 @@ if(GToken::isToken($token,"addArt",true)){
 		$vo->setAutoUploadOtherSItePic($_POST["autoUploadOtherSItePic"]);
 		$vo->setPreventCopy($_POST["preventCopy"]);
 		
+		MO_Article::edit($vo);
+		$gmt->clear_cache(null,"artList");
 	}catch(GDataException $e1){
 		$msg .= $e1->getMessage()."<br />";	
-	}catch (GSQLException $e2){
-		$msg .= $e2->getErrMsg();
+	}
+}elseif(GToken::isToken($token,"deleteArtInIds")){
+	$deletes = $_POST["delete"];
+	if(is_array($deletes)){
+		$vo = new VO_Article();
+		MO_Article::deleteInIds(implode(",",$deletes));
+		$gmt->clear_cache(null,"artList");
+		header("location:".$_POST["url"]);
 	}
 }
 

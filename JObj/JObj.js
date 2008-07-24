@@ -117,11 +117,11 @@ var JObj = {};
         }
 
         $$.$tag = $.$tag = function(tag, node) {
-            return $$.$((undefined == node || null == node || "" == node.trim() ? document : node)).getElementsByTagName(tag);
+            return $$.$(undefined == node || null == node ? document : node).getElementsByTagName(tag);
         }
 
         $$.$name = $.$name = function(name, node) {
-            return $$.$((undefined == node || null == node || "" == node.trim() ? document : node)).getElementsByName(name);
+            return $$.$(undefined == node || null == node? document : node).getElementsByName(name);
         }
 
         $$.$class = $.$class = function(className) {

@@ -27,6 +27,7 @@ class GConfig {
 	const DIR_TPL			= "tpl/default";
 	const DIR_TPL_CACHED = "data/cached/tpl";//必须存在，可读写
 	const DIR_TPL_COMPILE= "data/compile";//必须存在，可读写
+	const DIR_UPLOAD		= "data/upload";
 	
 	/*---------------------------------------------------
 	 * 以下信息不要修改

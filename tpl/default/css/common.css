@@ -1,5 +1,6 @@
 @charset "utf-8";
-html ,body{height:100%;	font-family: Geneva, Arial, Helvetica, sans-serif;	font-size: 12px;margin:0;background-color: #474747;color: #CCCCCC;}
+html {height:100%;	font-family: Geneva, Arial, Helvetica, sans-serif;	font-size: 12px;margin:0;background-color: #474747;color: #CCCCCC;}
+body{margin:0px;}
 
 a {color: #999999;}
 a:hover {color: #CC3300;}
@@ -37,3 +38,20 @@ form{margin:0}
 .btnGrp_sliveGray .body{background:url(../res/btnGrp.sliveGray.png) repeat-x 0 -22px;height:22px;float:left;line-height:22px;color:#333333;padding:0 5px 0 5px;}
 .btnGrp_sliveGray .right{background:url(../res/btnGrp.sliveGray.png) no-repeat 0 -44px;width:10px;height:22px;float:left}
 .btnGrp_sliveGray .separator{background:url(../res/btnGrp.sliveGray.png) no-repeat 0 -66px;width:3px;height:22px;float:left}
+
+
+.pagination {}
+.pagination  .activePage {	font-family: Verdana, Arial, sans-serif;font-weight: bold;	padding: 3px 4px 3px 4px;	border: 1px solid #333333;color:#fff;background-color:#666666;	margin-right:1px;	font-size: 12px;}
+.pagination  .activePage a:link {text-decoration: none;color: #fff;}
+.pagination  .activePage a:visited {	text-decoration: none;	color: #fff;}
+.pagination  .activePage a:hover {text-decoration: none;color: #FF0000;}
+.pagination  .activePage a:active {text-decoration: none;color: #FF0000;}
+
+.pagination  .inactivePage {font-family: Verdana, Arial, sans-serif;font-weight: bold;padding:  3px 4px 3px 4px;border:1px solid #333333;color:#333333;background-color:#CCCCCC;margin-right:1px;	cursor:pointer;font-size: 12px;}
+.pagination  .inactivePage a:link {text-decoration: none;color: #666;}
+.pagination  .inactivePage a:visited {text-decoration: none;color: #666;}
+.pagination  .inactivePage a:hover {text-decoration: none;color: #FF0000;}
+.pagination  .inactivePage a:active {text-decoration: none;color: #FF0000;}
+
+.goButton{font-family: Verdana, Arial, sans-serif;	font-weight: bold;	color:#fff;	background-color:#727731;border-top: none;border-right: none;border-bottom: none;	border-left: none;	height: 18px;	font-size: 12px;}
+.goInput{font-family: Verdana, Arial, sans-serif;font-weight: bold;	border:1px solid #727731;	color:#727731;	background-color:#fff;cursor:pointer;height: 17px;width: 20px;}

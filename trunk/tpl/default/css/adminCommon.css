@@ -13,5 +13,7 @@ html{overflow:hidden}
 	+height:expression(document.documentElement.clientHeight - document.getElementById("header").clientHeight - document.getElementById("footer").clientHeight + "px");/*ie*/
 }
 #mainBody #menu {width:200px;height:100%;float:left}
-#mainBody #separatorV {width:5px;height:100%;position:relative;top:0px;float:left;background:url(../res/line.v.jpg) repeat-y}
 #mainBody #view {height:100%;float:none;word-break:break-all;overflow:auto;}
+
+#separatorV {width:5px;height:100%;position:relative;top:0px;float:left;background:url(../res/line.v.jpg) repeat-y}
+.separatorHr {width:100%;margin:2px 0 2px 0;height:4px;position:relative;background:url(../res/line.h.jpg) repeat-x}

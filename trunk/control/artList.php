@@ -2,14 +2,15 @@
 include '../common.inc.php';
 include '../lib/smarty/Smarty.class.php';
 
-$page = $_GET["page"];
 $gmt = GSmarty::getInstance();
 
-if(!is_int($page)) $page = 0;
+$page = intval( $_GET["PAGE"]);
+if(is_null($page) || $page < 1) $page = 1;
 
-if(!$gmt->is_cached("admin/artList.html")){
-
-	$rst = MO_Article::getList();
+if(!$gmt->is_cached("admin/artList.html","artList|page_$page")){
+	$gpage = new GPagination();
+	$gpage->pageSize = 2;
+	$rst = MO_Article::getList($gpage);
 	$artList = array();
 	while(false != ($arr = GMysql::fetchArray($rst))){
 		$artPath = explode("|",$arr["cat_path"]);
@@ -25,7 +26,10 @@ if(!$gmt->is_cached("admin/artList.html")){
 	}
 	$gmt->caching = true;
 	$gmt->assign_by_ref("artList",$artList);
+	
+	$gmt->register_object("page",$gpage,array("exportPageLabel","recordNum","totalPage","currPage","pageSize","rangeS","rangeE"));
+	$gmt->assign("action","art.php");
 }
 
-$gmt->display("admin/artList.html");
+$gmt->display("admin/artList.html","artList|page_$page");
 ?>

@@ -38,6 +38,7 @@
 	<div class="right"></div>
 </div>
 <div class="clearBoth"></div>
+<div class="separatorHr"></div>
 {if $msg ne ""}
 <div class="msg">
 {$msg}
@@ -75,7 +76,7 @@
 				<div class="right"></div>
 			</div>
 			<input type="hidden" name="category" value="{$art.category}"  />
-			</td>
+	  </td>
   </tr>
   <tr>
     <td>Style in list </td>
@@ -88,7 +89,7 @@
 					<label><input type="checkbox" name="titleB" value="1"  {if $art.titleB eq "1"}checked="checked"{/if} /><b>B</b></label>
 					<label><input type="checkbox"  name="titleI" value="1"  {if $art.titleI eq "1"}checked="checked"{/if} /><i>I</i></label>
 					<label><input type="checkbox" name="titleU" value="1"  {if $art.titleU eq "1"}checked="checked"{/if}  /><u>U</u></label>
-					</div>
+			  </div>
 				<div class="right"></div>
 			</div>	</td>
   </tr>
@@ -103,6 +104,40 @@
 				<div class="body"><label><input type="checkbox" value="1" name="preventCopy" />Prevent copy</label></div>
 				<div class="right"></div>
 			</div>	
+	</td>
+  </tr>
+  <tr>
+  	<td>Upload File:</td>
+	<td>
+	<table>
+	  <tr>
+	    <td>File</td>
+	    <td>Description</td>
+	    <td>Options</td>
+	    </tr>
+	  <tr id="attachTpl0">
+		<td>
+		<span style="display:none">
+		<a href="javascript:deleteAttach(0)">Delete</a>
+		<a href="javascript:insertAttach(0)">Insert</a>
+		 #file#</span>	
+		<input type="file" name="attach[0]" onchange="addAttach(this)" readonly="readonly" />
+		</td>
+		<td><input type="text" value="" name="attachDesc[0]" style="width:150px" /></td>
+		<td>
+			<div class="btnGrp_sliveGray">
+				<div class="left"></div>
+				<div class="body">
+					<label title="Only has an effect on picture"><input type="checkbox" name="mark[0]" value="1" checked="checked" />Mark</label>
+					<label title="Only has an effect on picture"><input type="checkbox" name="Shrinks[0]" value="1" checked="checked"  />Shrinks</label>
+				</div>
+				<div class="separator"></div>
+				<div class="body"><a href="javascript:uploadAttach(0)">Upload immediately</a></div>
+				<div class="right"></div>
+			</div>
+		</td>
+	  </tr>
+	</table>
 	</td>
   </tr>
   <tr>
@@ -179,6 +214,34 @@ var showAlbum = function(){
 	JObj.$("artAlbum").style.display = "";
 	jwin.setStatus("<input type='button' value='OK' onclick='selectAlbum()' />");
 	jwin.showModal();
+}
+
+var attachIndex = 0;
+var attachTpl = JObj.$("attachTpl0").cloneNode(true);
+var attachSource = attachTpl.innerHTML;
+var addAttach = function(obj){
+	obj.style.display = "none";
+
+	var s = JObj.$tag("SPAN",obj.parentNode)[0];
+	s.style.display = "";
+	
+	var file = obj.value.split("/").reverse()[0];
+	s.innerHTML = s.innerHTML.replace("#file#","[" + attachIndex + "] " + file);
+	
+	var t = attachTpl.cloneNode(true);
+	t.id = "attachTpl" + ++attachIndex;
+	JObj.$("attachTpl" + (attachIndex - 1)).parentNode.appendChild(t);
+	t.innerHTML = t.innerHTML.replace(/\[(\d)+\]/g,"[" + attachIndex + "]")	;
+	t.innerHTML = t.innerHTML.replace(/\((\d)+\)/g,"(" + attachIndex + ")");
+}
+
+var insertAttach = function(idx){
+	
+}
+
+var deleteAttach = function(idx){
+	var t = JObj.$("attachTpl" + idx);
+	t.parentNode.removeChild(t);
 }
 </script>
 {/literal}

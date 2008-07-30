@@ -2,14 +2,20 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>Usnower</title>
-<link href="css/main.css" rel="stylesheet" type="text/css" />
-<link href="css/index.css" rel="stylesheet" type="text/css" />
+<title>Welcom !{const scope="GConfig" key="WEBSITE_NAME"}</title>
+<link href="{const key="PATH_ROOT_RELATIVE"}tpl/default/css/common.css" rel="stylesheet" type="text/css" />
+{design}
+<link href="css/common.css" rel="stylesheet" type="text/css" />
+{/design}
 </head>
 
 <body>
-<div class="header">
-	<div class="logo"><img src="../../res/logo.gif" /></div>
+{include file="header.html"}
+<div>
+{artList cat=0 num=10}
+<li><span><a href="/art.php?id=$id">$title</a></span><span>$intime</span></li>
+{/artList}
 </div>
+{include file="footer.html"}
 </body>
 </html>

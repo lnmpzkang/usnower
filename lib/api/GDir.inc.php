@@ -31,7 +31,7 @@ class GDir{
 	 * @return boolean
 	 */
 	public static function mkpathBaseDocRoot($path,$r = 0777){
-		return self::mkpath(PATH_DOC_ROOT.DIRECTORY_SEPARATOR.$path,$r);
+		return self::mkpath(PATH_ROOT_ABS.DIRECTORY_SEPARATOR.$path,$r);
 	}
 	
 	/**

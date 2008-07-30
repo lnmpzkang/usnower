@@ -1,5 +1,6 @@
 <?php
 include '../common.inc.php';
+include '../lib/smarty/Smarty.class.php';
 
 $token = $_POST["token"];
 if(GToken::isToken($token,"adminLogin",true)){
@@ -13,10 +14,19 @@ if(GToken::isToken($token,"adminLogin",true)){
 	}
 }
 
+$gmt = GSmarty::getInstance();
 if(MO_Admin::isLogined()){
-	$sFile = PATH_DOC_ROOT."/".GConfig::DIR_TPL_CACHED."/admin/main.tpl";
+	$gmt->caching = true;
+	$gmt->display("admin/main.html");
+}else{
+	$gmt->assign("msg",$msg);
+	$gmt->display("admin/index.html");
+}
+
+/*if(MO_Admin::isLogined()){
+	$sFile = PATH_ROOT_ABS."/".GConfig::DIR_TPL_CACHED."/admin/main.tpl";
 	if(false === ($tpl = GTpl::loadTpl($sFile))){
-		$tpl = new GTpl(PATH_DOC_ROOT."/".GConfig::DIR_TPL,PATH_DOC_ROOT."/".GConfig::FILE_TPL_LOG);
+		$tpl = new GTpl(PATH_ROOT_ABS."/".GConfig::DIR_TPL,PATH_ROOT_ABS."/".GConfig::FILE_TPL_LOG);
 		$tpl->load(array(
 			"main"	=>	"admin/main.html"
 		));
@@ -25,9 +35,9 @@ if(MO_Admin::isLogined()){
 	$tpl->parse("main");
 }else{
 	
-	$sFile = PATH_DOC_ROOT."/".GConfig::DIR_TPL_CACHED."/admin/index.tpl";
+	$sFile = PATH_ROOT_ABS."/".GConfig::DIR_TPL_CACHED."/admin/index.tpl";
 	if(false === ($tpl = GTpl::loadTpl($sFile))){
-		$tpl = new GTpl( PATH_DOC_ROOT."/".GConfig::DIR_TPL, PATH_DOC_ROOT."/".GConfig::FILE_TPL_LOG);
+		$tpl = new GTpl( PATH_ROOT_ABS."/".GConfig::DIR_TPL, PATH_ROOT_ABS."/".GConfig::FILE_TPL_LOG);
 		$tpl->load(array(
 			"index"		=>	"admin/index.html"
 		));
@@ -38,5 +48,5 @@ if(MO_Admin::isLogined()){
 	));
 	$tpl->parseBlock("blk_adminLoginForm","cond_noLogin");
 	$tpl->parse("index");
-}
+}*/
 ?>

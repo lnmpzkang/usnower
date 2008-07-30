@@ -1,8 +1,8 @@
 <?php
-//define("PATH_DOC_ROOT",$_SERVER['DOCUMENT_ROOT']);
+//define("PATH_ROOT_ABS",$_SERVER['DOCUMENT_ROOT']);
 //define("PATH_FILE_DIR",dirname(__FILE__));
-define("PATH_DOC_ROOT",dirname(__FILE__));
-define("PATH_CONTENT_ROOT",str_ireplace(PATH_DOC_ROOT,"/",$_SERVER['DOCUMENT_ROOT']));
+define("PATH_ROOT_ABS",dirname(__FILE__));
+define("PATH_ROOT_RELATIVE",str_ireplace(PATH_ROOT_ABS,"/",$_SERVER['DOCUMENT_ROOT']));
 
 define("SYMBOL_NEWLINE","\r\n");
 
@@ -12,10 +12,10 @@ define("MUTI_CHAR_LEN",strlen("－"));
 
 
 $includePath = array(
-	PATH_DOC_ROOT."/lib",
-	PATH_DOC_ROOT."/lib/api",
-	PATH_DOC_ROOT."/lib/vo",
-	PATH_DOC_ROOT."/lib/mo"
+	PATH_ROOT_ABS."/lib",
+	PATH_ROOT_ABS."/lib/api",
+	PATH_ROOT_ABS."/lib/vo",
+	PATH_ROOT_ABS."/lib/mo"
 );
 
 set_include_path(join(DIRECTORY_SEPARATOR == "/" ? ":" : ";",$includePath));
@@ -48,7 +48,7 @@ function __showMsg($e){
 		echo $e->getMessage();
 	}else{
 		$msg = GEncrypt::encrypt( $msg != "" ? $msg : $e->getMessage(),GConfig::ENCRYPT_KEY);
-		header("location:".PATH_CONTENT_ROOT."msg.php?msg=$msg");
+		header("location:".PATH_ROOT_RELATIVE."msg.php?msg=$msg");
 	}
 }
 

@@ -8,9 +8,9 @@
     <link href="../css/adminFun.css" rel="stylesheet" type="text/css"/>
     <script language="javascript" type="text/javascript" src="../../../JObj/JObj.js"></script>
 	{/design}
-    <link href="{const key="PATH_CONTENT_ROOT"}tpl/default/css/adminCommon.css" rel="stylesheet" type="text/css">
-    <link href="{const key="PATH_CONTENT_ROOT"}tpl/default/css/adminFun.css" rel="stylesheet" type="text/css">
-    <script type="text/javascript" src="{const key="PATH_CONTENT_ROOT"}JObj/JObj.js"></script>
+    <link href="{const key="PATH_ROOT_RELATIVE"}tpl/default/css/adminCommon.css" rel="stylesheet" type="text/css">
+    <link href="{const key="PATH_ROOT_RELATIVE"}tpl/default/css/adminFun.css" rel="stylesheet" type="text/css">
+    <script type="text/javascript" src="{const key="PATH_ROOT_RELATIVE"}JObj/JObj.js"></script>
 </head>
 
 <body>
@@ -24,7 +24,7 @@
 <div class="clearBoth"></div>
 <div class="separatorHr"></div>
 <form action="{$action}" method="post" name="form1">
-<input type="hidden" name="token" value="{token->newTokenForSmarty form='deleteArtInIds'}" />
+<input type="hidden" name="token" value="{token form='deleteArtInIds'}" />
 <input type="hidden" name="url" value="{$smarty.server.REQUEST_URI}" />
 <table>
   <tr>
@@ -54,7 +54,7 @@
                         <div class="left"></div>
                         <div class="body"><label><input type="checkbox"  value="{$artList[idx].id}" name="delete[]" />Delete?<label></div>
                         <div class="separator"></div>
-                        <div class="body"><a href="art.php?id={$artList[idx].id}&token={token->newTokenForSmarty form='getArt'}">Edit?</a></div>
+                        <div class="body"><a href="art.php?id={$artList[idx].id}&token={token form='getArt'}">Edit?</a></div>
                         <div class="separator"></div>
                         <div class="body">View</div>
 

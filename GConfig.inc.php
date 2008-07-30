@@ -25,9 +25,11 @@ class GConfig {
 	const DB_CHARSET	= "utf8";
 	
 	const DIR_TPL			= "tpl/default";
-	const DIR_TPL_CACHED = "data/cached/tpl";//必须存在，可读写
+	const DIR_TPL_CACHED = "data/cached";//必须存在，可读写
 	const DIR_TPL_COMPILE= "data/compile";//必须存在，可读写
 	const DIR_UPLOAD		= "data/upload";
+	
+	const DIR_XML_STORE  = "data/xml";
 	
 	/*---------------------------------------------------
 	 * 以下信息不要修改

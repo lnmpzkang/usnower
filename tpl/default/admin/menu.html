@@ -4,14 +4,14 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <title>menu</title>
-    <!--block design1-->
+   {design}
     <link href="../css/adminCommon.css" rel="stylesheet" type="text/css"/>
     <link href="../css/adminFun.css" rel="stylesheet" type="text/css"/>
     <script language="javascript" type="text/javascript" src="../../../JObj/JObj.js"></script>
-    <!--/block-->
-    <link href="{@PATH_CONTENT_ROOT}tpl/default/css/adminCommon.css" rel="stylesheet" type="text/css">
-    <link href="{@PATH_CONTENT_ROOT}tpl/default/css/adminFun.css" rel="stylesheet" type="text/css">
-    <script type="text/javascript" src="{@PATH_CONTENT_ROOT}JObj/JObj.js"></script>
+   {/design}
+    <link href="{const key="PATH_ROOT_RELATIVE"}tpl/default/css/adminCommon.css" rel="stylesheet" type="text/css">
+    <link href="{const key="PATH_ROOT_RELATIVE"}tpl/default/css/adminFun.css" rel="stylesheet" type="text/css">
+    <script type="text/javascript" src="{const key='PATH_ROOT_RELATIVE'}JObj/JObj.js"></script>
 </head>
 
 <body>
@@ -25,23 +25,29 @@
 <div id="showMenu" class="clearBoth">
 <div class="separatorHr"></div>
 </div>
-<xml id="menuSource">
+<span id="menuSource"><!--
     <l caption="Control Center">
         <l caption="Article System">
-            <l caption="Article Category" url="artCategory.php"></l>
-            <l caption="Argicle Album" url="artAlbum.php"></l>
-			<l caption="Add Argicle" url="art.php"></l>
-			<l caption="All Article" url="artList.php"></l>
+            <l caption="Article Category" url="artCategory.php" />
+            <l caption="Argicle Album" url="artAlbum.php" />
+			<l caption="Add Argicle" url="art.php" />
+			<l caption="All Article" url="artList.php" />
         </l>
+		<l caption="Bag...">
+			<l caption="Bag Category" url="bagCategory.php"/>
+			<l caption="Add Bag" url="bag.php" />
+		</l>
     </l>
-</xml>
+--></span>
+{literal}
 <script>
     JObj.plugin("JTree");
 
 	var url = false,ifr = JObj.$("frmView",top.document);
 	
     var mt = JObj.Plugin.JTree.getInstance("showMenu");
-    mt.loadFromString(JObj.$("menuSource").innerHTML);
+
+    mt.loadFromString(JObj.$("menuSource").innerHTML.replace(/(<!--)|(-->)/g,""));
     mt.onclick = function() {
         url = JObj.Xml.getNodeAtt(mt.selectNode, "url");
 		if(url !== false){
@@ -50,5 +56,6 @@
     }
     mt.create();
 </script>
+{/literal}
 </body>
 </html>

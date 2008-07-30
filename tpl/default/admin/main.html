@@ -2,15 +2,15 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>{@GConfig::WEBSITE_NAME} Control Center!</title>
-<!--block design1-->
+<title>{const scope="GConfig" key="WEBSITE_NAME"}Control Center!</title>
+{design}
 <link href="../css/adminCommon.css" rel="stylesheet" type="text/css" />
-<!--/block-->
-<link href="{@PATH_CONTENT_ROOT}tpl/default/css/adminCommon.css" rel="stylesheet" type="text/css">
+{/design}
+<link href="{const key='PATH_ROOT_RELATIVE'}tpl/default/css/adminCommon.css" rel="stylesheet" type="text/css">
 </head>
 
 <body>
-{include admin/header.html}
+{include file="admin/header.html"}
 <div id="mainBody">
 	<div id="menu">
 	<iframe name="frmMenu" width="100%" height="100%" frameborder="0" scrolling="auto" src="menu.php"></iframe>
@@ -20,6 +20,6 @@
 	<iframe id="frmView" name="frmView" width="100%" height="100%" frameborder="0" scrolling="auto" src=""></iframe>
 	</div>
 </div>
-{include admin/footer.html}
+{include file="admin/footer.html"}
 </body>
 </html>

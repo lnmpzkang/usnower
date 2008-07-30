@@ -70,7 +70,7 @@ class GValidate {
 		
 		$min = $rule["min"];$max = $rule["max"];
 		
-		if($min == null) $min = 0;
+		if($min == null) $min = $rule["required"] == true ? 1 : 0;
 		if($max == null) $max = INF;
 		
 		$arr = array($min,$max);

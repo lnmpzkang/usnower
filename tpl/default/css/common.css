@@ -1,6 +1,6 @@
 @charset "utf-8";
-html {height:100%;	font-family: Geneva, Arial, Helvetica, sans-serif;	font-size: 12px;margin:0;background-color: #474747;color: #CCCCCC;}
-body{margin:0px;}
+html {height:100%;}
+body{margin:0px;	font-family: Geneva, Arial, Helvetica, sans-serif;	font-size: 12px;margin:0;background-color: #474747;color: #CCCCCC;}
 
 a {color: #999999;}
 a:hover {color: #CC3300;}
@@ -55,3 +55,5 @@ form{margin:0}
 
 .goButton{font-family: Verdana, Arial, sans-serif;	font-weight: bold;	color:#fff;	background-color:#727731;border-top: none;border-right: none;border-bottom: none;	border-left: none;	height: 18px;	font-size: 12px;}
 .goInput{font-family: Verdana, Arial, sans-serif;font-weight: bold;	border:1px solid #727731;	color:#727731;	background-color:#fff;cursor:pointer;height: 17px;width: 20px;}
+
+.errMsg{color:red;}

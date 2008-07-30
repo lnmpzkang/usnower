@@ -113,7 +113,7 @@ $gmt->assign("msg",$msg);
 $gfck = new GFCKEditor();
 $gmt->register_object("FCKEditor",$gfck,array("createForSmarty"));
 
-$artCatXMLFile = PATH_DOC_ROOT . "/" . GConfig::DIR_TPL_CACHED . "/admin/artCat.xml";
+$artCatXMLFile = PATH_ROOT_ABS . "/" . GConfig::DIR_TPL_CACHED . "/artCat.xml";
 $artCatXML = "";
 if (! file_exists ( $artCatXMLFile )) {
 	$dom = MO_ArtCategory::exportTree ();

@@ -6,10 +6,10 @@ include ("common.inc.php");
 
 //GDir::mkpath("/aa/bb/CC/DD");
 //echo $_SERVER['REMOTE_ADDR'];
-//var_dump(GDir::rmpath(PATH_DOC_ROOT.DIRECTORY_SEPARATOR."aa"));
+//var_dump(GDir::rmpath(PATH_ROOT_ABS.DIRECTORY_SEPARATOR."aa"));
 
 
-//var_dump(GDir::getFileList(PATH_DOC_ROOT.DIRECTORY_SEPARATOR."aa"));
+//var_dump(GDir::getFileList(PATH_ROOT_ABS.DIRECTORY_SEPARATOR."aa"));
 
 
 /*$vo = new VO_Admin();
@@ -53,9 +53,9 @@ function aa1(){
 $str = eval(" ?>".preg_replace_callback($reg,"callback",$str)."<?php ");
 echo $str;*/
 /*$begin = microtime(TRUE);*/
-/*$sFile = PATH_DOC_ROOT."/cached/tpl/default/admin/loginForm";
+/*$sFile = PATH_ROOT_ABS."/cached/tpl/default/admin/loginForm";
 if(false === ($tpl = GTpl::loadTpl($sFile))){
-	$tpl = new GTpl(PATH_DOC_ROOT."/tpl/default",PATH_DOC_ROOT."/logs/tpl.log");
+	$tpl = new GTpl(PATH_ROOT_ABS."/tpl/default",PATH_ROOT_ABS."/logs/tpl.log");
 	$tpl->load("adminLogin","admin/loginForm.html");
 	$tpl->assign(array(
 		"formAction"	=>	$_SERVER['PHP_SELF'],
@@ -67,7 +67,7 @@ if(false === ($tpl = GTpl::loadTpl($sFile))){
 $tpl->parseBlock("blk_adminLoginForm","cond_noLogin");
 $tpl->parse("adminLogin");*/
 /*echo (microtime(TRUE) - $begin);*/
-/*echo PATH_DOC_ROOT;
+/*echo PATH_ROOT_ABS;
 echo $_SERVER['DOCUMENT_ROOT']*/
 
 /*class TestClass {
@@ -168,11 +168,11 @@ test();*/
 //var_dump($arr);
 
 
-if (preg_match('/^[\\x{4e00}-\\x{9fa5}]+$/u', '奥运')){
+/*if (preg_match('/^[\\x{4e00}-\\x{9fa5}]+$/u', '奥运')){
   echo '全是汉字';
 }else{
   echo '不全是汉字';
-}
+}*/
 
 //echo preg_replace("/^[\\x{4e00}-\\x{9fa5}]+$/s","","aa'|bb_|大小，");
 //echo preg_replace('/[\\x{4e00}-\\x{9fa5}]+/s',"","abc一二三cde");
@@ -188,10 +188,20 @@ $arr = explode("|",$str);
 $arr = array_map("addQuote",$arr);
 var_dump($arr);*/
 
-function test(){
+/*function test(){
 		$arr = array("aa","bb","cc");
 		$keywordsString = implode(",",$arr);
 		echo $keywordsString;
 }
-test();
+test();*/
+
+/*echo PATH_ROOT_RELATIVE.GConfig::DIR_UPLOAD ."<br />";
+echo PATH_ROOT_ABS.PATH_ROOT_RELATIVE.GConfig::DIR_UPLOAD ;*/
+
+include 'lib/smarty/Smarty.class.php';
+$gmt = GSmarty::getInstance();
+//$gmt->caching = true;
+$gmt->display("test.html");
+
+//echo MO_Article::getListForBlock();
 ?>

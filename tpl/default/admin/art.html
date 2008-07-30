@@ -8,9 +8,9 @@
     <link href="../css/adminFun.css" rel="stylesheet" type="text/css"/>
     <script language="javascript" type="text/javascript" src="../../../JObj/JObj.js"></script>
 	{/design}
-    <link href="{const key="PATH_CONTENT_ROOT"}tpl/default/css/adminCommon.css" rel="stylesheet" type="text/css">
-    <link href="{const key="PATH_CONTENT_ROOT"}tpl/default/css/adminFun.css" rel="stylesheet" type="text/css">
-    <script type="text/javascript" src="{const key="PATH_CONTENT_ROOT"}JObj/JObj.js"></script>
+    <link href="{const key="PATH_ROOT_RELATIVE"}tpl/default/css/adminCommon.css" rel="stylesheet" type="text/css">
+    <link href="{const key="PATH_ROOT_RELATIVE"}tpl/default/css/adminFun.css" rel="stylesheet" type="text/css">
+    <script type="text/javascript" src="{const key="PATH_ROOT_RELATIVE"}JObj/JObj.js"></script>
 	{literal}
 	<style>
 	form input[type=text]{width:650px;}
@@ -26,7 +26,7 @@
 
 <body>
 <form action="{$action}" method="post" name="form1">
-<input type="hidden" name="token" value="{if $art.id eq ''}{token->newTokenForSmarty form='addArt'}{else}{token->newTokenForSmarty form='editArt'}{/if}" />
+<input type="hidden" name="token" value="{if $art.id eq ''}{token form='addArt'}{else}{token form='editArt'}{/if}" />
 <input type="hidden" name="id" value="{$art.id}" />
 <div class="btnGrp_sliveGray">
 	<div class="left"></div>
@@ -178,7 +178,7 @@ var initWin = function(){
 
 var artCat_ondblclick = function(){
 	document.form1.category.value = JObj.Xml.getNodeAtt( jtree.selectNode,"id" );
-	JObj.$("selectedCat").innerHTML = JObj.Xml.getNodeAtt( jtree.selectNode ,"catPath").split("|")[0] + JObj.Xml.getNodeAtt(jtree.selectNode,"name");
+	JObj.$("selectedCat").innerHTML = JObj.Xml.getNodeAtt( jtree.selectNode ,"catPath").split("|")[0] + " > " + JObj.Xml.getNodeAtt(jtree.selectNode,"name");
 	jwin.hidden();
 }
 

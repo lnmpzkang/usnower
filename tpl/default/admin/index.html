@@ -2,15 +2,15 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>{@GConfig::WEBSITE_NAME} Control Center!</title>
-<!--block design1-->
+<title>{const scope="GConfig" key="WEBSITE_NAME"}--Control Center!</title>
+{design}
 <link href="../css/common.css" rel="stylesheet" type="text/css">
-<!--/block-->
-<link href="{@PATH_CONTENT_ROOT}tpl/default/css/common.css" rel="stylesheet" type="text/css">
+{/design}
+<link href="{const key='PATH_ROOT_RELATIVE'}tpl/default/css/common.css" rel="stylesheet" type="text/css">
 </head>
 <body>
-{include admin/header.html}
-{include admin/loginForm.html}
-{include admin/footer.html}
+{include file="admin/header.html"}
+{include file="admin/loginForm.html"}
+{include file="admin/footer.html"}
 </body>
 </html>

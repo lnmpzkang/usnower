@@ -208,6 +208,16 @@ class MO_Article extends MO {
 			return $arr[0];
 		}else return null;
 	}
+	
+	public static function getListForBlock($catId,$num){
+		$sql = sprintf("SELECT * FROM %sV_ART WHERE SHOW_ABLE = TRUE AND FIND_IN_SET(CAT_ID,%sF_ART_SUB_CAT(%d)) ORDER BY IN_TIME DESC LIMIT 0,%d",
+												GConfig::DB_PREFIX,
+												GConfig::DB_PREFIX,
+												$catId,
+												$num
+												);
+		return GMysql::query($sql);
+	}
 }
 
 ?>

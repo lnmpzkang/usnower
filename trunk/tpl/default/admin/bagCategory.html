@@ -3,7 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <title>Article Category</title>
+    <title>Bag Category</title>
 	{design}
     <link href="../css/adminCommon.css" rel="stylesheet" type="text/css"/>
     <link href="../css/adminFun.css" rel="stylesheet" type="text/css"/>
@@ -28,44 +28,44 @@
     <div class="separator"></div>
     <div class="body"><a href="javascript:addNew()">Add</a></div>
     <div class="separator"></div>
-    <div class="body"><a href="{$action}?token={token form='refreshArtCat'}">Force Refresh</a></div>
+    <div class="body"><a href="{$action}?token={token form='refreshBagCat'}">Force Refresh</a></div>
     <div class="separator"></div>
     <div class="body">Back</div>
     <div class="right"></div>
 </div>
 <div class="clearBoth">
-    <form action="{$action}" method="post" name="form1">
-        <input type="hidden" name="token" value="{token form='artCategory'}" />
+    <form action="{$smarty.server.PHP_SELF}" method="post" name="form1">
+        <input type="hidden" name="token" value="{token form='bagCategory'}" />
         <table border="0">
             <tr>
                 <td>ID</td>
                 <td>Category Name</td>
                 <td>Parent Category Name</td>
                 <td>Sub Category Num</td>
-                <td>Artegory Num</td>
+                <td>Bag Num</td>
                 <td>Delete</td>
             </tr>
 			{counter start=-1 print=false}
-			{section name=idx loop=$artCat}
+			{section name=idx loop=$bagCat}
 			{counter assign="idx_" print=false}
             <tr>
-                <td>{$artCat[idx].id}<input type="hidden" name="id[{$idx_}]" value="{$artCat[idx].id}"/></td>
-                <td><input type="text" name="name[{$idx_}]" value="{$artCat[idx].name}"/><input type="hidden" name="_name[{$idx_}]" value="{$artCat[idx].name}"/></td>
+                <td>{$bagCat[idx].id}<input type="hidden" name="id[{$idx_}]" value="{$bagCat[idx].id}"/></td>
+                <td><input type="text" name="name[{$idx_}]" value="{$bagCat[idx].name}"/><input type="hidden" name="_name[{$idx_}]" value="{$bagCat[idx].name}"/></td>
                 <td>
                     <div class="btnGrp_sliveGray">
                         <div class="left"></div>
-                        <!--<div class="body"><a href="javascript:void(0)" onclick="javascript:showWin(this,'FAID','{$artCat[idx].name}',{$artCat[idx].id})">{$artCat[idx].namepath|default:"Top Level"}</a></div>-->
-                        <div class="body">{$artCat[idx].namepath|default:"Top Level"}</div>
+                        <!--<div class="body"><a href="javascript:void(0)" onclick="javascript:showWin(this,'FAID','{$bagCat[idx].name}',{$bagCat[idx].id})">{$bagCat[idx].namepath|default:"Top Level"}</a></div>-->
+                        <div class="body">{$bagCat[idx].namepath|default:"Top Level"}</div>
                         <div class="separator"></div>
                         <div class="body">Reset</div>
                         <div class="right"></div>
                     </div>
-                    <input type="hidden" name="faId[{$idx_}]" value="{$artCat[idx].fa_id}"/>
-                    <input type="hidden" name="_faId[{$idx_}]" value="{$artCat[idx].fa_id}"/>
+                    <input type="hidden" name="faId[{$idx_}]" value="{$bagCat[idx].fa_id}"/>
+                    <input type="hidden" name="_faId[{$idx_}]" value="{$bagCat[idx].fa_id}"/>
                 </td>
-                <td>{$artCat[idx].sub_num}&nbsp;</td>
-                <td>{$artCat[idx].art_num|default:0}&nbsp;</td>
-                <td>{if $artCat[idx].sub_num eq 0 && $artCat[idx].art_num eq 0}<input name="delete[]" value="{$artCat[idx].id}" type="checkbox" />{/if}</td>
+                <td>{$bagCat[idx].sub_num}&nbsp;</td>
+                <td>{$bagCat[idx].bag_num|default:0}&nbsp;</td>
+                <td>{if $bagCat[idx].sub_num eq 0 && $bagCat[idx].bag_num eq 0}<input name="delete[]" value="{$bagCat[idx].id}" type="checkbox" />{/if}</td>
             </tr>
             {/section}
 			{counter assign="idx_" print=false}
@@ -91,7 +91,7 @@
 		{/if}
     </form>
 </div>
-<span id="artCatXML"><!--{$artCatXML}--></span>
+<span id="bagCatXML"><!--{$bagCatXML}--></span>
 <div id="showArtCatTree"></div>
 <script> var idx = {$idx_};</script>
 {literal}
@@ -138,7 +138,7 @@
             jwin.setTitle("Usnower...");
             jwin.setSysButtons(false,true,true);
 			jtree = JObj.Plugin.JTree.getInstance("showArtCatTree");
-			jtree.loadFromString(  JObj.$("artCatXML").innerHTML.replace(/((<!--)|(-->))/g,"").trim() );
+			jtree.loadFromString(  JObj.$("bagCatXML").innerHTML.replace(/((<!--)|(-->))/g,"").trim() );
             jtree.CAPTIONATT = "name";
             jtree.create();
 			jwin.setBody(JObj.$("showArtCatTree"));

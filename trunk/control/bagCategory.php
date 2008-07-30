@@ -4,8 +4,8 @@ include '../lib/smarty/Smarty.class.php';
 
 $gmt = GSmarty::getInstance ();
 
-$artCatXMLFile = PATH_ROOT_ABS . "/" . GConfig::DIR_XML_STORE. "/artCat.xml";
-$artCatXML = "";
+$bagCatXMLFile = PATH_ROOT_ABS . "/" . GConfig::DIR_XML_STORE. "/bagCat.xml";
+$bagCatXML = "";
 
 $fatherid = $_GET["fatherid"];
 if($fatherid == null) $fatherid = $_POST["fatherid"];
@@ -18,21 +18,19 @@ elseif (isset($_GET["token"]))
 
 	
 if(GToken::isToken( $token ,"refreshArtCat")){
-	$gmt->clear_cache("admin/artCategory.html");
-	unlink($artCatXMLFile);
+	$gmt->clear_cache("admin/bagCategory.html");
+	unlink($bagCatXMLFile);
 }
 
-if (GToken::isToken ( $token, "artCategory", true )) {
-	//exit(var_dump($_POST));	
+if (GToken::isToken ( $token, "bagCategory", true )) {
 	
 	$deletes = $_POST["delete"];
 	if(is_array($deletes)){
-	foreach ($deletes as $del){
-		//exit($del);
-		$vo = new VO_ArtCategory();
-		$vo->setId($del);
-		MO_ArtCategory::delete($vo);
-	}
+		foreach ($deletes as $del){
+			$vo = new VO_ArtCategory();
+			$vo->setId($del);
+			MO_BagCategory::delete($vo);
+		}
 	}
 	
 	$names = $_POST ["name"];
@@ -45,7 +43,7 @@ if (GToken::isToken ( $token, "artCategory", true )) {
 	
 	$msg = "";
 	for($i = 0; $i < sizeof ( $names ); $i ++) {
-		$vo = new VO_ArtCategory ( );
+		$vo = new VO_BagCategory ( );
 		try{
 			$vo->setName ( $names [$i] );
 			$vo->setFatherId ( $faIds [$i] );
@@ -53,10 +51,10 @@ if (GToken::isToken ( $token, "artCategory", true )) {
 			if (isset ( $ids[$i] )) { //如果存在，说明是修改或删除
 				$vo->setId ( $ids [$i] );
 				if ($names [$i] != $_names [$i] || $faIds [$i] != $_faIds [$i]) { //有修改
-					MO_ArtCategory::edit( $vo );
+					MO_BagCategory::edit( $vo );
 				}
 			} else {
-				MO_ArtCategory::add ( $vo );
+				MO_BagCategory::add ( $vo );
 			}
 		}catch(GDataException $e){
 			$msg .= $e->getMessage()."<br />";
@@ -70,50 +68,45 @@ if (GToken::isToken ( $token, "artCategory", true )) {
 		}
 	}
 	
-	$dom = MO_ArtCategory::exportTree ();
-	$dom->save ( $artCatXMLFile );
-	$artCatXML = $dom->saveXML ();
+	$dom = MO_BagCategory::exportTree ();
+	$dom->save ( $bagCatXMLFile );
+	$bagCatXML = $dom->saveXML ();
 	unset ( $dom );
 	
 	$gmt->assign("msg",$msg);
-	$gmt->clear_cache("admin/artCategory.html");
+	$gmt->clear_cache("admin/bagCategory.html");
 }
 
-if (! file_exists ( $artCatXMLFile )) {
-	$dom = MO_ArtCategory::exportTree ();
-	$dom->save ( $artCatXMLFile );
-	$artCatXML = $dom->saveXML ();
+if (! file_exists ( $bagCatXMLFile )) {
+	$dom = MO_BagCategory::exportTree ();
+	$dom->save ( $bagCatXMLFile );
+	$bagCatXML = $dom->saveXML ();
 	unset ( $dom );
 } else {
-	$artCatXML = $artCatXML != "" ? $artCatXML : file_get_contents ( $artCatXMLFile );
+	$bagCatXML = $bagCatXML != "" ? $bagCatXML : file_get_contents ( $bagCatXMLFile );
 }
-//echo $artCatXML;
 
-//if (!$gmt->is_cached ( "admin/artCategory.html" )) {
-	$artCat = array ( );
-	$vo = new VO_ArtCategory ( );
+	$bagCat = array ( );
+	$vo = new VO_BagCategory ( );
 	if($fatherid != 0)
 		$vo->setFatherId($fatherid);
-	$rst = MO_ArtCategory::getList ( $vo );
+	$rst = MO_BagCategory::getList ( $vo );
 	while ( false != ($arr = GMysql::fetchArray ( $rst )) ) {
 		$catPath = split ( "\\|", $arr ["cat_path"] );
 		$arr ["namepath"] = $catPath [0];
 		$arr ["idpath"] = $catPath [1];
-		array_push ( $artCat, $arr );
+		array_push ( $bagCat, $arr );
 	}
-	//$gmt->caching = true;
-	$gmt->assign_by_ref ( "artCat", $artCat );
-	//$gmt->assign("action",$_SERVER['PHP_SELF']);
+	
+	$gmt->assign_by_ref ( "bagCat", $bagCat );
 	$gmt->assign(array(
-		"action"	=>	$_SERVER['PHP_SELF'],
-		"artCatXML"	=>	$artCatXML
+		//"action"	=>	$_SERVER['PHP_SELF'],
+		"bagCatXML"	=>	$bagCatXML
 	));
-	//$gmt->cache_lifetime = 86400;// 60 * 60 * 24
-//}
 
 $gmt->assign(array(
 	"fatherid"	=>	$fatherid,
 ));
-//$gmt->clear_cache("admin/artCategory.html");
-$gmt->display ( "admin/artCategory.html" );
+
+$gmt->display ( "admin/bagCategory.html" );
 ?>

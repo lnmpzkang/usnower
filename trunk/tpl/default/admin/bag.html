@@ -1,0 +1,114 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>{const scope="GConfig" key="WEBSITE_NAME"}</title>
+	{design}
+    <link href="../css/adminCommon.css" rel="stylesheet" type="text/css"/>
+    <link href="../css/adminFun.css" rel="stylesheet" type="text/css"/>
+    <script language="javascript" type="text/javascript" src="../../../JObj/JObj.js"></script>
+	{/design}
+    <link href="{const key="PATH_ROOT_RELATIVE"}tpl/default/css/adminCommon.css" rel="stylesheet" type="text/css">
+    <link href="{const key="PATH_ROOT_RELATIVE"}tpl/default/css/adminFun.css" rel="stylesheet" type="text/css">
+    <script type="text/javascript" src="{const key="PATH_ROOT_RELATIVE"}JObj/JObj.js"></script>
+</head>
+
+<body>
+<div class="btnGrp_sliveGray">
+	<div class="left"></div>
+	<div class="body">Submit</div>
+	<div class="separator"></div>
+	<div class="body cursorPointer" onclick="document.form1.reset()">Reset</div>
+	<div class="separator"></div>
+	<div class="body cursorPointer" onclick="history.back()">Back to List</div>
+	<div class="right"></div>
+</div>
+<div class="clearBoth"></div>
+<div class="separatorHr"></div>
+{if $msg ne ""}
+<div class="errMsg">
+{$msg}
+</div>
+{/if}
+<form name="form1" action="{$smarty.server.PHP_SELF}" method="post">
+<input type="hidden" name="token" value="{token form='addBag'}" />
+<table>
+  <tr>
+    <td>Name:</td>
+    <td><input type="text" value="{$bag.name}" name="name"/></td>
+  </tr>
+  <tr>
+    <td>Style NO: </td>
+    <td><input type="text" value="{$bag.no}" name="no" /></td>
+  </tr>
+  <tr>
+    <td>Size:</td>
+    <td>L:<input type="text" value="{$bag.sizeL}" name="sizeL" style="width:30px;" /> W:<input type="text" value="{$bag.sizeW}" name="sizeW" style="width:30px;" /> H:<input type="text" value="{$bag.sizeH}" name="sizeH" style="width:30px;" /> 
+    Unit: 
+      <input type="text" value="{$bag.unit}" name="unit" style="width:40px;" /></td>
+  </tr>
+  <tr>
+    <td>Category:</td>
+    <td>
+	<div class="btnGrp_sliveGray">
+		<div class="left"></div>
+		<div class="body" id="selectedCat">{$bag.catName|default:"Please select a category"}</div>
+		<div class="separator"></div>
+		<div class="body"><a href="javascript:selectBagCat()">Select</a></div>
+		<div class="right"></div>
+	</div>
+	<input type="hidden" name="cat" value="{$bag.cat}s" />
+	</td>
+  </tr>
+  <tr>
+    <td>Main Fabric: </td>
+    <td><textarea name="fabric">{$bag.fabric}</textarea></td>
+  </tr>
+  <tr>
+    <td colspan="2">Description:</td>
+    </tr>
+  <tr>
+    <td colspan="2">{FCKEditor->createForSmarty name="description" width="800px" height="300px" value=$bag.description}</td>
+  </tr>
+</table>
+<div class="separatorHr"></div>
+<div class="btnGrp_sliveGray">
+	<div class="left"></div>
+	<div class="body" style="cursor:pointer" onclick="document.form1.submit()">Submit</div>
+	<div class="separator"></div>
+	<div class="body" style="cursor:pointer" onclick="document.form1.reset()">Reset</div>
+	<div class="right"></div>
+</div>
+</form>
+<span id="catXml"><!--{$bagCatXML}--></span>
+<div id="showTree"></div>
+{literal}
+<script type="text/javascript">
+JObj.plugin("JWin",true);
+JObj.plugin("JTree",true);
+var jwin = null,jtree = null;
+var jtree_dblclick = function(){
+	document.form1.cat.value = JObj.Xml.getNodeAtt( jtree.selectNode,"id" );	
+	JObj.$("selectedCat").innerHTML = JObj.Xml.getNodeAtt( jtree.selectNode ,"catPath").split("|")[0] + " > " + JObj.Xml.getNodeAtt(jtree.selectNode,"name");
+	jwin.hidden();
+}
+var selectBagCat = function(){
+	if(jtree == null){
+		jtree = JObj.Plugin.JTree.getInstance("showTree");
+		jtree.CAPTIONATT = "name";
+		jtree.loadFromString(JObj.$("catXml").innerHTML.replace(/(<!--)|(-->)/g,""));
+		jtree.ondblclick = jtree_dblclick;
+		jtree.create();
+	}
+	if(jwin == null){
+		jwin = JObj.Plugin.JWin.getInstance(500,300);
+		jwin.setTitle("Please select a category...");
+		jwin.setSysButtons(false,true,true);
+		jwin.setBody(JObj.$("showTree"));
+	}
+	jwin.showModal();
+}
+</script>
+{/literal}
+</body>
+</html>

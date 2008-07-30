@@ -17,7 +17,7 @@ class GLoger {
 	 */
 	public static function logToFile($pMsg,$pFile = GConfig::FILE_APP_LOG ){
 		if($pFile == GConfig::FILE_APP_LOG)
-			$pFile = PATH_DOC_ROOT.DIRECTORY_SEPARATOR.$pFile;
+			$pFile = PATH_ROOT_ABS.DIRECTORY_SEPARATOR.$pFile;
 			
 		error_log(date("Ymd H:i:s")."---------------------------".SYMBOL_NEWLINE.$pMsg.SYMBOL_NEWLINE,3,$pFile);
 	}

@@ -1,8 +1,63 @@
 <?php
 
 class VO_BagPic {
-	private $id,$bag,$color,$file,$inTime;
+	private $id,$bag,$color,$inTime,$description;
+	private $big,$normal,$icon;
 	
+	/**
+	 * @return unknown
+	 */
+	public function getBig() {
+		return $this->big;
+	}
+	
+	/**
+	 * @return unknown
+	 */
+	public function getIcon() {
+		return $this->icon;
+	}
+	
+	/**
+	 * @return unknown
+	 */
+	public function getNormal() {
+		return $this->normal;
+	}
+	
+	/**
+	 * @param unknown_type $big
+	 */
+	public function setBig($big) {
+		$this->big = $big;
+	}
+	
+	/**
+	 * @param unknown_type $icon
+	 */
+	public function setIcon($icon) {
+		$this->icon = $icon;
+	}
+	
+	/**
+	 * @param unknown_type $normal
+	 */
+	public function setNormal($normal) {
+		$this->normal = $normal;
+	}
+	/**
+	 * @return unknown
+	 */
+	public function getDescription() {
+		return $this->description;
+	}
+	
+	/**
+	 * @param unknown_type $description
+	 */
+	public function setDescription($description) {
+		$this->description = $description;
+	}
 	/**
 	 * @return unknown
 	 */
@@ -16,13 +71,7 @@ class VO_BagPic {
 	public function getColor() {
 		return $this->color;
 	}
-	
-	/**
-	 * @return unknown
-	 */
-	public function getFile() {
-		return $this->file;
-	}
+
 	
 	/**
 	 * @return unknown
@@ -51,13 +100,7 @@ class VO_BagPic {
 	public function setColor($color) {
 		$this->color = $color;
 	}
-	
-	/**
-	 * @param unknown_type $file
-	 */
-	public function setFile($file) {
-		$this->file = $file;
-	}
+
 	
 	/**
 	 * @param unknown_type $id

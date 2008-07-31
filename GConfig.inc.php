@@ -31,6 +31,19 @@ class GConfig {
 	
 	const DIR_XML_STORE  = "data/xml";
 	
+	///////////////////////////////////////////////////////////////////////
+	const DIR_BAG_ORG 	= "data/bag/org";//bag文件必须存在，可读写。原图，不加水印，不缩放，不用于显示
+	const DIR_BAG_BIG		= "data/bag/big";//原图，加水印。
+	const DIR_BAG_NORMAL = "data/bag/normal";//经过缩放，加水印，适用于显示。
+	const DIR_BAG_ICON	= "data/bag/icon";//小图
+	const BAG_WATER_MARK_FILE	= "res/logo.gif";
+	const BAG_WATER_MARK_ALPHA	= 50;
+	const BAG_WATER_MARK_POS	= GImage::POS_TOP_LEFT;
+	const BAG_SIZE_NORMAL_W	= 500;
+	const BAG_SIZE_NORMAL_H = 500;
+	const BAG_SIZE_ICON_W	= 200;
+	const BAG_SIZE_ICON_H	= 200;
+	
 	/*---------------------------------------------------
 	 * 以下信息不要修改
 	----------------------------------------------------*/

@@ -5,6 +5,7 @@ class MO_Bag extends MO {
 	 * Enter description here...
 	 *
 	 * @param VO_Bag $vo
+	 * @return int
 	 */
 	public static function add($vo){
 		self::checkVO($vo,"VO_Bag");
@@ -21,6 +22,7 @@ class MO_Bag extends MO {
 												$vo->getCat()
 												);
 		GMysql::query($sql);
+		return GMysql::getInsertId();
 	}
 }
 

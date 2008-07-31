@@ -11,6 +11,12 @@
     <link href="{const key="PATH_ROOT_RELATIVE"}tpl/default/css/adminCommon.css" rel="stylesheet" type="text/css">
     <link href="{const key="PATH_ROOT_RELATIVE"}tpl/default/css/adminFun.css" rel="stylesheet" type="text/css">
     <script type="text/javascript" src="{const key="PATH_ROOT_RELATIVE"}JObj/JObj.js"></script>
+	{literal}
+	<style>
+	input[type=text]{width:650px;}
+	textarea{width:650px;}
+	</style>
+	{/literal}
 </head>
 
 <body>
@@ -30,7 +36,7 @@
 {$msg}
 </div>
 {/if}
-<form name="form1" action="{$smarty.server.PHP_SELF}" method="post">
+<form action="{$smarty.server.PHP_SELF}" method="post" enctype="multipart/form-data" name="form1">
 <input type="hidden" name="token" value="{token form='addBag'}" />
 <table>
   <tr>
@@ -42,10 +48,14 @@
     <td><input type="text" value="{$bag.no}" name="no" /></td>
   </tr>
   <tr>
+    <td>Main Fabric: </td>
+    <td><textarea name="fabric" style="">{$bag.fabric}</textarea></td>
+  </tr>
+  <tr>
     <td>Size:</td>
-    <td>L:<input type="text" value="{$bag.sizeL}" name="sizeL" style="width:30px;" /> W:<input type="text" value="{$bag.sizeW}" name="sizeW" style="width:30px;" /> H:<input type="text" value="{$bag.sizeH}" name="sizeH" style="width:30px;" /> 
+    <td>L:<input type="text" value="{$bag.sizeL}" name="sizeL" style="width:50px;" /> W:<input type="text" value="{$bag.sizeW}" name="sizeW" style="width:50px;" /> H:<input type="text" value="{$bag.sizeH}" name="sizeH" style="width:50px;" /> 
     Unit: 
-      <input type="text" value="{$bag.unit}" name="unit" style="width:40px;" /></td>
+      <input type="text" value="{$bag.unit}" name="unit" style="width:50px;" /></td>
   </tr>
   <tr>
     <td>Category:</td>
@@ -57,12 +67,23 @@
 		<div class="body"><a href="javascript:selectBagCat()">Select</a></div>
 		<div class="right"></div>
 	</div>
-	<input type="hidden" name="cat" value="{$bag.cat}s" />
-	</td>
+	<input type="hidden" name="cat" value="{$bag.cat}s" />	</td>
   </tr>
   <tr>
-    <td>Main Fabric: </td>
-    <td><textarea name="fabric">{$bag.fabric}</textarea></td>
+    <td>Upload Picture: </td>
+    <td><table>
+        <tr>
+          <td>File</td>
+          <td>Color</td>
+          <td>Description</td>
+          </tr>
+        <tr id="attachTpl0">
+          <td><span style="display:none"> <a href="javascript:deleteAttach(0)">Delete</a>  #file#</span>
+              <input type="file" name="pic_0" onchange="addAttach(this)" readonly="readonly" />          </td>
+          <td><input type="text" name="color[0]" style="width:100px;" /></td>
+          <td><input type="text" value="" name="picDesc[0]" style="width:250px" /></td>
+          </tr>
+      </table></td>
   </tr>
   <tr>
     <td colspan="2">Description:</td>
@@ -107,6 +128,37 @@ var selectBagCat = function(){
 		jwin.setBody(JObj.$("showTree"));
 	}
 	jwin.showModal();
+}
+
+
+
+var attachIndex = 0;
+var attachTpl = JObj.$("attachTpl0").cloneNode(true);
+var attachSource = attachTpl.innerHTML;
+var addAttach = function(obj){
+	obj.style.display = "none";
+
+	var s = JObj.$tag("SPAN",obj.parentNode)[0];
+	s.style.display = "";
+	
+	var file = obj.value.split("/").reverse()[0];
+	s.innerHTML = s.innerHTML.replace("#file#","[" + attachIndex + "] " + file);
+	
+	var t = attachTpl.cloneNode(true);
+	t.id = "attachTpl" + ++attachIndex;
+	JObj.$("attachTpl" + (attachIndex - 1)).parentNode.appendChild(t);
+	t.innerHTML = t.innerHTML.replace(/_(\d)+/g,"_" + attachIndex);
+	t.innerHTML = t.innerHTML.replace(/\[(\d)+\]/g,"[" + attachIndex + "]")	;
+	t.innerHTML = t.innerHTML.replace(/\((\d)+\)/g,"(" + attachIndex + ")");
+}
+
+var insertAttach = function(idx){
+	
+}
+
+var deleteAttach = function(idx){
+	var t = JObj.$("attachTpl" + idx);
+	t.parentNode.removeChild(t);
 }
 </script>
 {/literal}

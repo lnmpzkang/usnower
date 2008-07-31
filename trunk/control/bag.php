@@ -19,7 +19,9 @@ if(GToken::isToken($token,"addBag",true)){
 		$vo->setDescription($_POST["description"]);
 		$vo->setCat($_POST["cat"]);
 		
-		MO_Bag::add($vo);
+		$id = MO_Bag::add($vo);
+		
+		MO_BagPic::upload($id,$_FILES,$_POST["color"],$_POST["picDesc"]);
 	}catch(GDataException $e1){
 		$msg = $e1->getMessage();
 	}catch(GSQLException $e2){

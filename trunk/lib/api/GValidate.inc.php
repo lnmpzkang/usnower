@@ -35,14 +35,15 @@ class GValidate {
 	public static function checkNumRange($value,$rule){
 		if($rule["required"] == false && $value == null) return true;
 		
-		if($rule["min"] == null) $rule["min"] = -INF;
-		if($rule["max"] == null) $rule["max"] = INF;
+		
+		if(is_null($rule["min"])) $rule["min"] = -INF;
+		if(is_null($rule["max"])) $rule["max"] = INF;
 		
 		$arr = array($rule["min"],$rule["max"]);
-		$min = min($arr) != null ? min($arr) : -INF;
-		$max = max($arr) != null ? max($arr) : INF;
+		$min = !is_null(min($arr)) ? min($arr) : -INF;
+		$max = !is_null(max($arr)) ? max($arr) : INF;
 		
-		//echo $max." ".$min;
+		echo $max." ".$min;
 		
 		$arr2 = array($min,$max,$value);
 		if($value == max($arr2) && max($arr2) > $max) return false;

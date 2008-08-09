@@ -46,13 +46,18 @@ class GPagination extends GMysql {
 				$this->baseQueryString .= $k."=".urlencode($v)."&";
 		
 		if($this->currPage < 1)
-			$this->currPage = 1;		
+			$this->currPage = 1;
 	}
 	
 	function setBaseURL($pURL){
 		$this->baseURL = $pURL;
 	}	
 	
+	/**
+	 * 对SQL进行加工，应先调用 setQuery
+	 *
+	 * @return mixed false or resault
+	 */
 	public function process(){
 		if($this->pageSize <=0)
 			return false;
@@ -63,7 +68,7 @@ class GPagination extends GMysql {
 		
 		$this->totalPage = ceil($this->recordNum / $this->pageSize);
 		
-		if($this->currPage > $this->totalPage)
+		if($this->totalPage > 0 && $this->currPage > $this->totalPage)
 				$this->currPage = $this->totalPage;	
 		
 		$rangeS = ($this->currPage - 1) * $this->pageSize;

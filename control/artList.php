@@ -9,7 +9,7 @@ if(is_null($page) || $page < 1) $page = 1;
 
 if(!$gmt->is_cached("admin/artList.html","artList|page_$page")){
 	$gpage = new GPagination();
-	$gpage->pageSize = 2;
+	//$gpage->pageSize = 2;
 	$rst = MO_Article::getList($gpage);
 	$artList = array();
 	while(false != ($arr = GMysql::fetchArray($rst))){

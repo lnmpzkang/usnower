@@ -8,14 +8,20 @@ if(GToken::isToken($token,"upload")){
 	$up->setMaxSize(1024);
 	$up->setAccept(array("jpg","gif","png"));
 	$files = $up->uploadAll();
-	$mi = new GMiniature();
+	$img = new GImage();
+	$img->setLogoSourceImg(PATH_ROOT_ABS."/res/logo.gif",50);
 	foreach ($files as $file){
-		$mi->setSaveDir(PATH_ROOT_ABS."/data/upload/mini");
-		$mi->zoomByFixSize($file,200,200);
-		$mi->saveAsPng(basename($file));
-		$mi->setSaveDir(PATH_ROOT_ABS."/data/upload/mini2");
-		$mi->zoomBySize($file,200,200);
-		$mi->saveAsPng(basename($file));
+		$img->setSourceImg($file);		
+		$img->zoomByMaxSize(300,100);
+		$img->markLogo(GImage::POS_MIDDLE);
+				
+		$img->setSaveDir(PATH_ROOT_ABS."/data/upload/mini1");
+		$img->saveAsPng(basename($file));
+		
+		$img->reset();
+		$img->zoomByFixedSize(200,200);
+		$img->setSaveDir(PATH_ROOT_ABS."/data/upload/mini2");
+		$img->saveAsGif(basename($file));
 	}
 }
 ?>

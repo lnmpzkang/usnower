@@ -21,6 +21,8 @@ class GValidate {
 			return false;
 		}
 		
+		return true;
+		
 	}
 	
 	/**
@@ -43,8 +45,6 @@ class GValidate {
 		$min = !is_null(min($arr)) ? min($arr) : -INF;
 		$max = !is_null(max($arr)) ? max($arr) : INF;
 		
-		echo $max." ".$min;
-		
 		$arr2 = array($min,$max,$value);
 		if($value == max($arr2) && max($arr2) > $max) return false;
 		if($value == min($arr2) && min($arr2) < $min) return false;
@@ -59,7 +59,7 @@ class GValidate {
 	 * @return boolean
 	 */
 	public static function checkNumber($value,$rule){
-		$type = $rule["type"];		
+		$type = is_null($rule["type"]) ? self::TYPE_NUMBER : $rule["type"];
 		if(($type == self::TYPE_NUMBER && !is_numeric($value)) || ($type == self::TYPE_FLOAT && !is_int($value)) || ($type==self::TYPE_FLOAT && !is_float($value))){
 			return false;
 		}else{

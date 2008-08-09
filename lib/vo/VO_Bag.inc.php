@@ -87,6 +87,9 @@ class VO_Bag {
 	 * @param unknown_type $id
 	 */
 	public function setId($id) {
+		if(!GValidate::checkNumber($id,array("type"=>GValidate::TYPE_INT,'min'=>0))){
+			throw new GDataException("Invalid param id");
+		}
 		$this->id = $id;
 	}
 	
@@ -151,6 +154,8 @@ class VO_Bag {
 	 * @param unknown_type $sizeH
 	 */
 	public function setSizeH($sizeH) {
+		if(!GValidate::checkNumber($sizeH,array("required"=>false,"min"=>0)))
+			throw new GDataException("Size H(height) must be a number,and greater than zero!");
 		$this->sizeH = $sizeH;
 	}
 	

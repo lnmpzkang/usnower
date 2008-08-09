@@ -197,11 +197,17 @@ test();*/
 
 /*echo PATH_ROOT_RELATIVE.GConfig::DIR_UPLOAD ."<br />";
 echo PATH_ROOT_ABS.PATH_ROOT_RELATIVE.GConfig::DIR_UPLOAD ;*/
-
+/*
 include 'lib/smarty/Smarty.class.php';
 $gmt = GSmarty::getInstance();
 //$gmt->caching = true;
 $gmt->display("test.html");
 
-//echo MO_Article::getListForBlock();
+//echo MO_Article::getListForBlock();*/
+
+/*var_dump(intval("-1a13"));*/
+
+/*var_dump(GValidate::checkNumber(" a",array("required"=>false,"min"=>0,"max"=>2)));*/
+
+var_dump(MO_Bag::getList1());
 ?>

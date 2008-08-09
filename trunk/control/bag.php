@@ -5,6 +5,17 @@ include '../fckeditor/fckeditor.php';
 
 $gmt = GSmarty::getInstance();
 $msg = "";
+
+$token = $_GET["token"];
+if(GToken::isToken($token,"getBag",true)){
+	$id = $_GET["id"];
+	$vo = new VO_Bag();
+	$vo->setId($id);
+	$arr = MO_Bag::get($vo);
+	
+	$gmt->assign_by_ref("bag",$arr);
+}
+
 $token = $_POST["token"];
 if(GToken::isToken($token,"addBag",true)){
 	try{
@@ -32,6 +43,18 @@ if(GToken::isToken($token,"addBag",true)){
 	}
 	$gmt->assign("msg",$msg);
 	$gmt->assign_by_ref("bag",$_POST);
+	$gmt->clear_cache(null,"bagList");
+}elseif(GToken::isToken($token,"deleteBagInIds",true)){
+	$deletes = $_POST["delete"];
+	if(is_array($deletes)){
+		$vo = new VO_Bag();			
+		foreach ($deletes as $delete){
+			$vo->setId($delete);
+			MO_Bag::delete($vo);
+		}
+		$gmt->clear_cache(null,"bagList");
+		header("location:".$_POST["url"]);
+	}
 }
 
 $gfck = new GFCKEditor();

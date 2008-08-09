@@ -195,14 +195,17 @@ var JObj = {};
         $.safari = ua.indexOf("safari") > -1;  // always check for safari & opera
         $.opera = ua.indexOf("opera") > -1;    // before ns or ie
         $.firefox = ua.indexOf('firefox') > -1; // check for gecko engine
-        $.netscape = !$.firefox && !$.opera && !$.safari && (b == "Netscape");
+        $.seamonkey = ua.indexOf('seamonkey') > -1;// 
+        $.netscape = !$.firefox && !$.opera && !$.safari && !$.seamonkey && (b == "Netscape");
         $.ie = !$.opera && (b == "Microsoft Internet Explorer");
 
-        $.name = ($.ie ? "IE" : ($.firefox ? "Firefox" : ($.netscape ? "Netscape" : ($.opera ? "Opera" : ($.safari ? "Safari" : "Unknow")))));
+        $.name = ($.ie ? "IE" : ($.firefox ? "Firefox" :($.seamonkey ? "SeaMonkey" : ($.netscape ? "Netscape" : ($.opera ? "Opera" : ($.safari ? "Safari" : "Unknow"))))));
 
         switch ($.name) {
             case "Opera":
-                $.fullVersion = ua.substr(ua.indexOf("opera") + 6);
+                //$.fullVersion = ua.substr(ua.indexOf("opera") + 6);
+                $.fullVersion = n_.appVersion.split(" ")[0];
+                $.os = n_.appVersion.split(";")[1];
                 break;
             case "IE":
                 $.fullVersion = ua.substr(ua.indexOf("msie") + 5).split(";")[0];
@@ -216,6 +219,9 @@ var JObj = {};
             case "Netscape":
                 $.fullVersion = ua.substr(ua.indexOf("netscape") + 9);
                 break;
+            case "SeaMonkey":
+                $.fullVersion = ua.substr(ua.indexOf("seamonkey") + 10);
+                break;
             default:
                 $.fullVersion = "-1";
         }
@@ -224,7 +230,10 @@ var JObj = {};
         $.cookieEnabled = n_.cookieEnabled;
         $.javaEnabled = n_.javaEnabled();
 
-
+        $.os = $.os || n_.platform;
+        $.browserLang = n_.browserLange || n_.language;
+        $.osLang = n_.language;
+        
         $$.setLoadedModule("JObj.Browser", true);
     })($.Browser, $);
 
@@ -378,8 +387,8 @@ var JObj = {};
                 $.onReady = rule.onReady;
             }
 
-            $.xmlHttp = $$.Xml.getXMLHttp();
-
+            $.xmlHttp = $$.Xml.getXMLHttp(); 
+            
             var xmlHttp_onreadystatechange = function() {
                 var http = $.xmlHttp;
                 if (http.readyState == 4) {
@@ -402,7 +411,7 @@ var JObj = {};
                 $.xmlHttp.open($.method, $.url, $.async);
                 $.xmlHttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
                 $.xmlHttp.send($.data);
-                if ($.async == false && $$.Browser.firefox && $$.Browser.version == 3) {
+                if ($.async == false && (($$.Browser.firefox && $$.Browser.version == 3)) || $$.Browser.seamonkey) {
                     xmlHttp_onreadystatechange();
                 }
             }

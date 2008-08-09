@@ -81,6 +81,29 @@ class GMysql {
 		}else 
 			return false;
 	}
+	
+	/**
+	 * Enter description here...
+	 *
+	 * @param resource $rst
+	 * @param array $map
+	 * @param int $case
+	 * @return bool|array
+	 */
+	public static function fetchAssocWithMap($rst,$map,$case = CASE_LOWER){
+		if(false != ($arr = mysql_fetch_assoc($rst))){
+			$arr = array_change_key_case($arr,$case);
+			$map = array_change_key_case($map,$case);
+			
+			while(list($k,$v) = each($map)){
+				$value = $arr[$k];
+				unset($arr[$k]);//这一句不能放到后面，否则会把 $k = $v 的元素删除了。
+				$arr[$v] = $value;
+			}
+			return $arr;
+		}
+		return false;
+	}
 
 	public static function fetchRow($rst){
 		if(false != ($arr = mysql_fetch_row($rst))){
@@ -88,6 +111,14 @@ class GMysql {
 		}else{
 			return false;
 		}
+	}
+	
+	public static function fetchFirstWithMap($rst,$map){
+		$arr = array();
+		if(mysql_num_rows($rst) > 0){
+			$arr = self::fetchAssocWithMap($rst,$map);
+		}
+		return $arr;	
 	}
 }
 

@@ -75,6 +75,25 @@ class MO_BagPic extends MO {
 		GMysql::query($sql);
 		return GMysql::getInsertId();
 	}
+	
+	/**
+	 * Enter description here...
+	 *
+	 * @param VO_BagPic $vo
+	 */
+	public static function delete($vo){
+		self::checkVO($vo,"VO_BagPic");
+		$sql = sprintf("SELECT BIG,NORMAL,ICON FROM %sBAG_PIC WHERE BAG = %d",GConfig::DB_PREFIX,$vo->getBag());
+		$rst = GMysql::query($sql);
+		while($arr = GMysql::fetchArray($rst)){
+			unlink(PATH_ROOT_ABS."/".$arr["big"]);
+			unlink(PATH_ROOT_ABS."/".$arr["normal"]);
+			unlink(PATH_ROOT_ABS."/".$arr["icon"]);
+		}
+		
+		$sql = sprintf("DELETE FROM %sBAG_PIC WHERE BAG = %d", GConfig::DB_PREFIX,$vo->getBag() );
+		GMysql::query($sql);
+	}
 }
 
 ?>

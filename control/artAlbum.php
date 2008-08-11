@@ -1,8 +1,11 @@
 <?php
 include '../common.inc.php';
+
+MO_Admin::checkRight();
+
 include '../lib/smarty/Smarty.class.php';
 
-$gmt = GSmarty::getInstance();
+$gmt = GSmarty::getInstance("admin");
 
 $token =$_POST["token"];
 if(GToken::isToken($token,"artAlbum",TRUE)){

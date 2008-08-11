@@ -209,5 +209,9 @@ $gmt->display("test.html");
 
 /*var_dump(GValidate::checkNumber(" a",array("required"=>false,"min"=>0,"max"=>2)));*/
 
-var_dump(MO_Bag::getList1());
+//var_dump(MO_Bag::getList1());
+
+//var_dump(MO_Bag::getTopList(0,10));
+
+MO_Admin::checkRight();
 ?>

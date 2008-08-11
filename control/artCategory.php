@@ -1,8 +1,11 @@
 <?php
 include '../common.inc.php';
+
+MO_Admin::checkRight();
+
 include '../lib/smarty/Smarty.class.php';
 
-$gmt = GSmarty::getInstance ();
+$gmt = GSmarty::getInstance ("admin");
 
 $artCatXMLFile = PATH_ROOT_ABS . "/" . GConfig::DIR_XML_STORE. "/artCat.xml";
 $artCatXML = "";

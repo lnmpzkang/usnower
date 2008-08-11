@@ -8,6 +8,7 @@ class GConfig {
 	 * 以下信息可以修改
 	----------------------------------------------------*/
 	const WEBSITE_NAME="uSnower!";
+	const TIMEZONE = 'PRC';
 	
 	const ADMIN_EMAIL = "nickr@copacast.com";
 	const ENCRYPT_KEY = "vpqdt234b";
@@ -23,6 +24,7 @@ class GConfig {
 	const DB_PWD		= "usnower";
 	const DB_NAME		= "usnower";
 	const DB_CHARSET	= "utf8";
+	const DB_TIMEZONE = "+8:00";
 	
 	const DIR_TPL			= "tpl/default";
 	const DIR_TPL_CACHED = "data/cached";//必须存在，可读写

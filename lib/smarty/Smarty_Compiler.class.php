@@ -504,6 +504,8 @@ class Smarty_Compiler extends Smarty {
             case 'rdelim':
                 return $this->right_delimiter;
 
+                
+                /****************************************************************************/
             case 'section':
                 $this->_push_tag('section');
                 return $this->_compile_section_start($tag_args);
@@ -519,6 +521,7 @@ class Smarty_Compiler extends Smarty {
                     return "<?php endif; ?>";
                 else
                     return "<?php endfor; endif; ?>";
+               	/****************************************************************************/
 
             case 'foreach':
                 $this->_push_tag('foreach');

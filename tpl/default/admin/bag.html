@@ -37,7 +37,8 @@
 </div>
 {/if}
 <form action="{$smarty.server.PHP_SELF}" method="post" enctype="multipart/form-data" name="form1">
-<input type="hidden" name="token" value="{token form='addBag'}" />
+<input type="hidden" name="token" value="{if $bag.id eq ''}{token form='addBag'}{else}{token form='editBag'}{/if}" />
+<input type="hidden" name="id" value="{$bag.id}" />
 <table>
   <tr>
     <td>Name:</td>

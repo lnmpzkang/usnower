@@ -20,6 +20,8 @@ $includePath = array(
 
 set_include_path(join(DIRECTORY_SEPARATOR == "/" ? ":" : ";",$includePath));
 
+date_default_timezone_set(GConfig::TIMEZONE);
+
 /**
  * 自动载入.
  *

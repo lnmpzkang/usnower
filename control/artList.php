@@ -1,8 +1,11 @@
 <?php
 include '../common.inc.php';
+
+MO_Admin::checkRight();
+
 include '../lib/smarty/Smarty.class.php';
 
-$gmt = GSmarty::getInstance();
+$gmt = GSmarty::getInstance("admin");
 
 $page = intval( $_GET["PAGE"]);
 if(is_null($page) || $page < 1) $page = 1;

@@ -209,14 +209,42 @@ class MO_Article extends MO {
 		}else return null;
 	}
 	
-	public static function getListForBlock($catId,$num){
+	/**
+	 * Enter description here...
+	 *
+	 * @param unknown_type $catId
+	 * @param unknown_type $num
+	 * @return array
+	 */
+	
+	public static function getTopList($catId,$num){
+		$map = array(
+			'COME_FROM'	=>	'comeFrom',
+			'IN_TIME'	=>	'inTime',
+			'TITLE_COLOR'	=>	'titleColor',
+			'TITLE_B'		=>	'titleB',
+			'TITLE_I'		=>	'titleI',
+			'TITLE_U'		=>	'titleU',
+			'SHOW_ABLE'		=>	'showAble',
+			'COMMENT_ABLE'	=>	'commentAble',
+			'CAT_ID'			=>	'catId',
+			'CAT_NAME'		=>	'catName',
+			'CAT_PATH'		=>	'catPath'
+		);
 		$sql = sprintf("SELECT * FROM %sV_ART WHERE SHOW_ABLE = TRUE AND FIND_IN_SET(CAT_ID,%sF_ART_SUB_CAT(%d)) ORDER BY IN_TIME DESC LIMIT 0,%d",
 												GConfig::DB_PREFIX,
 												GConfig::DB_PREFIX,
 												$catId,
 												$num
 												);
-		return GMysql::query($sql);
+		$rst = GMysql::query($sql);
+		
+		$list = array();
+		while($arr = GMysql::fetchAssocWithMap($rst,$map)){
+			array_push($list,$arr);
+		}
+		
+		return $list;
 	}
 }
 

@@ -46,9 +46,9 @@ class MO_BagPic extends MO {
 				
 				$vo->setColor($colors[$i]);
 				$vo->setDescription($descs[$i]);
-				$vo->setBig(GConfig::DIR_BAG_BIG."/".$subDir."/".$name.".png");
-				$vo->setNormal(GConfig::DIR_BAG_NORMAL."/".$subDir."/".$name.".png");
-				$vo->setIcon(GConfig::DIR_BAG_ICON."/".$subDir."/".$name.".png");
+				$vo->setBig(PATH_ROOT_RELATIVE.GConfig::DIR_BAG_BIG."/".$subDir."/".$name.".png");
+				$vo->setNormal(PATH_ROOT_RELATIVE.GConfig::DIR_BAG_NORMAL."/".$subDir."/".$name.".png");
+				$vo->setIcon(PATH_ROOT_RELATIVE.GConfig::DIR_BAG_ICON."/".$subDir."/".$name.".png");
 				
 				self::add($vo);
 				$i++;

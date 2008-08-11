@@ -13,7 +13,7 @@ class GMysql {
 	 * @param string $dbCode
 	 * @return link_identifier
 	 */
-	public static function getConn($dbHost,$dbUser,$dbPwd,$dbName,$dbCharset = null){
+	public static function getConn($dbHost,$dbUser,$dbPwd,$dbName,$dbCharset = null,$dbTimeZone = null){
 		$conn = @mysql_pconnect($dbHost,$dbUser,$dbPwd);
 		if(!$conn){
 			$msg = sprintf("Time:%s\t Msg:数据库连接出错！",date("Ymd H:i:s"));
@@ -25,6 +25,8 @@ class GMysql {
 		mysql_select_db($dbName,$conn);
 		if(null != $dbCharset)
 			mysql_query("SET NAMES ".$dbCharset);
+		if(null != $dbTimeZone)
+			mysql_query("SET TIME_ZONE = '".$dbTimeZone."'");
 		
 		return $conn;
 	}
@@ -35,7 +37,7 @@ class GMysql {
 	 * @return link_identifier
 	 */
 	public static function getDefaultConn(){
-		return self::getConn(GConfig::DB_HOST,GConfig::DB_USER,GConfig::DB_PWD,GConfig::DB_NAME,GConfig::DB_CHARSET);
+		return self::getConn(GConfig::DB_HOST,GConfig::DB_USER,GConfig::DB_PWD,GConfig::DB_NAME,GConfig::DB_CHARSET,GConfig::DB_TIMEZONE);
 	}
 	
 	/**

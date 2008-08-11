@@ -1,9 +1,12 @@
 <?php
 include '../common.inc.php';
+
+MO_Admin::checkRight();
+
 include '../lib/smarty/Smarty.class.php';
 include '../fckeditor/fckeditor.php';
 
-$gmt = GSmarty::getInstance();
+$gmt = GSmarty::getInstance("admin");
 $msg = "";
 
 $token = $_GET["token"];

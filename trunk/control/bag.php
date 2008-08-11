@@ -1,9 +1,12 @@
 <?php
 include '../common.inc.php';
+
+MO_Admin::checkRight();
+
 include '../lib/smarty/Smarty.class.php';
 include '../fckeditor/fckeditor.php';
 
-$gmt = GSmarty::getInstance();
+$gmt = GSmarty::getInstance("admin");
 $msg = "";
 
 $token = $_GET["token"];
@@ -44,6 +47,34 @@ if(GToken::isToken($token,"addBag",true)){
 	$gmt->assign("msg",$msg);
 	$gmt->assign_by_ref("bag",$_POST);
 	$gmt->clear_cache(null,"bagList");
+}elseif(GTOken::isToken($token,"editBag",true)){
+	try{
+		$vo = new VO_Bag();
+		$vo->setId($_POST["id"]);
+		$vo->setName($_POST["name"]);
+		$vo->setNo($_POST["no"]);
+		$vo->setSizeH($_POST["sizeH"]);
+		$vo->setSizeW($_POST["sizeW"]);
+		$vo->setSizeL($_POST["sizeL"]);
+		$vo->setUnit($_POST["unit"]);
+		$vo->setFabric($_POST["fabric"]);
+		$vo->setDescription($_POST["description"]);
+		$vo->setCat($_POST["cat"]);
+
+		MO_Bag::edit($vo);
+		MO_BagPic::upload($vo->getId(),$_FILES,$_POST["color"],$_POST["picDesc"]);
+		
+		$gmt->assign("msg",$msg);
+		$gmt->assign_by_ref("bag",$_POST);
+		$gmt->clear_cache(null,"bagList");		
+	}catch(GDataException $e1){
+		$msg = $e1->getMessage();
+	}catch(GSQLException $e2){
+		if($e2->getErrCode() == 1062)
+			$msg = "Style NO: ".$vo->getNo()." has been exists!";
+		else
+			throw $e2;
+	}
 }elseif(GToken::isToken($token,"deleteBagInIds",true)){
 	$deletes = $_POST["delete"];
 	if(is_array($deletes)){
@@ -56,6 +87,9 @@ if(GToken::isToken($token,"addBag",true)){
 		header("location:".$_POST["url"]);
 	}
 }
+
+
+
 
 $gfck = new GFCKEditor();
 $gmt->register_object("FCKEditor",$gfck,array("createForSmarty"));

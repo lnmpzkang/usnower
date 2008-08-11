@@ -14,7 +14,7 @@ if(GToken::isToken($token,"adminLogin",true)){
 	}
 }
 
-$gmt = GSmarty::getInstance();
+$gmt = GSmarty::getInstance("admin");
 if(MO_Admin::isLogined()){
 	$gmt->caching = true;
 	$gmt->display("admin/main.html");

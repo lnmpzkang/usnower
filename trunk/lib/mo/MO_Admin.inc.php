@@ -109,6 +109,12 @@ class MO_Admin extends MO {
 	public static function isLogined(){
 		return ($_SESSION[GConfig::SSN_KEY_ADMIN_NAME] === GEncrypt::decrypt($_SESSION[GConfig::SSN_KEY_ADMIN_ENCRYPT_NAME],GConfig::ENCRYPT_KEY));
 	}
+	
+	public static function checkRight(){
+		if(!self::isLogined()){
+			exit( "<script>top.location.href='".PATH_ROOT_RELATIVE."control/index.php'</script>");
+		}
+	}
 }
 
 ?>

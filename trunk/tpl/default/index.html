@@ -12,9 +12,17 @@
 <body>
 {include file="header.html"}
 <div>
-{artList cat=0 num=10}
-<li><span><a href="/art.php?id=$id">$title</a></span><span>$intime</span></li>
-{/artList}
+{artList cat=0 num=10 assign="art"}
+{section name="idx" loop=$art}
+<li><span><a href="/art.php?id={$art[idx].id}">{$art[idx].title}</a></span><span style="float:right">{$art[idx].inTime}</span></li>
+{/section}
+</div>
+aaaaa
+<div>
+{bagList cat=0 num=10 assign="bag"}
+{section name="idx" loop=$bag}
+<li><a href="/bag.php?id={$bag[idx].id}"><img border="0" src="{$bag[idx].icon}" /></a></li>
+{/section}
 </div>
 {include file="footer.html"}
 </body>

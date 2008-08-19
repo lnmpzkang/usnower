@@ -35,12 +35,16 @@ $gpage = new GPagination();
 $gmt = GSmarty::getInstance("admin");
 $gmt->register_object("page",$gpage,array("exportPageLabel","recordNum","totalPage","currPage","pageSize","rangeS","rangeE"));
 
+$cmtList = array();
 if(GToken::isToken($action,'notPassed')){
-	$cmtList = MO_Comment::getList($gpage);
-
-	$gmt->assign_by_ref("cmtList",$cmtList);
+	$cmtList = MO_Comment::getList($gpage,'A.SHOW_ABLE = FALSE');
 	$gmt->assign('action','notPassed');
+}elseif (GToken::isToken($action,'passed')){
+	$cmtList = MO_Comment::getList($gpage,'A.SHOW_ABLE = TRUE');
+	$gmt->assign('action','passed');
 }
+
+$gmt->assign_by_ref("cmtList",$cmtList);
 
 $gmt->display("admin/cmt.html");
 ?>

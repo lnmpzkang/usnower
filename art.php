@@ -4,9 +4,11 @@ include 'lib/smarty/Smarty.class.php';
 
 $token = $_POST['token'];
 
+$msg = null;
+
 if(GToken::isToken($token,'comment',true)){
 	$vo = new VO_Comment();
-	
+	try{
 		$vo->setForId($_POST['forId']);
 		$vo->setName($_POST['name']);
 		$vo->setEmail($_POST['email']);
@@ -17,7 +19,12 @@ if(GToken::isToken($token,'comment',true)){
 		$vo->setTag('A');
 		
 		MO_Comment::add($vo);
-	
+		$msg = 'Your message has been post success.And wait ';
+		
+		MO_Comment::exportXML($_POST['forId'],'A');
+	}catch(GDataException $e){
+		$msg = $e->getMessage();
+	}
 	$id = $_POST['forId'];
 }
 
@@ -29,6 +36,9 @@ if(!isset($id)){
 
 $subDir = intval ( $id / 100 );
 $gmt = GSmarty::getInstance ( "art/$subDir" );
+$gmt->assign('msg',$msg);
+
+
 
 function __getClickNum__(){
 	global $id;

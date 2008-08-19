@@ -97,6 +97,9 @@ if(GToken::isToken($token,"addArt",true)){
 		
 		MO_Article::edit($vo);
 		$gmt->clear_cache(null,"artList");
+		
+		$gmt->clear_cache( "art.html", "art|".$vo->getId() );//删除以cache的文件
+		
 	}catch(GDataException $e1){
 		$msg .= $e1->getMessage()."<br />";	
 	}
@@ -116,7 +119,7 @@ $gmt->assign("msg",$msg);
 $gfck = new GFCKEditor();
 $gmt->register_object("FCKEditor",$gfck,array("createForSmarty"));
 
-$artCatXMLFile = PATH_ROOT_ABS . "/" . GConfig::DIR_TPL_CACHED . "/artCat.xml";
+$artCatXMLFile = PATH_ROOT_ABS . "/" . GConfig::DIR_XML_STORE . "/artCat.xml";
 $artCatXML = "";
 if (! file_exists ( $artCatXMLFile )) {
 	$dom = MO_ArtCategory::exportTree ();

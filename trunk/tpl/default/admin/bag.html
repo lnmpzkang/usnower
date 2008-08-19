@@ -111,7 +111,7 @@ JObj.plugin("JTree",true);
 var jwin = null,jtree = null;
 var jtree_dblclick = function(){
 	document.form1.cat.value = JObj.Xml.getNodeAtt( jtree.selectNode,"id" );	
-	JObj.$("selectedCat").innerHTML = JObj.Xml.getNodeAtt( jtree.selectNode ,"catPath").split("|")[0] + " > " + JObj.Xml.getNodeAtt(jtree.selectNode,"name");
+	JObj.$("selectedCat").innerHTML = JObj.Xml.getNodeAtt( jtree.selectNode ,"catPath").split("|")[0];// + " > " + JObj.Xml.getNodeAtt(jtree.selectNode,"name");
 	jwin.hidden();
 }
 var selectBagCat = function(){

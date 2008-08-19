@@ -81,10 +81,35 @@ class GValidate {
 		if($min < 0 || $min == null || !is_numeric($min)) $min = 0;
 		if($max < 0 || $max == null || !is_numeric($max)) $max = INF;
 		
+		if($rule['required'] && trim($value) == "")
+			return false;
+		
 		if(( $rule["required"] == false && ( $value==null || $value == "")) || (strlen($value) >= $min && strlen($value) <= $max)) 
 			return true;
 		else 
 			return false;
+	}
+	
+	public static function checkEmail($value,$rule){
+		if(!self::checkString($value,$rule))
+			return false;
+		
+		if($rule['required'] === false && $value == '')
+			return true;
+		
+		$reg = '/^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/';
+		return preg_match($reg,$value);
+	}
+	
+	public static function checkURL($value,$rule){
+		if(!self::checkString($value,$rule))
+			return false;
+			
+		if($rule['required'] === false && $value == '')
+			return true;			
+					
+		$reg = '/^((http|https):\/\/)?[A-Za-z0-9]+\.[A-Za-z0-9]+[\/=\?%\-&_~`@[\]\':+!]*([^<>\"\"])*$/';
+		return preg_match($reg,$value);
 	}
 }
 

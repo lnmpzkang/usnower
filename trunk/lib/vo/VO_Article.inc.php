@@ -6,10 +6,66 @@ class VO_Article {
 	private $showAble = true,$commentAble = true;
 	private $category,$albums;
 	private $keywords;
+	private $preId,$nextId;
+	private $preTitle,$nextTitle;
 	
 	private $autoUploadOtherSItePic;
 	private $preventCopy;
 	
+	/**
+	 * @return unknown
+	 */
+	public function getNextTitle() {
+		return $this->nextTitle;
+	}
+	
+	/**
+	 * @return unknown
+	 */
+	public function getPreTitle() {
+		return $this->preTitle;
+	}
+	
+	/**
+	 * @param unknown_type $nextTitle
+	 */
+	public function setNextTitle($nextTitle) {
+		$this->nextTitle = $nextTitle;
+	}
+	
+	/**
+	 * @param unknown_type $preTitle
+	 */
+	public function setPreTitle($preTitle) {
+		$this->preTitle = $preTitle;
+	}
+	/**
+	 * @return unknown
+	 */
+	public function getNextId() {
+		return $this->nextId;
+	}
+	
+	/**
+	 * @return unknown
+	 */
+	public function getPreId() {
+		return $this->preId;
+	}
+	
+	/**
+	 * @param unknown_type $nextId
+	 */
+	public function setNextId($nextId) {
+		$this->nextId = $nextId;
+	}
+	
+	/**
+	 * @param unknown_type $preId
+	 */
+	public function setPreId($preId) {
+		$this->preId = $preId;
+	}
 	/**
 	 * @return unknown
 	 */

@@ -55,6 +55,10 @@ class MO_Admin extends MO {
 	 * @param VO_Admin $vo
 	 */
 	public static function login($vo){
+		/*
+		 * setPwd时，用了一次MD5，判断时在数据库里又一次md5.
+		 * 新增或修改密码时，两次 MD5
+		*/
 		self::checkVO($vo,"VO_Admin");
 		//$vo = new VO_Admin();
 		$sql = sprintf("SELECT %sF_ISADMIN('%s','%s')",
@@ -63,7 +67,7 @@ class MO_Admin extends MO {
 										$vo->getPwd());
 										
 		$rst = GMysql::query($sql);
-		//mysql_fetch_row($rst);
+		
 		$arr = GMysql::fetchRow($rst);
 		if($arr[0] == "1"){
 			$sql = sprintf("CALL %sP_ADMIN_LOGIN('%s','%s')",

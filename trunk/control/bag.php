@@ -94,7 +94,7 @@ if(GToken::isToken($token,"addBag",true)){
 $gfck = new GFCKEditor();
 $gmt->register_object("FCKEditor",$gfck,array("createForSmarty"));
 
-$bagCatXMLFile = PATH_ROOT_ABS . "/" . GConfig::DIR_TPL_CACHED . "/bagCat.xml";
+$bagCatXMLFile = PATH_ROOT_ABS . "/" . GConfig::DIR_XML_STORE . "/bagCat.xml";
 $bagCatXML = "";
 if (! file_exists ( $bagCatXMLFile )) {
 	$dom = MO_BagCategory::exportTree ();

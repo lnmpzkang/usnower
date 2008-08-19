@@ -32,6 +32,7 @@ class GConfig {
 	const DIR_UPLOAD		= "data/upload";
 	
 	const DIR_XML_STORE  = "data/xml";
+	const DIR_XML_ART_STORE = "data/art";
 	
 	///////////////////////////////////////////////////////////////////////
 	const DIR_BAG_ORG 	= "data/bag/org";//bag文件必须存在，可读写。原图，不加水印，不缩放，不用于显示

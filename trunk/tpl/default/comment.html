@@ -1,0 +1,8 @@
+<form action="{$smarty.server.PHP_SELF}" method="post">
+<input type="hidden"  name="token" value="{token form='comment'}" />
+<label>Name:<input type="text" name="name" /></label><br />
+<label>Email:<input type="text" name="email" /></label><br />
+<label>Web site:<input type="text" name="http" /></label><br />
+<label>Content:<textarea name="content"></textarea></label><br />
+<input type="submit"><label><input type="checkbox" name="forAdmin" />Only for admin</label>
+</form>

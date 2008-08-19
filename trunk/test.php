@@ -213,5 +213,50 @@ $gmt->display("test.html");
 
 //var_dump(MO_Bag::getTopList(0,10));
 
-MO_Admin::checkRight();
+//MO_Admin::checkRight();
+
+/*echo intval(1/100)."<br/>";
+echo intval(2/100)."<br/>";
+echo intval(101/100)."<br/>";
+echo intval(305/100)."<br/>";*/
+
+/*require 'lib/smarty/Smarty.class.php';
+
+*//**
+ * Enter description here...
+ *
+ * @param unknown_type $params
+ * @param unknown_type $content
+ * @param Smarty $smarty
+ * @param unknown_type $repeat
+ * @return unknown
+ *//*
+function __test__($params, $content, &$smarty, &$repeat){
+	echo intval($repeat)." ".intval(isset($content))."<br />";
+	if(isset($content)){
+		return $content;
+	}else{
+		$cat = null;
+		$num = null;
+		$assign = null;
+		extract($params);
+		$list = MO_Article::getTopList($cat,$num);
+		$smarty->assign_by_ref($assign,$list);		
+	}
+}
+
+$gmt = GSmarty::getInstance("test");
+$gmt->register_block('test','__test__',false);
+$gmt->display("test.html");*/
+
+/*
+$url = "https://usnower.com";
+$url2 = "aaa.com";
+$url3 = "http://www.abcdefa";
+var_dump(GValidate::checkURL($url,array('required'=>true)));
+var_dump(GValidate::checkURL($url2,array('required'=>true)));
+var_dump(GValidate::checkURL($url3,array('required'=>true)));
+*/
+
+
 ?>

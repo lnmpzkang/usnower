@@ -57,3 +57,5 @@ form{margin:0}
 .goInput{font-family: Verdana, Arial, sans-serif;font-weight: bold;	border:1px solid #727731;	color:#727731;	background-color:#fff;cursor:pointer;height: 17px;width: 20px;}
 
 .errMsg{color:red;}
+
+.separatorHr {width:100%;margin:2px 0 2px 0;height:4px;position:relative;background:url(../res/line.h.jpg) repeat-x}

@@ -143,6 +143,11 @@ class MO_Article extends MO {
 		GMysql::query($sql);
 		
 		self::addAlbum($vo->getId(),$vo->getAlbums());
+		
+		//如果以生成XML文件，则删除。
+		$artXMLPath = self::getArtPath($vo->getId());
+		if(is_file($artXMLPath))
+			unlink($artXMLPath);
 	}
 	
 	/**
@@ -217,7 +222,7 @@ class MO_Article extends MO {
 	 * @return array
 	 */
 	
-	public static function getTopList($catId,$num){
+	public static function getTopList($catId,$num,$orderBy = 'IN_TIME DESC'){
 		$map = array(
 			'COME_FROM'	=>	'comeFrom',
 			'IN_TIME'	=>	'inTime',
@@ -231,10 +236,11 @@ class MO_Article extends MO {
 			'CAT_NAME'		=>	'catName',
 			'CAT_PATH'		=>	'catPath'
 		);
-		$sql = sprintf("SELECT * FROM %sV_ART WHERE SHOW_ABLE = TRUE AND FIND_IN_SET(CAT_ID,%sF_ART_SUB_CAT(%d)) ORDER BY IN_TIME DESC LIMIT 0,%d",
+		$sql = sprintf("SELECT * FROM %sV_ART WHERE SHOW_ABLE = TRUE AND FIND_IN_SET(CAT_ID,%sF_ART_SUB_CAT(%d)) ORDER BY %s LIMIT 0,%d",
 												GConfig::DB_PREFIX,
 												GConfig::DB_PREFIX,
 												$catId,
+												$orderBy,
 												$num
 												);
 		$rst = GMysql::query($sql);
@@ -245,6 +251,139 @@ class MO_Article extends MO {
 		}
 		
 		return $list;
+	}
+	
+	/**
+	 * 取得article 的 xml文件在哪个目录下。100个文件一个子目录
+	 *
+	 * @param int $id
+	 * @return string
+	 */
+	public static function getArtPath($id){
+		$id = intval($id);
+		if($id <= 0)
+			throw new GDataException("Invalid Param!");
+		
+		$subDir = intval($id / 100);
+		return PATH_ROOT_ABS."/".GConfig::DIR_XML_ART_STORE."/$subDir/$id.xml";
+	}
+	
+	/**
+	 * Enter description here...
+	 *
+	 * @param int $id
+	 * @return DOMDocument
+	 */
+	public static function exportXML($id){
+		
+		$map = array(
+			'COME_FROM'	=>	'comeFrom',
+			'IN_TIME'	=>	'inTime',
+			'TITLE_COLOR'	=>	'titleColor',
+			'TITLE_B'		=>	'titleB',
+			'TITLE_I'		=>	'titleI',
+			'TITLE_U'		=>	'titleU',
+			'SHOW_ABLE'		=>	'showAble',
+			'COMMENT_ABLE'	=>	'commentAble',
+			'CAT_ID'			=>	'catId',
+			'CAT_NAME'		=>	'catName',
+			'CAT_PATH'		=>	'catPath',
+			'PRE_ID'			=>	'preId',
+			'NEXT_ID'		=>	'nextId',
+			'NEXT_TITLE'	=>	'nextTitle',
+			'PRE_TITLE'		=>	'preTitle'
+		);		
+		
+		$sql = sprintf("SELECT * FROM %sV_ART WHERE ID = %d",GConfig::DB_PREFIX,$id);
+		$rst = GMysql::query($sql);
+		$arr = GMysql::fetchFirstWithMap($rst,$map);
+		mysql_free_result($rst);
+		if($arr === false)
+			return false;
+		
+		$artXMLPath = self::getArtPath($id);
+		if(!is_dir( dirname($artXMLPath) ))
+			GDir::mkpath( dirname($artXMLPath) );
+		
+		$dom = new DOMDocument('1.0', 'utf-8');
+		$root = $dom->createElement("article");
+		$dom->appendChild($root);
+
+		$root->appendChild($dom->createElement('id',$id));
+		
+		if(sizeof($arr) == 0)
+			return;
+		
+		$root->appendChild($dom->createElement("title",$arr["title"]));
+		$root->appendChild($dom->createElement("inTime",$arr["inTime"]));
+		$root->appendChild($dom->createElement("author",$arr["author"]));
+		$root->appendChild($dom->createElement("comeFrom",$arr["comeFrom"]));
+		$root->appendChild($dom->createElement("titleColor",$arr["titleColor"]));
+		$root->appendChild($dom->createElement("titleB",$arr["titleB"]));
+		$root->appendChild($dom->createElement("titleI",$arr["titleI"]));
+		$root->appendChild($dom->createElement("titleU",$arr["titleU"]));
+		$root->appendChild($dom->createElement("showAble",$arr["showAble"]));
+		$root->appendChild($dom->createElement("commentAble",$arr["commentAble"]));
+		$root->appendChild($dom->createElement("catId",$arr["catId"]));
+		$root->appendChild($dom->createElement("catName",$arr["catName"]));
+		$root->appendChild($dom->createElement("catPath",$arr["catPath"]));
+		$root->appendChild($dom->createElement("albums",$arr["albums"]));
+		$root->appendChild($dom->createElement("keywords",$arr["keywords"]));
+		
+		$root->appendChild($dom->createElement("preId",$arr["preId"]));
+		$root->appendChild($dom->createElement("nextId",$arr["nextId"]));
+		$root->appendChild($dom->createElement("preTitle",$arr["preTitle"]));
+		$root->appendChild($dom->createElement("nextTitle",$arr["nextTitle"]));
+		
+		$content = $dom->createElement("content");
+		$content->appendChild($dom->createCDATASection(self::getContent($id)));
+		$root->appendChild($content);
+		
+		$dom->save($artXMLPath);
+		unset($content);
+		unset($root);
+		return $dom;
+	}
+	
+	public static function updateAndGetClick($id){
+		$sql = sprintf("SELECT %sF_ART_CLICK(%d)",GConfig::DB_PREFIX, $id);
+		$rst = GMysql::query($sql);
+		$arr = GMysql::fetchRow($rst);
+		mysql_free_result($rst);
+		return $arr[0];
+	}
+	
+	public static function getPreAndNext($id){
+		//myql 不支持全连接，所以只好这样写了！
+		$sql = sprintf("
+			SELECT
+			  (SELECT ID FROM %sART WHERE SHOW_ABLE = TRUE AND ID > A.ID ORDER BY ID ASC LIMIT 1) AS NEXT_ID,
+			  (SELECT TITLE FROM %sART WHERE SHOW_ABLE = TRUE AND ID > A.ID ORDER BY ID ASC LIMIT 1 ) AS NEXT_TITLE,
+			  (SELECT ID FROM %sART WHERE SHOW_ABLE = TRUE AND ID < A.ID ORDER BY ID DESC LIMIT 1) AS PRE_ID,
+			  (SELECT TITLE FROM %sART WHERE SHOW_ABLE = TRUE AND ID < A.ID ORDER BY ID DESC LIMIT 1) AS PRE_TITLE
+			FROM
+			  %sART A
+			WHERE A.ID = %d",
+			GConfig::DB_PREFIX,
+			GConfig::DB_PREFIX,
+			GConfig::DB_PREFIX,
+			GConfig::DB_PREFIX,
+			GConfig::DB_PREFIX,
+			$id
+		);
+		
+		$map = array(
+			'NEXT_ID'	=>	'nextId',
+			'NEXT_TITLE'=>	'nextTitle',
+			'PRE_ID'		=>	'preId',
+			'PRE_TITLE'	=>	'preTitle'
+		);
+		
+		$rst = GMysql::query($sql);
+		$arr = GMysql::fetchAssocWithMap($rst,$map);
+		
+		mysql_free_result($rst);
+		return $arr;
 	}
 }
 

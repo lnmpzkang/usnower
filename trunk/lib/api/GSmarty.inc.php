@@ -13,6 +13,7 @@ class GSmarty{
 		$smt->register_block("design","__design__");
 		$smt->register_block("artList","__artList__",false);
 		$smt->register_block("bagList","__bagList__",false);
+		$smt->register_block('msg','__msg__',false);
 		
 		$smt->template_dir = PATH_ROOT_ABS."/".GConfig::DIR_TPL;
 		$smt->cache_dir = PATH_ROOT_ABS."/".GConfig::DIR_TPL_CACHED."/".$subDir;
@@ -27,11 +28,11 @@ class GSmarty{
 	}
 }
 
-function __token__($params){
+function __token__($params,&$smarty){
 	$form = null;
 	extract($params);
 	if($form == null || trim($form) == "")
-		Smarty::trigger_error("Attribute : form required!");
+		$smarty->trigger_error("Attribute : form required!");
 	else
 		echo GToken::newToken($form);
 }
@@ -101,6 +102,20 @@ function __bagList__($params,$content,&$smarty){
 		$list = MO_Bag::getTopList($cat,$num);
 		$smarty->assign_by_ref($assign,$list);		
 	}	
+}
+
+/**
+ * Enter description here...
+ *
+ * @param unknown_type $params
+ * @param Smarty $smarty
+ */
+function __msg__($params,$content,&$smarty){
+	if(isset($content)){
+		return $content;
+	}else{
+		
+	}
 }
 
 ?>

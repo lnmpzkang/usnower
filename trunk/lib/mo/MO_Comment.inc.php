@@ -49,7 +49,7 @@ class MO_Comment extends MO {
 	 *
 	 * @param GPagination $page
 	 */
-	public static function getList(&$page){
+	public static function getList(&$page,$where = 'TRUE'){
 		$sql = sprintf("
 					SELECT
 					  A.*,
@@ -61,12 +61,16 @@ class MO_Comment extends MO {
 					FROM
 					  %sCOMMENT A LEFT JOIN
 					  %sART B ON A.FOR_ID = B.ID LEFT JOIN
-					  %sBAG C ON A.FOR_ID = C.ID		
+					  %sBAG C ON A.FOR_ID = C.ID
+					WHERE
+						%s	
 					ORDER BY A.IN_TIME DESC
 		",
 		GConfig::DB_PREFIX,
 		GConfig::DB_PREFIX,
-		GConfig::DB_PREFIX);
+		GConfig::DB_PREFIX,
+		$where
+		);
 		
 		$page->setQuery($sql);
 		$rst = $page->process();
@@ -89,6 +93,65 @@ class MO_Comment extends MO {
 		}
 		mysql_free_result($rst);
 		return $list;
+	}
+	
+	public static function getCommentPath($forId,$tag){
+		$forId = intval($forId);
+		if($forId <= 0){
+			throw new GDataException("Invalid Param!");
+		}
+		$subDir = intval($forId / 100);
+		return PATH_ROOT_ABS."/".GConfig::DIR_XML_CMT_STORE."/$tag/$subDir/$forId.xml";
+	}
+	
+	public static function exportXML($forId,$tag){
+		$sql = sprintf("SELECT *,INET_NTOA(IP) AS IP_STRING FROM %sCOMMENT WHERE SHOW_ABLE = TRUE AND TAG = '%s' AND FOR_ID = %d",
+												GConfig::DB_PREFIX,
+												$tag,
+												$forId
+							);
+		$rst = GMysql::query($sql);
+		
+		if(mysql_num_rows($rst) <= 0)
+			return false;
+		
+		$map = array(
+			'IN_TIME'	=>	'inTime',
+			'IP_STRING'	=>	'ip',
+			'FOR_ADMIN'	=>	'forAdmin'
+		);
+		
+		
+		$dom = new DOMDocument('1.0','utf-8');
+		$root = $dom->createElement('comment');
+		$dom->appendChild($root);
+		$root->setAttribute('tag',$tag);
+		$root->setAttribute('forId',$forId);
+		
+		while ($arr = GMysql::fetchAssocWithMap($rst,$map)){
+			$cmt = $dom->createElement('cmt');
+			$root->appendChild($cmt);
+			$cmt->setAttribute('IP',$arr['ip']);
+			$cmt->setAttribute('Name',$arr['name']);
+			$cmt->setAttribute('Email',$arr['email']);
+			$cmt->setAttribute('Http',$arr['http']);
+			$cmt->setAttribute('forAdmin',$arr['forAdmin']);
+			
+			if($arr['forAdmin'] == true)
+				$content = $dom->createCDATASection('This message is for admin!');
+			else
+				$content = $dom->createCDATASection($arr['content']);
+			
+			$cmt->appendChild($content);
+		}
+		
+		$dir = self::getCommentPath($forId,$tag);
+		if(!is_dir($dir))
+			GDir::mkpath( dirname($dir));
+			
+		$dom->save($dir);
+		unset($root);
+		return $dom;
 	}
 }
 

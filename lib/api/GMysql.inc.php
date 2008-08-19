@@ -115,12 +115,19 @@ class GMysql {
 		}
 	}
 	
+	/**
+	 * 如果有结果集，返回第一条，否则返回 false
+	 *
+	 * @param unknown_type $rst
+	 * @param unknown_type $map
+	 * @return unknown
+	 */
 	public static function fetchFirstWithMap($rst,$map){
-		$arr = array();
 		if(mysql_num_rows($rst) > 0){
 			$arr = self::fetchAssocWithMap($rst,$map);
+			return $arr;
 		}
-		return $arr;	
+		return false;	
 	}
 }
 

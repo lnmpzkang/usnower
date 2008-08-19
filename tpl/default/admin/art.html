@@ -178,7 +178,7 @@ var initWin = function(){
 
 var artCat_ondblclick = function(){
 	document.form1.category.value = JObj.Xml.getNodeAtt( jtree.selectNode,"id" );
-	JObj.$("selectedCat").innerHTML = JObj.Xml.getNodeAtt( jtree.selectNode ,"catPath").split("|")[0] + " > " + JObj.Xml.getNodeAtt(jtree.selectNode,"name");
+	JObj.$("selectedCat").innerHTML = JObj.Xml.getNodeAtt( jtree.selectNode ,"catPath").split("|")[0];// + " > " + JObj.Xml.getNodeAtt(jtree.selectNode,"name");
 	jwin.hidden();
 }
 

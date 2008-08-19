@@ -4,27 +4,10 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <title>menu</title>
-   {design}
-    <link href="../css/adminCommon.css" rel="stylesheet" type="text/css"/>
-    <link href="../css/adminFun.css" rel="stylesheet" type="text/css"/>
-    <script language="javascript" type="text/javascript" src="../../../JObj/JObj.js"></script>
-   {/design}
-    <link href="{const key="PATH_ROOT_RELATIVE"}tpl/default/css/adminCommon.css" rel="stylesheet" type="text/css">
-    <link href="{const key="PATH_ROOT_RELATIVE"}tpl/default/css/adminFun.css" rel="stylesheet" type="text/css">
-    <script type="text/javascript" src="{const key='PATH_ROOT_RELATIVE'}JObj/JObj.js"></script>
+    <script type="text/javascript" src="JObj.js"></script>
 </head>
 
-<body>
-<div class="btnGrp_sliveGray floatRight">
-    <div class="left"></div>
-    <div class="body">Login</div>
-    <div class="separator"></div>
-    <div class="body">Register</div>
-    <div class="right"></div>
-</div>
-<div id="showMenu" class="clearBoth">
-<div class="separatorHr"></div>
-</div>
+<body>
 <span id="menuSource"><!--
     <l caption="Control Center">
         <l caption="Article System">
@@ -38,12 +21,9 @@
 			<l caption="Add Bag" url="bag.php" />
 			<l caption="All Bag" url="bagList.php" />
 		</l>
-		<l caption="Comment">
-			<l caption="All not checked..." url="cmt.php?action={token form='notPassed'}" />
-		</l>
     </l>
 --></span>
-{literal}
+
 <script>
     JObj.plugin("JTree");
 
@@ -60,6 +40,6 @@
     }
     mt.create();
 </script>
-{/literal}
+
 </body>
 </html>

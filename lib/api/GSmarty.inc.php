@@ -11,8 +11,8 @@ class GSmarty{
 		$smt->register_function("const","__const__");
 		$smt->register_function("token","__token__",false);
 		$smt->register_block("design","__design__");
-		$smt->register_function("artList","__artList__");
-		$smt->register_function("bagList","__bagList__");
+		$smt->register_block("artList","__artList__",false);
+		$smt->register_block("bagList","__bagList__",false);
 		
 		$smt->template_dir = PATH_ROOT_ABS."/".GConfig::DIR_TPL;
 		$smt->cache_dir = PATH_ROOT_ABS."/".GConfig::DIR_TPL_CACHED."/".$subDir;
@@ -59,12 +59,29 @@ function __design__(){
  * @param unknown_type $repeat
  * @return unknown
  */
-function __artList__($params,&$smarty){
+function __artList__($params,$content,&$smarty){
+	if(isset($content)){
+		return $content;
+	}else{
 		$cat = null;
 		$num = null;
+		$assign = null;
 		extract($params);
-		$list = MO_Article::getTopList($cat,$num);
-		$smarty->assign_by_ref($params["assign"],$list);
+		if(!isset($params['orderBy']))
+			$orderBy = 'time';
+		
+		$order = array(
+			'time'	=>	'IN_TIME DESC',
+			'click'	=>	'CLICK DESC'
+		);
+		
+		$orderType = $order[$orderBy];
+		
+		$orderType == null ? $orderType = 'IN_TIME DESC' : null; 
+		
+		$list = MO_Article::getTopList($cat,$num,$orderType);
+		$smarty->assign_by_ref($assign,$list);		
+	}
 }
 /**
  * Enter description here...
@@ -73,12 +90,17 @@ function __artList__($params,&$smarty){
  * @param Smarty $smarty
  */
 
-function __bagList__($params,&$smarty){
-	$cat = null;
-	$num = null;
-	extract($params);
-	$list = MO_Bag::getTopList($cat,$num);
-	$smarty->assign_by_ref($params["assign"],$list);
+function __bagList__($params,$content,&$smarty){	
+	if(isset($content)){
+		return $content;
+	}else{
+		$cat = null;
+		$num = null;
+		$assign = null;
+		extract($params);
+		$list = MO_Bag::getTopList($cat,$num);
+		$smarty->assign_by_ref($assign,$list);		
+	}	
 }
 
 ?>

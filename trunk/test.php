@@ -258,5 +258,18 @@ var_dump(GValidate::checkURL($url2,array('required'=>true)));
 var_dump(GValidate::checkURL($url3,array('required'=>true)));
 */
 
+/*function aa($dec){
+	$utf = chr(224 + (($dec - ($dec % 4096)) / 4096));
+	$utf .= chr(128 + ((($dec % 4096) - ($dec % 64)) / 64));
+	$utf .= chr(128 + ($dec % 64));
+	return $utf;
+}
+echo aa(20013).aa(22269);*/
 
+
+/*$str = urldecode("&#20013;&#22269;&#35821;&#35328;&#25991;");
+$test = preg_replace('/(\&\#)(\d{5});/mise',"iconv('UCS-2','GBK',pack('H4',dechex(\\2)) )",$str);
+echo $test;*/
+
+echo date('Ymd H:i:s');
 ?>

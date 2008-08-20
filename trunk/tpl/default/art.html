@@ -5,6 +5,7 @@
 <title>{$art.title}  {const scope="GConfig" key="WEBSITE_NAME"}</title>
 <link href="{const key='PATH_ROOT_RELATIVE'}tpl/default/css/common.css" rel="stylesheet" type="text/css" />
 <link href="{const key='PATH_ROOT_RELATIVE'}tpl/default/css/art.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="{const key='PATH_ROOT_RELATIVE}JObj/JObj.js"></script>
 {design}
 <link href="css/common.css" rel="stylesheet" type="text/css" />
 <link href="css/art.css" rel="stylesheet" type="text/css" />
@@ -69,8 +70,8 @@
 				
 				{if $art.commentAble eq 1}
 				<div>
-				{if $msg != null}<div class="errMsg">{$msg}</div>{/if}
-				<form action="{$smarty.server.PHP_SELF}" method="post">
+				{msg}{if $msg != null}<div class="errMsg">{$msg}</div>{/if}{/msg}
+				<form action="{$smarty.server.REQUEST_URI}" method="post">
 				<input type="hidden"  name="token" value="{token form='comment'}" />
 				<input type="hidden" name="forId" value="{$art.id}"  />
 				<label>Name:<input type="text" name="name" /></label><br />
@@ -80,6 +81,10 @@
 				<input type="submit"><label><input type="checkbox" name="forAdmin" />Only for admin</label>
 				</form>				
 				</div>{/if}
+				<div id="cmt"></div>
+				<div>
+				
+				</div>
 			</div>
 	
 			</div>
@@ -96,5 +101,30 @@
 
 <div class="clearBoth"></div>
 {include file="footer.html"}
+<script>
+var cmtPath = "{const key='PATH_ROOT_RELATIVE'}cmt.php?token={token form='getComment'}&id={$art.id}&tag=A";
+</script>
+{literal}
+<script>
+var cmt = JObj.$("cmt");
+cmt.innerHTML = "Read comments...";
+var cmt_onsuccess = function(http,status){
+		if(status == 200){
+			var root = http.responseXML.documentElement;
+			if(root.firstChild.nodeName == "error"){
+				cmt.innerHTML = JObj.Xml.getNodeAtt(root.firstChild,"msg");
+			}else{
+				var cmtList = JObj.Xml.extractNodes(root);
+				alert(cmtList.length);
+			}
+		}
+}
+JObj.Ajax.send({
+	url:cmtPath,
+	async:false,
+	onSuccess:cmt_onsuccess
+});
+</script>
+{/literal}
 </body>
 </html>

@@ -104,6 +104,14 @@ class MO_Comment extends MO {
 		return PATH_ROOT_ABS."/".GConfig::DIR_XML_CMT_STORE."/$tag/$subDir/$forId.xml";
 	}
 	
+	
+	/**
+	 * Enter description here...
+	 *
+	 * @param unknown_type $forId
+	 * @param unknown_type $tag
+	 * @return DOMDocument
+	 */
 	public static function exportXML($forId,$tag){
 		$sql = sprintf("SELECT *,INET_NTOA(IP) AS IP_STRING FROM %sCOMMENT WHERE SHOW_ABLE = TRUE AND TAG = '%s' AND FOR_ID = %d",
 												GConfig::DB_PREFIX,
@@ -152,6 +160,12 @@ class MO_Comment extends MO {
 		$dom->save($dir);
 		unset($root);
 		return $dom;
+	}
+	
+	public static function refreshComment($tag,$forId){
+		$path = self::getCommentPath($forId,$tag);
+		if(is_file($path))
+			unlink($path);
 	}
 }
 

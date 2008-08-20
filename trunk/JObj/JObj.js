@@ -90,6 +90,19 @@ var JObj = {};
         return evt;
     }
 
+    $.addEvent = function(obj,type,fun){
+        obj = $.$(obj);
+        if(obj.attachEvent){
+            if(! /^on/.test(type))
+                type = 'on' + type;
+            obj.attachEvent(type,fun);
+        }else if(obj.addEventListener){
+            if(/^on/.test(type))
+                type = type.substr(2);
+            obj.addEventListener(type,fun,false);
+        }
+    }
+
     /*------------------------*/
     var LOADEDMODULE = {};
 

@@ -60,7 +60,7 @@ JObj.UI.JDrag = {};
 
 
 	var dragArea_mousedown = function(obj,dragArea){
-		try{
+        try{
 			if(document.selection){//IE ,Opera
 				if(document.selection.empty)
 					document.selection.empty();//IE
@@ -98,9 +98,12 @@ JObj.UI.JDrag = {};
 		var dragArea = JObj.$(arguments[1]) || obj;
 
 		if(arguments[2] !== false){
-			dragArea.onmousedown = JObj.doFunction(dragArea_mousedown,obj,dragArea);
-			obj.onmousedown = JObj.doFunction(changeZIndex,obj);
-		}else{
+			//dragArea.onmousedown = JObj.doFunction(dragArea_mousedown,obj,dragArea);
+			//obj.onmousedown = JObj.doFunction(changeZIndex,obj);
+
+            JObj.addEvent(dragArea,'mousedown',JObj.doFunction(dragArea_mousedown,obj,dragArea));
+            JObj.addEvent(obj,'mousedown',JObj.doFunction(changeZIndex,obj));
+        }else{
 			dragArea.onmousedown = "";
 			obj.onmousedown = "";
 		}

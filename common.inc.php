@@ -20,8 +20,6 @@ $includePath = array(
 
 set_include_path(join(DIRECTORY_SEPARATOR == "/" ? ":" : ";",$includePath));
 
-date_default_timezone_set(GConfig::TIMEZONE);
-
 /**
  * 自动载入.
  *
@@ -55,6 +53,8 @@ function __showMsg($e){
 }
 
 set_exception_handler("__showMsg");
+
+date_default_timezone_set(GConfig::TIMEZONE);
 
 session_start();
 ?>

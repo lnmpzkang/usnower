@@ -5,9 +5,13 @@ include '../lib/smarty/Smarty.class.php';
 $token = $_POST['token'];
 if(GToken::isToken($token,'editCmt',true)){
 	//var_dump($_POST);
+	
 	$pass = $_POST['pass'];
 	$delete = $_POST['delete'];
 	$unpass = $_POST['unpass'];
+	$update = $_POST['update'];
+	
+	//$update = 'A:1,1,2,2,3|B:4,5,6';
 	
 	if(is_array($pass)){
 		foreach ($pass as $item){
@@ -24,6 +28,19 @@ if(GToken::isToken($token,'editCmt',true)){
 	if(is_array($unpass)){
 		foreach ($unpass as $item){
 			MO_Comment::unpass($item);
+		}
+	}
+	
+	$update = explode('|',$update);
+	foreach ($update as $upd){
+		
+		$tmp = explode(':',$upd);
+		$tag = $tmp[0];
+		$forIds = explode(',',$tmp[1]);
+		$forIds = array_unique($forIds);
+
+		foreach ($forIds as $forId){
+			MO_Comment::refreshComment($tag,$forId);
 		}
 	}
 	

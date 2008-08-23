@@ -1,0 +1,25 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>无标题文档</title>
+<script src="JObj.js"></script>
+</head>
+
+<body>
+<script language="javascript" type="text/javascript">
+var xmlString = '<l caption="aa"><l caption="bb"><l caption="cc"></l></l></l>';
+var dom = JObj.Xml.loadXML(xmlString);
+
+if(JObj.Browser.ie){
+	var nodes = dom.selectSingleNode("//*[@caption!='aa']");
+	alert(nodes);
+	bb();
+}else{
+	//var nodes = dom.evaluate("//*[count(*)>=0]",dom, null, XPathResult.ANY_TYPE, null);
+	var nodes = dom.evaluate("count(//*[@caption!='aa'])",dom, null, XPathResult.NUMBER_TYPE, null);
+	alert(nodes.numberValue);
+}
+</script>
+</body>
+</html>

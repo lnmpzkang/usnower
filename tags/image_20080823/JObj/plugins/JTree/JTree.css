@@ -1,0 +1,18 @@
+﻿.JTree{
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	color: #CCCCCC;
+}
+.JTree .caption{
+	
+}
+.JTree .captionActive{
+	color: #000000;
+	background-color: #FFFFCC;
+	cursor:default;	
+}
+.JTree .captionHighLight{
+	color: #FFFFFF;
+	background-color: #999999;
+	cursor:default;
+}

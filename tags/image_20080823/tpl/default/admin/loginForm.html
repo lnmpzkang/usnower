@@ -1,0 +1,19 @@
+﻿<div class="outer loginForm">
+	<div class="inner">
+		<div class="container">
+			<div class="title">Sign In</div>
+			<div class="lineH"></div>
+
+			<div>
+				<form action="{$smarty.server.PHP_SELF}" method="post">
+				<input name="token" type="hidden" value="{token form='adminLogin'}" />
+				<div class="field"><label>Login Name:</label><input name="admin" type="text" value="{$smarty.post.admin}" /></div>
+				<div class="field"><label>Password:</label><input name="pwd" type="password" value="" /></div>
+				<div class="field"><label>　　</label><input type="submit" value="Login!"  /></div>
+				{$msg}
+				</form>
+			</div>
+			
+		</div>
+	</div>
+</div>

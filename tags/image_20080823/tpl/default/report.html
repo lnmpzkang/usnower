@@ -1,0 +1,51 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>PHP 生成XLS测试</title>
+<style>
+input[type=text]{width:150px;}
+</style>
+</head>
+
+<body>
+<input type="button" value="Add" onclick="vControl('ADD')" />
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+	<tr>
+		<td>姓名</td>
+		<td>性别</td>
+		<td>出生年月</td>
+		<td>电话</td>
+		<td>Email</td>
+		<td>语文</td>
+		<td>数学</td>
+		<td>英文</td>
+	</tr>
+	<tr id="tpl">
+		<td><input type="text" name="name[0]" id="name[0]" /></td>
+		<td><label>
+			<input type="radio" name="sex[0]" id="radio" value="m" />
+		男</label>
+			<label>
+			<input type="radio" name="sex[0]" id="radio2" value="f" />
+		女</label></td>
+		<td><input type="text" name="birthday[0]" id="birthday[0]" /></td>
+		<td><input type="text" name="phone[0]" id="phone[0]" /></td>
+		<td><input type="text" name="email[0]" id="email[0]" /></td>
+		<td><input type="text" name="scoreA[0]" id="scoreA[0]" /></td>
+		<td><input type="text" name="scoreB[0]" id="scoreB[0]" /></td>
+		<td><input type="text" name="scoreC[0]" id="scoreC[0]" /></td>
+	</tr>
+</table>
+<script>
+var vControl = function(pChoice){
+	switch(pChoice){
+		case "ADD":
+			var tpl = JObj.$("tpl");
+			tpl.parentNode.appendChild(tpl.cloneNode,true);
+			break;
+	}
+}
+</script>
+</body>
+</html>

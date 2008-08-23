@@ -1,0 +1,67 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Bag List</title>
+	{design}
+    <link href="../css/adminCommon.css" rel="stylesheet" type="text/css"/>
+    <link href="../css/adminFun.css" rel="stylesheet" type="text/css"/>
+    <script language="javascript" type="text/javascript" src="../../../JObj/JObj.js"></script>
+	{/design}
+    <link href="{const key="PATH_ROOT_RELATIVE"}tpl/default/css/adminCommon.css" rel="stylesheet" type="text/css">
+    <link href="{const key="PATH_ROOT_RELATIVE"}tpl/default/css/adminFun.css" rel="stylesheet" type="text/css">
+    <script type="text/javascript" src="{const key="PATH_ROOT_RELATIVE"}JObj/JObj.js"></script>
+</head>
+
+<body>
+<div class="btnGrp_sliveGray">
+	<div class="left"></div>
+	<div class="body"><a href="javascript:if(confirm('Are you shure delete selected bags?')) document.form1.submit()">Delete selected</a></div>
+	<div class="separator"></div>
+	<div class="body">Add</div>
+	<div class="right"></div>
+</div>
+<div class="clearBoth"></div>
+<div class="separatorHr"></div>
+<form action="{$action}" method="post" name="form1">
+<input type="hidden" name="token" value="{token form='deleteBagInIds'}" />
+<input type="hidden" name="url" value="{$smarty.server.REQUEST_URI}" />
+<table>
+  <tr>
+    <td>ID</td>
+    <td>Name</td>
+    <td>Style NO</td>
+    <td>Category</td>
+    <td>Main Fabric</td>
+    <td>Size</td>
+    <td>In time</td>
+    <td>Action</td>
+  </tr>
+  {section name="idx" loop=$bagList}
+  <tr>
+    <td>{$bagList[idx].id}&nbsp;</td>
+    <td>{$bagList[idx].name}</td>
+    <td>{$bagList[idx].no}&nbsp;</td>
+    <td>{$bagList[idx].catName}&nbsp;</td>
+    <td>{$bagList[idx].fabric}&nbsp;</td>
+    <td>{$bagList[idx].sizeL} * {$bagList[idx].sizeW} * {$bagList[idx].sizeH}&nbsp;</td>
+    <td>{$bagList[idx].inTime}&nbsp;</td>
+    <td>
+                    <div class="btnGrp_sliveGray">
+                        <div class="left"></div>
+                        <div class="body"><label><input type="checkbox"  value="{$bagList[idx].id}" name="delete[]" />Delete?<label></div>
+                        <div class="separator"></div>
+                        <div class="body"><a href="bag.php?id={$bagList[idx].id}&token={token form='getBag'}">Edit?</a></div>
+                        <div class="separator"></div>
+                        <div class="body">View</div>
+
+                        <div class="right"></div>
+                    </div>	</td>
+  </tr>
+  {/section}
+</table>
+</form>
+<div class="separatorHr"></div>
+{include file="page.html"}
+</body>
+</html>

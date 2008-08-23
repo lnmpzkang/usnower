@@ -1,0 +1,155 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>Bag Category</title>
+	{design}
+    <link href="../css/adminCommon.css" rel="stylesheet" type="text/css"/>
+    <link href="../css/adminFun.css" rel="stylesheet" type="text/css"/>
+    <script language="javascript" type="text/javascript" src="../../../JObj/JObj.js"></script>
+	{/design}
+    <link href="{const key="PATH_ROOT_RELATIVE"}tpl/default/css/adminCommon.css" rel="stylesheet" type="text/css">
+    <link href="{const key="PATH_ROOT_RELATIVE"}tpl/default/css/adminFun.css" rel="stylesheet" type="text/css">
+    <script type="text/javascript" src="{const key="PATH_ROOT_RELATIVE"}JObj/JObj.js"></script>
+	{literal}
+	<style>
+	<!--
+	.JTree .caption{color: #333333;	}
+	-->
+	</style>
+	{/literal}
+</head>
+
+<body>
+<div class="btnGrp_sliveGray">
+    <div class="left"></div>
+    <div class="body"><a href="javascript:void(0)" onclick="javascript:showWin(this,'GOTO')">Goto Category...</a></div>
+    <div class="separator"></div>
+    <div class="body"><a href="javascript:addNew()">Add</a></div>
+    <div class="separator"></div>
+    <div class="body"><a href="{$action}?token={token form='refreshBagCat'}">Force Refresh</a></div>
+    <div class="separator"></div>
+    <div class="body">Back</div>
+    <div class="right"></div>
+</div>
+<div class="clearBoth">
+    <form action="{$smarty.server.PHP_SELF}" method="post" name="form1">
+        <input type="hidden" name="token" value="{token form='bagCategory'}" />
+        <table border="0">
+            <tr>
+                <td>ID</td>
+                <td>Category Name</td>
+                <td>Parent Category Name</td>
+                <td>Sub Category Num</td>
+                <td>Bag Num</td>
+                <td>Delete</td>
+            </tr>
+			{counter start=-1 print=false}
+			{section name=idx loop=$bagCat}
+			{counter assign="idx_" print=false}
+            <tr>
+                <td>{$bagCat[idx].id}<input type="hidden" name="id[{$idx_}]" value="{$bagCat[idx].id}"/></td>
+                <td><input type="text" name="name[{$idx_}]" value="{$bagCat[idx].name}"/><input type="hidden" name="_name[{$idx_}]" value="{$bagCat[idx].name}"/></td>
+                <td>
+                    <div class="btnGrp_sliveGray">
+                        <div class="left"></div>
+                        <!--<div class="body"><a href="javascript:void(0)" onclick="javascript:showWin(this,'FAID','{$bagCat[idx].name}',{$bagCat[idx].id})">{$bagCat[idx].namepath|default:"Top Level"}</a></div>-->
+                        <div class="body">{$bagCat[idx].namepath|default:"Top Level"}</div>
+                        <div class="separator"></div>
+                        <div class="body">Reset</div>
+                        <div class="right"></div>
+                    </div>
+                    <input type="hidden" name="faId[{$idx_}]" value="{$bagCat[idx].fa_id}"/>
+                    <input type="hidden" name="_faId[{$idx_}]" value="{$bagCat[idx].fa_id}"/>
+                </td>
+                <td>{$bagCat[idx].sub_num}&nbsp;</td>
+                <td>{$bagCat[idx].bag_num|default:0}&nbsp;</td>
+                <td>{if $bagCat[idx].sub_num eq 0 && $bagCat[idx].bag_num eq 0}<input name="delete[]" value="{$bagCat[idx].id}" type="checkbox" />{/if}</td>
+            </tr>
+            {/section}
+			{counter assign="idx_" print=false}
+            <tr id="newTr">
+                <td>*</td>
+                <td><input type="text" name="name[{$idx_}]" value=""/></td>
+                <td colspan="4">
+                    <div class="btnGrp_sliveGray">
+                        <div class="left"></div>
+                        <div class="body"><a href="javascript:void(0)" onclick="showWin(this,'FAID',{$idx_})">Select Parent Category...</a></div>
+                        <div class="separator"></div>
+                        <div class="body">Clear</div>
+                        <div class="right"></div>
+                    </div>
+                    <input type="hidden" name="faId[{$idx_}]" value=""/>
+                </td>
+            </tr>
+        </table>                
+        <input type="hidden" name="fatherid" value="{$fatherid|default:0}" />
+        <input type="submit" value="Submit"/>
+		{if $msg ne ""}
+		<div>{$msg}</div>
+		{/if}
+    </form>
+</div>
+<span id="bagCatXML"><!--{$bagCatXML}--></span>
+<div id="showArtCatTree"></div>
+<script> var idx = {$idx_};</script>
+{literal}
+<script>
+    var addNew = function() {
+        var tpl = JObj.$("newTr");
+        var tr = tpl.cloneNode(true);
+        tr.removeAttribute("id");
+        tpl.parentNode.appendChild(tr);
+        tr.innerHTML = (tr.innerHTML.replace(/\[(\d*)\]/g, "[" + ++idx + "]"));
+    }
+
+    JObj.plugin("JWin", false);
+    JObj.plugin("JTree", false);
+
+    var jwin = null;
+	var jtree = null;
+
+	var jtree_ondblclick_goto = function(){
+		var faId = JObj.Xml.getNodeAtt(jtree.selectNode,"id");
+        window.location.href = "?fatherid=" + faId;
+    }
+
+	var jtree_ondblclick_faid = function(obj,idx){
+		try{
+        var catPath = JObj.Xml.getNodeAtt(jtree.selectNode,"catPath");
+        var faId = JObj.Xml.getNodeAtt(jtree.selectNode,"id");
+
+        var arr = catPath.split("|");
+		var namePath = arr[0];
+
+        //alert(document.form1["faId[" + idx + "]"].value);
+        document.form1["faId[" + idx + "]"].value = faId;
+        obj.innerHTML = namePath + JObj.Xml.getNodeAtt(jtree.selectNode,"name");
+        jwin.hidden();
+		}catch(e){
+			alert(e.message);
+		}
+	}
+
+    var showWin = function(obj,type,idx){
+        if(jwin == null){
+            jwin = JObj.Plugin.JWin.getInstance(500,300);
+            jwin.setTitle("Usnower...");
+            jwin.setSysButtons(false,true,true);
+			jtree = JObj.Plugin.JTree.getInstance("showArtCatTree");
+			jtree.loadFromString(  JObj.$("bagCatXML").innerHTML.replace(/((<!--)|(-->))/g,"").trim() );
+            jtree.CAPTIONATT = "name";
+            jtree.create();
+			jwin.setBody(JObj.$("showArtCatTree"));
+            jwin.setDrag(true);
+        }
+        if(type == "FAID") jtree.ondblclick = JObj.doFunction(jtree_ondblclick_faid,obj,idx);
+        else if(type == "GOTO") jtree.ondblclick = JObj.doFunction(jtree_ondblclick_goto);
+        jwin.setStatus("");
+        jwin.showModal();
+    }
+</script>
+{/literal}
+</body>
+</html>

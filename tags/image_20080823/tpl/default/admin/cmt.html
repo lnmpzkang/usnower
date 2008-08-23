@@ -1,0 +1,108 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Comment {const scope='GConfig' key='WEBSITE_NAME'}</title>
+	{design}
+    <link href="../css/adminCommon.css" rel="stylesheet" type="text/css"/>
+    <link href="../css/adminFun.css" rel="stylesheet" type="text/css"/>
+    <script language="javascript" type="text/javascript" src="../../../JObj/JObj.js"></script>
+	{/design}
+    <link href="{const key="PATH_ROOT_RELATIVE"}tpl/default/css/adminCommon.css" rel="stylesheet" type="text/css">
+    <link href="{const key="PATH_ROOT_RELATIVE"}tpl/default/css/adminFun.css" rel="stylesheet" type="text/css">
+    <script type="text/javascript" src="{const key="PATH_ROOT_RELATIVE"}JObj/JObj.js"></script>
+</head>
+
+<body>
+<div class="btnGrp_sliveGray">
+	<div class="left"></div>
+	<div class="body cursorPointer" onclick="vControl('DOSUBMIT',document.form1)">Submit</div>
+	<div class="separator"></div>
+	<div class="body cursorPointer" onclick="document.form1.reset()">Reset</div>
+	<div class="separator"></div>
+	<div class="body cursorPointer" onclick="history.back()">Back to List</div>
+	<div class="right"></div>
+</div>
+<div class="clearBoth"></div>
+<div class="separatorHr"></div>
+<form name="form1" action="{$smarty.server.PHP_SELF}" method="post" onsubmit="return vControl('SUBMIT',this)">
+<input type="hidden" name="token" value="{token form='editCmt'}" />
+<input type="hidden" name="url" value="{$smarty.server.REQUEST_URI}" />
+<table>
+  <tr>
+    <td>ID</td>
+    <td>For</td>
+    <td>Name</td>
+    <td>Email</td>
+    <td>Http</td>
+    <td>Content</td>
+	<td>IP</td>
+	<td>In Time</td>
+    <td>Action</td>
+  </tr>
+  {section name="idx" loop=$cmtList}
+  <tr>
+    <td>{$cmtList[idx].id}</td>
+    <td><a href="{$cmtList[idx].forUrl}" target="view">{$cmtList[idx].forTitle}</a></td>
+    <td>{$cmtList[idx].name}</td>
+    <td>{$cmtList[idx].email}</td>
+    <td>{$cmtList[idx].http}</td>
+    <td>{$cmtList[idx].content}</td>	
+	<td>{$cmtList[idx].ip}</td>
+	<td>{$cmtList[idx].inTime}</td>
+    <td><a href="#">Forbid IP</a>&nbsp;
+		{if $action == 'notPassed'}<label><input type="checkbox" value="{$cmtList[idx].id}" name="pass[]" tag="['{$cmtList[idx].tag}',{$cmtList[idx].forId}]" />Pass</label>{/if}
+		{if $action == 'passed'}<label><input type="checkbox" value="{$cmtList[idx].id}" name="unpass[]" tag="['{$cmtList[idx].tag}',{$cmtList[idx].forId}]" />Unpass</label>{/if}
+		<label><input type="checkbox" name="delete[]" value="{$cmtList[idx].id}" tag="['{$cmtList[idx].tag}',{$cmtList[idx].forId}]" />Delete</label>
+	</td>
+  </tr>
+  {/section}
+</table>
+<input type="hidden" name="update" />
+</form>
+<div class="separatorHr"></div>
+{include file="page.html"}
+{literal}
+<script>
+var vControl = function (pChoice){
+	switch(pChoice){
+		case "SUBMIT":
+			var form = arguments[1];
+			var chks = JObj.$tag('INPUT',form);
+			var chk,tag,forId,tmp;
+
+			var json = {};
+			
+			for(var i=0;chk = chks[i];i++){
+				if(chk.type != "checkbox" || !chk.checked) continue;
+				
+				tmp = eval(chk.getAttribute('tag'));
+				
+				tag = tmp[0];
+				forId = tmp[1].toString();
+				
+				if(typeof json[tag] != "object") json[tag] = [];
+				json[tag].push(forId);
+			}
+			
+			var o,arr = [];
+			for(o in json){
+				arr.push( o + ":" + json[o].join(',') );
+			}
+			
+			//form.update.value = "A:1,2,3|B:4,5,6";
+			form.update.value = arr.join('|');
+			return  true;
+			break;
+		case "DOSUBMIT":
+			if(vControl('SUBMIT',arguments[1]))
+				arguments[1].submit();
+			else
+				alert(arguments[1].update.value);
+			break;
+	}
+}
+</script>
+{/literal}
+</body>
+</html>

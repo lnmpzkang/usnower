@@ -1,0 +1,41 @@
+  ["HTTP_USER_AGENT"]=>
+  string(76) "Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.9) Gecko/2008060309 Firefox/3.0"
+
+
+  ["HTTP_USER_AGENT"]=>
+  string(38) "Opera/9.50 (X11; Linux i686; U; zh-cn)"
+
+  ["HTTP_ACCEPT_LANGUAGE"]=>
+  string(14) "en-us,en;q=0.5"
+
+  ["HTTP_ACCEPT_LANGUAGE"]=>
+  string(23) "zh-CN,zh;q=0.9,en;q=0.8"
+
+  ["REMOTE_ADDR"]=>
+  string(9) "127.0.0.1"
+
+  ["REMOTE_ADDR"]=>
+  string(9) "127.0.0.1"
+
+
+  ["REQUEST_URI"]=>
+  string(9) "/test.php"
+
+  ["REQUEST_URI"]=>
+  string(9) "/test.php"
+
+
+  ["REQUEST_TIME"]=>
+  int(1214453391)
+
+  ["REQUEST_TIME"]=>
+  int(1214453373)
+
+
+  ["HTTP_REFERER"]=>
+  string(24) "http://usnower/test.html"
+
+
+  ["HTTP_REFERER"]=>
+  string(24) "http://usnower/test.html"
+

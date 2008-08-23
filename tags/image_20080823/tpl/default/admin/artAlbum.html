@@ -1,0 +1,104 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Article Album</title>
+	{design}
+    <link href="../css/adminCommon.css" rel="stylesheet" type="text/css"/>
+    <link href="../css/adminFun.css" rel="stylesheet" type="text/css"/>
+    <script language="javascript" type="text/javascript" src="../../../JObj/JObj.js"></script>
+	{/design}
+    <link href="{const key="PATH_ROOT_RELATIVE"}tpl/default/css/adminCommon.css" rel="stylesheet" type="text/css">
+    <link href="{const key="PATH_ROOT_RELATIVE"}tpl/default/css/adminFun.css" rel="stylesheet" type="text/css">
+    <script type="text/javascript" src="{const key="PATH_ROOT_RELATIVE"}JObj/JObj.js"></script>
+</head>
+
+<body>
+<div class="btnGrp_sliveGray">
+    <div class="left"></div>
+    <div class="body"><a href="javascript:addNew()">Add</a></div>
+    <div class="separator"></div>
+    <div class="body">Back</div>
+    <div class="right"></div>
+</div>
+<div class="clearBoth">
+    <form action="{$action}" method="post" name="form1">
+        <input type="hidden" name="token" value="{token form='artAlbum'}" />
+		<table border="0">
+          <tr>
+            <td>ID</td>
+            <td>Name</td>
+            <td>Description</td>
+            <td>Delete</td>
+          </tr>
+		  {counter start=-1 print=false}
+		  {section name="idx" loop=$artAlbum}
+		  {counter assign="idx_" print=false}
+          <tr>
+            <td>{$artAlbum[idx].id}<input type="hidden" name="id[{$idx_}]" value="{$artAlbum[idx].id}" /></td>
+            <td><input type="text" name="name[{$idx_}]" value="{$artAlbum[idx].name}" /><input type="hidden" name="_name[{$idx_}]" value="{$artAlbum[idx].name}" /></td>
+            <td>
+                    <div class="btnGrp_sliveGray">
+                        <div class="left"></div>
+                        <div class="body">Click Edit...</div>
+                        <div class="separator"></div>
+                        <div class="body"><a href="javascript:showWin()">Edit</a></div>
+                        <div class="right"></div>
+                    </div>
+					<input type="hidden" name="description[{$idx_}]" value="{$artAlbum[idx].description}"  />
+					<input type="hidden" name="_description[{$idx_}]" value="{$artAlbum[idx].description}"  />
+					</td>
+            <td>{if $artAlbum[idx].art_num eq 0}<input type="checkbox" name="delete[]" value="{$artAlbum[idx].id}"  />{/if}</td>
+          </tr>
+		  {/section}
+		  {counter assign="idx_" print=false}
+          <tr id="newTr">
+            <td>*</td>
+            <td><input type="text" name="name[{$idx_}]" value=""  /></td>
+            <td colspan="2">
+                    <div class="btnGrp_sliveGray">
+                        <div class="left"></div>
+                        <div class="body">Click Edit...</div>
+                        <div class="separator"></div>
+                        <div class="body"><a href="javascript:showWin()">Edit</a></div>
+                        <div class="right"></div>
+                    </div>	
+					<input type="hidden" name="description[{$idx_}]" value="{$artAlbum[idx].description}"  />			
+			</td>
+          </tr>
+        </table>
+		<input type="submit" value="Submit"  />
+		{if $msg ne ""}<div>{$msg}</div>{/if}
+	</form>	
+
+<div id="divDesc" style="display:none;width:99%;height:99%;"><textarea style="width:98%;height:98%;"></textarea></div>
+<script>var idx={$idx_}</script>
+{literal}
+<script language="javascript" type="text/javascript">
+var addNew = function(){
+	var newTr = JObj.$("newTr");
+	var tr = newTr.cloneNode(true);
+	newTr.parentNode.appendChild(tr);
+	tr.innerHTML = (tr.innerHTML.replace(/\[(\d*)\]/g, "[" + ++idx + "]"));
+}
+
+JObj.plugin("JWin",false);
+
+var jwin = null;
+
+var showWin = function(){
+	if(jwin == null){
+		jwin = JObj.Plugin.JWin.getInstance(500,300);
+		jwin.setTitle("Article Album Description...");
+		jwin.setBody(JObj.$("divDesc"));
+		jwin.setSysButtons(false,true,true);
+		jwin.setStatus("<input type='button' value='OK' /><input type='button' value='Cancel' />");
+		JObj.$("divDesc").style.display = "";
+	}
+	jwin.showModal();
+}
+</script>
+{/literal}
+</div>
+</body>
+</html>

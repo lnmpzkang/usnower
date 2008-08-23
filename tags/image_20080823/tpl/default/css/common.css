@@ -1,0 +1,61 @@
+@charset "utf-8";
+html {height:100%;}
+body{margin:0px;	font-family: Geneva, Arial, Helvetica, sans-serif;	font-size: 12px;margin:0;background-color: #474747;color: #CCCCCC;}
+
+a {color: #999999;}
+a:hover {color: #CC3300;}
+a:active {color: #CC3300;}
+
+form{margin:0}
+
+#header{height:50px;background-color: #474747;background:url(../res/bg.header.jpg) repeat-x left bottom;}
+#header #btnTop{background:url(../res/btn.top.png) no-repeat 0px 0px;width:24px;height:12px;position:relative;right:10px;top:38px;display:block;cursor:pointer;float:right;}
+
+
+#footer{width:100%;height:50px;	background-color:#474747;background:url(../res/bg.footer.JPG) repeat-x left top;}
+#footer #btnBottom{background:url(../res/btn.top.png) no-repeat 0px -12px;width:24px;height:12px;position:relative;top:0px;display:block;cursor:pointer;float:right;right:10px;}
+
+.outer,.inner{width:400px;height:300px;}
+
+.outer {background:url(../res/bg.popup1.gif) no-repeat top left;padding-left:3px;padding-top:3px;}
+.outer .inner{background:url(../res/bg.popup2.gif) no-repeat bottom right;padding-right:2px;padding-bottom:2px;}
+.outer .inner .lineH{background:url(../res/line.h.jpg) repeat-x 0 0 ;height:4px;}
+.outer .inner .container{padding:10px;}
+.outer .inner .container .title{line-height:20px;}
+
+.inputText {background:#ccc;border: 1px solid #474747;height:20px;line-height:20px;}
+
+.floatRight{ float:right; }
+.clearBoth{	clear:both; }
+.cursorPointer{cursor:pointer;}
+
+.field { padding:5px;}
+.field label{width:100px;display:block;float:left;}
+
+
+.btnGrp_sliveGray{}
+.btnGrp_sliveGray .left{background:url(../res/btnGrp.sliveGray.png) no-repeat 0 0;	width:10px;	height:22px;float:left}
+.btnGrp_sliveGray .body{background:url(../res/btnGrp.sliveGray.png) repeat-x 0 -22px;height:22px;float:left;line-height:22px;color:#333333;padding:0 5px 0 5px;}
+.btnGrp_sliveGray .right{background:url(../res/btnGrp.sliveGray.png) no-repeat 0 -44px;width:10px;height:22px;float:left}
+.btnGrp_sliveGray .separator{background:url(../res/btnGrp.sliveGray.png) no-repeat 0 -66px;width:3px;height:22px;float:left}
+
+
+.pagination {}
+.pagination  .activePage {	font-family: Verdana, Arial, sans-serif;font-weight: bold;	padding: 3px 4px 3px 4px;	border: 1px solid #333333;color:#fff;background-color:#666666;	margin-right:1px;	font-size: 12px;}
+.pagination  .activePage a:link {text-decoration: none;color: #fff;}
+.pagination  .activePage a:visited {	text-decoration: none;	color: #fff;}
+.pagination  .activePage a:hover {text-decoration: none;color: #FF0000;}
+.pagination  .activePage a:active {text-decoration: none;color: #FF0000;}
+
+.pagination  .inactivePage {font-family: Verdana, Arial, sans-serif;font-weight: bold;padding:  3px 4px 3px 4px;border:1px solid #333333;color:#333333;background-color:#CCCCCC;margin-right:1px;	cursor:pointer;font-size: 12px;}
+.pagination  .inactivePage a:link {text-decoration: none;color: #666;}
+.pagination  .inactivePage a:visited {text-decoration: none;color: #666;}
+.pagination  .inactivePage a:hover {text-decoration: none;color: #FF0000;}
+.pagination  .inactivePage a:active {text-decoration: none;color: #FF0000;}
+
+.goButton{font-family: Verdana, Arial, sans-serif;	font-weight: bold;	color:#fff;	background-color:#727731;border-top: none;border-right: none;border-bottom: none;	border-left: none;	height: 18px;	font-size: 12px;}
+.goInput{font-family: Verdana, Arial, sans-serif;font-weight: bold;	border:1px solid #727731;	color:#727731;	background-color:#fff;cursor:pointer;height: 17px;width: 20px;}
+
+.errMsg{color:red;}
+
+.separatorHr {width:100%;margin:2px 0 2px 0;height:4px;position:relative;background:url(../res/line.h.jpg) repeat-x}

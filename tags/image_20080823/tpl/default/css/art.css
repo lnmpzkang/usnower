@@ -1,0 +1,23 @@
+@charset "utf-8";
+.art{width:900px;padding:10px;}
+
+.art .areaA{color:#666;}
+.art .areaA .header{height:26px;background:url(../res/bg.header_a.gif) no-repeat;padding-left:10px;padding-right:10px;line-height:25px;}
+.art .areaA .footer{height:5px;background:url(../res/bg.footer_a.gif);}
+.art .areaA .body{background-color:#EAE8E8;padding-left:10px;padding-right:10px;padding-top:2px;}
+.art .areaA .body .left{width:60%;float:left}
+.art .areaA .body .right{}
+
+.art .areaB{color:#666;}
+.art .areaB .header{height:5px;background:url(../res/bg.header_a.gif) no-repeat;}
+.art .areaB .footer{height:5px;background:url(../res/bg.footer_a.gif);}
+.art .areaB .body{background-color:#EAE8E8;padding-left:10px;padding-right:10px;padding-top:2px;position:relative;}
+.art .areaB .body .left{width:600px;}
+.art .areaB .body .right{position:absolute;right:10px;top:10px;}
+
+.topList{}
+.topList .ul{padding:0px;}
+.topList li{list-style-type: none;line-height:22px;clear:both}
+.topList .title{float:left}
+.topList .time{float:right;}
+.topList .cat{float:left}

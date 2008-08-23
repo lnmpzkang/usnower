@@ -1,0 +1,197 @@
+@charset "utf-8";
+.JWinDefault {
+	width:300px;
+	z-index:100;
+	font-family: Geneva, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+}
+
+/*----------------------------------------------------------*/
+
+.JWinDefault .title_left_top{
+	width:10px;
+	height:7px;
+	background: url(c.png) no-repeat 0 0;
+}
+
+.JWinDefault .title_left_middle{
+	height:23px;
+	width:10px;
+	background: url(v.png) repeat-y 0 0;
+}
+
+.JWinDefault .title_left_bottom{
+	background:url(c.png) no-repeat 0 -14px;
+	height:6px;
+	width:10px;
+}
+
+/*----------------------------------------------------------*/
+
+.JWinDefault .title_right_top{
+	background: url(c.png) no-repeat 0 -7px ;
+	width:10px;
+	height:7px;
+}
+
+.JWinDefault .title_right_middle{
+	background: url(v.png) repeat-y -10px 0;
+	width:10px;
+	height:23px;
+}
+
+.JWinDefault .title_right_bottom{
+	background: url(c.png) no-repeat 0 -20px ;
+	width:10px;
+	height:6px;
+}
+
+/*----------------------------------------------------------*/
+
+.JWinDefault .title_center_top{
+	height:7px;
+	background: url(h.png) repeat-x 0 0;
+}
+.JWinDefault .title_center_middle{
+	height:23px;
+	background: url(h.png) repeat 0 -7px;
+}
+
+.JWinDefault .title_center_bottom{
+	height:6px;
+	background: url(h.png) repeat-x 0 -30px;
+}
+
+/*----------------------------------------------------------*/
+
+.JWinDefault .mainBody_left{
+	width:10px;
+	background: url(v.png) repeat-y -20px 0;
+}
+.JWinDefault .mainBody_center{
+	color:#333333;
+	background-color:#fff;
+	overflow:hidden;
+}
+.JWinDefault .mainBody_right{
+	width:10px;
+	background: url(v.png) repeat-y -30px 0;
+}
+
+/*----------------------------------------------------------*/
+
+.JWinDefault .status_left_top{
+	background: url(c.png) no-repeat 0 -26px;
+	width:10px;
+	height:5px;
+}
+
+.JWinDefault .status_left_middle{
+	background: url(v.png) repeat-y -40px 0;
+	width:10px;
+}
+
+.JWinDefault .status_left_bottom{
+	background: url(c.png) no-repeat 0 -36px;
+	width:10px;
+	height:6px;
+}
+
+/*----------------------------------------------------------*/
+.JWinDefault .status_center_top{
+	background: url(h.png) repeat-x 0 -36px;
+	height:5px;
+}
+
+.JWinDefault .status_center_middle{
+	background: url(h.png) repeat 0 -41px;/******************************/
+}
+
+.JWinDefault .status_center_bottom{
+	background: url(h.png) repeat-x 0 -62px;
+	height:6px;
+}
+
+/*----------------------------------------------------------*/
+
+.JWinDefault .status_right_top{
+	background: url(c.png) no-repeat 0 -31px;
+	height:5px;
+	width:10px;
+}
+
+.JWinDefault .status_right_middle{
+	background: url(v.png) repeat-y -50px 0;
+	width:10px;
+}
+
+.JWinDefault .status_right_bottom{
+	background: url(c.png) no-repeat 0 -42px;
+	width:10px;
+	height:6px;
+}
+/*----------------------------------------------------------*/
+
+.JWinDefault .sysBtnArea{width:72px;}
+
+/*----------------------------------------------------------*/
+.JWinDefault .minBtn_normal{
+	background:url(sysbtn.gif) no-repeat -24px 0px;
+	width:24px;
+	height:18px;
+	float:right;
+}
+
+.JWinDefault .minBtn_active{
+	background:url(sysbtn.gif) no-repeat -24px -18px;
+	width:24px;
+	height:18px;
+	float:right;
+}
+/*----------------------------------------------------------*/
+.JWinDefault .maxBtn_normal{
+	background:url(sysbtn.gif) no-repeat -48px 0px;
+	width:24px;
+	height:18px;
+	float:right;
+}
+
+.JWinDefault .maxBtn_active{
+	background:url(sysbtn.gif) no-repeat -48px -18px;
+	width:24px;
+	height:18px;
+	float:right;
+}
+/*----------------------------------------------------------*/
+.JWinDefault .restoreBtn_normal{
+	background:url(sysbtn.gif) no-repeat 0px 0px;
+	width:24px;
+	height:18px;
+	float:right;
+}
+
+.JWinDefault .restoreBtn_active{
+	background:url(sysbtn.gif) no-repeat 0px -18px;
+	width:24px;
+	height:18px;
+	float:right;
+}
+/*----------------------------------------------------------*/
+.JWinDefault .closeBtn_normal{
+	background:url(sysbtn.gif) no-repeat -72px 0px;
+	width:24px;
+	height:18px;
+	float:right;
+}
+
+.JWinDefault .closeBtn_active{
+	background:url(sysbtn.gif) no-repeat -72px -18px;
+	width:24px;
+	height:18px;
+	float:right;
+}
+
+/*----------------------------------------------------------*/
+.JWinDefault .winTitleArea {
+	color:#666666;
+}

@@ -1,0 +1,59 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>aaa</title>
+    <script language="javascript" type="text/javascript" src="JObj.js"></script>
+    <link href="../tpl/default/css/adminCommon.css" rel="stylesheet" type="text/css"/>
+</head>
+
+<body>
+<div id="a" style="background-color:#666;width:200px;height:200px;position:absolute;top:100px;left:100px;">
+    <div id="b" style="background-color:#ccc;">bbb</div>You can drag me!
+</div>
+
+<div id="c" style="background-color:#666;width:200px;height:200px;position:absolute;top:400px;left:100px;"></div>
+<script>
+/*    JObj.plugin("JWin");
+    var jwin = JObj.Plugin.JWin.getInstance(500, 300);
+    jwin.setTitle("USnower!");
+    jwin.setSysButtons(false, false, true);
+    jwin.showModal();*/
+
+    JObj.use('JDrag');
+    var a = document.getElementById('a');
+    var b = JObj.$('b');
+    JObj.UI.JDrag.setDrag(a,a);
+
+    JObj.use('JAnimate');
+    //JObj.UI.JAnimate.$("a").fadeOut(100,10);
+    //JObj.UI.JAnimate.$('a').run({width:100,height:100,alpha:100,top:10,left:300},{width:800,height:400,alpha:10,top:100,left:0});
+    //JObj.UI.JAnimate.$('a').run({left:800,width:200,height:200},{left:100,width:50,height:100});
+    //JObj.UI.JAnimate.$('a').run({height:100},{height:200});
+
+
+
+    var flagA = true;
+
+    var on_completeA = function(obj){
+        flagA ? this.run({width:200,height:200,alpha:20},{width:50,height:50,alpha:100}) : this.run({width:50,height:50,alpha:100},{width:200,height:200,alpha:20});
+        flagA = !flagA;
+    }
+
+    var aniA = JObj.UI.JAnimate.$('a');
+    aniA.onComplete = on_completeA;
+    aniA.run({width:50},{width:50});
+
+    var flagC = true;
+    var on_completeC = function(obj){
+        flagC ? this.run({left:100},{left:800}) : this.run({left:800},{left:100});
+        flagC = !flagC;
+    }
+    var aniC = JObj.UI.JAnimate.$('c');
+    aniC.onComplete = on_completeC;
+    aniC.run({left:800},{left:100});
+
+</script>
+</body>
+</html>

@@ -1,0 +1,45 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>menu</title>
+    <script type="text/javascript" src="JObj.js"></script>
+</head>
+
+<body>
+<span id="menuSource"><!--
+    <l caption="Control Center">
+        <l caption="Article System">
+            <l caption="Article Category" url="artCategory.php" />
+            <l caption="Argicle Album" url="artAlbum.php" />
+			<l caption="Add Argicle" url="art.php" />
+			<l caption="All Article" url="artList.php" />
+        </l>
+		<l caption="Bag...">
+			<l caption="Bag Category" url="bagCategory.php"/>
+			<l caption="Add Bag" url="bag.php" />
+			<l caption="All Bag" url="bagList.php" />
+		</l>
+    </l>
+--></span>
+
+<script>
+    JObj.plugin("JTree");
+
+	var url = false,ifr = JObj.$("frmView",top.document);
+	
+    var mt = JObj.Plugin.JTree.getInstance("showMenu");
+
+    mt.loadFromString(JObj.$("menuSource").innerHTML.replace(/(<!--)|(-->)/g,""));
+    mt.onclick = function() {
+        url = JObj.Xml.getNodeAtt(mt.selectNode, "url");
+		if(url !== false){
+			ifr.src = url;
+		}
+    }
+    mt.create();
+</script>
+
+</body>
+</html>

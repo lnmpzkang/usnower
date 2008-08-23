@@ -1,0 +1,18 @@
+@charset "utf-8";
+/* CSS Document */
+@import url("common.css");
+
+html{overflow:hidden}
+#footer{
+	position:absolute;
+	bottom:0px;
+}
+
+#mainBody {
+	position:absolute;top:50px;bottom:50px;left:0px;right:0px;
+	+height:expression(document.documentElement.clientHeight - document.getElementById("header").clientHeight - document.getElementById("footer").clientHeight + "px");/*ie*/
+}
+#mainBody #menu {width:200px;height:100%;float:left}
+#mainBody #view {height:100%;float:none;word-break:break-all;overflow:auto;}
+
+#separatorV {width:5px;height:100%;position:relative;top:0px;float:left;background:url(../res/line.v.jpg) repeat-y}

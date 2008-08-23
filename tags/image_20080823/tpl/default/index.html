@@ -1,0 +1,31 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Welcom !{const scope="GConfig" key="WEBSITE_NAME"}</title>
+<link href="{const key="PATH_ROOT_RELATIVE"}tpl/default/css/common.css" rel="stylesheet" type="text/css" />
+{design}
+<link href="css/common.css" rel="stylesheet" type="text/css" />
+{/design}
+</head>
+
+<body>
+{include file="header.html"}
+<div>
+{artList cat=0 num=10 assign="art"}
+	{section name="idx" loop=$art}
+<li><span><a href="/art.php?id={$art[idx].id}">{$art[idx].title}</a></span><span style="float:right">{$art[idx].inTime}</span></li>
+	{/section}
+{/artList}
+</div>
+aaaaa
+<div>
+{bagList cat=0 num=10 assign="bag"}
+	{section name="idx" loop=$bag}
+<li><a href="/bag.php?id={$bag[idx].id}"><img border="0" src="{$bag[idx].icon}" /></a></li>
+	{/section}
+{/bagList}
+</div>
+{include file="footer.html"}
+</body>
+</html>

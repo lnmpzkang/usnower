@@ -1,0 +1,103 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>无标题文档</title>
+<style type="text/css">
+<!--
+.error {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	color: #FF0000;
+}
+-->
+</style>
+<script type="text/javascript" src="JObj/JObj.js"></script>
+</head>
+<body>
+<form name="testForm" action="" method="post" enctype="multipart/form-data" onsubmit="return vControl('CHECKFORM',this)">
+<div>A：<input type="text" name="a" /></div>
+<div>B:<input type="text" name="b"  /></div>
+<div>C:<input type="text" name="c" /></div>
+<div>D:<input type="text" name="d" /></div>
+<div>E:<input type="text" name="e" /></div>
+<div>F:<input type="radio" name="f[]" id="radio" value="radio" /><input type="radio" name="f[]" id="radio2" value="radio2" /></div>
+<div>
+g:
+<select id="g" name="g">
+	<option></option>
+	<option value="a">a</option>
+	<option value="b">b</option>
+	<option value="c">c</option>
+	<option value="d">d</option>
+	<option value="e">e</option>
+</select>
+</div>
+<div>H: <input type="file" name="h" id="h" /></div>
+<div>I:<input name="i" type="text" /></div>
+<div>J:<textarea name="j" id="j" cols="45" rows="5"></textarea></div>
+  <input type="submit" name="button" id="button" value="提交1" onclick="mode=1" />
+  <input type="submit" name="button2" id="button2" value="提交2" onclick="mode=2" />
+  <input type="submit" name="button3" id="button3" value="提交3" onclick="mode=3" />
+</form>
+</body>
+</html>
+<script language="javascript" type="text/javascript">
+JObj.plugin("FormValidate");
+var FormValidate = JObj.Plugin.FormValidate;
+
+var form = document.forms["testForm"];
+
+var rules = [
+	{name:"a",	required:true,		min:5,			msg:"A 是一个必填字段,长度必须大于等于5"},
+	{name:"b",	type:"Require",		max:5,			msg:"B是一个必填字段，长度必须小于等于5"},
+	{name:"c",	type:"Int",			min:10,			max:20,		msg:"如果填C的话，C必须是一个整数，小于20大于10"},
+	{name:"d",	required:true,		type:"Num",		min:-10,	max:10,		msg:"d是一个必选项，其值必须在-10到10之间"},
+	{name:"e",	required:true,		type:"Chinese",	msg:"E只能输入汉字"},
+	{name:"f[]",type:"Group",		required:true,	msg:"请选择一个F"},
+	{name:"g",	type:"Group",		required:true,	noSelected:"a",			msg:"g是一个必选项，其值不能选a"},
+	{name:"h",	type:"Filter",		accept:"gif|jpg|png",		msg:"H只接受 gif,jpg,png,可以不填!"},
+	{name:"i",	required:true,		type:"Repeat",	to:"a",		msg:"i的值必须等于a的值"},
+	{name:"j",	required:true,		min:5,			max:10,		msg:"j是一个必填项,长度在5到10字符之间"}
+];
+
+/*var rules = {
+    a:{required:true,   min:5,  msg:"A 是一个必填字段,长度必须大于等于5"},
+    b:{required:true,   max:5,  msg:"B是一个必填字段，长度必须小于等于5"},
+    c:{required:false,  type:"Int", min:10, max:20, msg:"如果填C的话，C必须是一个整数，小于20大于10"},
+    d:{required:true,   type:"Num", min:-10,max:10, msg:"d是一个必选项，其值必须在-10到10之间"},
+    e:{required:true,   type:"Chinese", msg:"E只能输入汉字"}
+    
+}*/
+var mode;
+var span_ = document.createElement("SPAN");
+	span_.className = "error";
+FormValidate.onPass = function(obj,rule){
+	obj_ = obj.parentNode || obj[obj.length -1].parentNode;
+	try{
+		obj_.removeChild(obj_.errorTip);
+		obj_.errorTip = null
+	}catch(e){}
+}
+FormValidate.onUnpass = function(obj,rule){
+	obj_ = obj.parentNode || obj[obj.length -1].parentNode;
+	if(!obj_.errorTip){
+		obj_.errorTip = span_.cloneNode(true);
+		obj_.appendChild(obj_.errorTip);
+		obj_.errorTip.innerHTML = rule.msg;
+	}
+}
+function vControl(pChoice,pParm){
+	switch(pChoice){
+		case "CHECKFORM":
+			//Validator.validate(pParm,rules)的效果等同于mode的值为：1
+			//如果mode为3时，会执行onPass或onUnpass事件
+			f = FormValidate.validate(pParm,rules,mode);
+			if(f===false)
+				return false;
+			else
+				return true;
+			break;
+	}
+}
+</script>

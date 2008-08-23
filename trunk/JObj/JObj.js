@@ -68,7 +68,7 @@ var JObj = {};
 		for(var i=1;i<arguments.length;i++){
 			arg = arguments[i];
             args.push(arg);
-        }
+        }                                                   
         return function() {
             fun.apply(null, args)
         };

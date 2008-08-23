@@ -3,20 +3,13 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>无标题文档</title>
-<script src="JObj.js"></script>
 </head>
 
 <body>
-<ul>
-	<li>aa</li>
-	<li>bb</li>
-</ul>
-<li>cc</li>
-
-<script>
-JObj.use("ChainDom");
-var objs;
-JObj.ChainDom.$("ul>li").save("objs");
-</script>
+{test cat=0 num=10 assign="art"}
+	{section name="idx" loop=$art}
+	<li><span><a href="/art.php?id={$art[idx].id}">{$art[idx].title}</a></span><span style="float:right">{$art[idx].inTime}</span></li>
+	{/section}
+{/test}
 </body>
 </html>

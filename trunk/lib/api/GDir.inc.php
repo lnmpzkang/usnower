@@ -9,9 +9,10 @@ class GDir{
 	*/
 
 	public static function mkpath($path,$r = 0777){
+		$path = str_replace(PATH_ROOT_ABS,'',$path);
 		$dirs=array();
 		$dirs=explode("/",$path);
-		$path="";
+		$path= PATH_ROOT_ABS."/";
 		foreach ($dirs as $element){
 			$path.=$element."/";
 			if(!is_dir($path)){

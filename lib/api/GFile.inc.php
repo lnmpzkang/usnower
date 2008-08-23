@@ -1,7 +1,7 @@
 <?php
-class GFile extends GSuperclass {	
+class GFile {	
 	protected static function getRes($path,$model){
-		$path = GDir::getAbsPath($path);
+
 		$dir = dirname($path);
 		if(!is_dir($dir))
 			GDir::mkpath($dir);

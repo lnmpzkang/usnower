@@ -1,8 +1,6 @@
 <?php
-//define("PATH_ROOT_ABS",$_SERVER['DOCUMENT_ROOT']);
-//define("PATH_FILE_DIR",dirname(__FILE__));
 define("PATH_ROOT_ABS",dirname(__FILE__));
-define("PATH_ROOT_RELATIVE",str_ireplace(PATH_ROOT_ABS,"/",$_SERVER['DOCUMENT_ROOT']));
+define("PATH_ROOT_RELATIVE",str_ireplace(realpath($_SERVER['DOCUMENT_ROOT']),'/',PATH_ROOT_ABS));
 
 define("SYMBOL_NEWLINE","\r\n");
 

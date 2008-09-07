@@ -1,0 +1,149 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>无标题文档</title>
+      <HTA:APPLICATION ID="oHTA"
+       APPLICATIONNAME="myApp"
+       BORDER="thin"
+       BORDERSTYLE="normal"
+       CAPTION="yes"
+       ICON=""
+       MAXIMIZEBUTTON="yes"
+       MINIMIZEBUTTON="yes"
+       SHOWINTASKBAR="yes"
+       SINGLEINSTANCE="yes"
+       SYSMENU="yes"
+       VERSION="1.0"
+       WINDOWSTATE="maximize" />
+    <script type="text/javascript" src="../JObj/JObj.js"></script>
+</head>
+
+<body>
+<div id="result"></div>
+</body>
+<script type="text/javascript">
+
+    var result = JObj.$("result");
+
+    var saveDir = "data/";
+    var acceptDomainReg = /(blueidea\.com|dajiaozi\.com){1}/i;//如果用的图片包括这些域名，就下载，否则不下载
+
+    var fso = new ActiveXObject("Scripting.FileSystemObject");
+    var stream = new ActiveXObject("ADODB.Stream");
+    var conn = new ActiveXObject("ADODB.connection");
+        conn.open("Provider=Microsoft.Jet.OLEDB.4.0;Data Source=import.mdb" );
+
+    var rst = new ActiveXObject("ADODB.RecordSet");
+
+    var on_success = function(http,status,rule){
+        var name = saveDir + fso.getFileName(rule.url);
+        
+        stream.type = 1;
+        stream.open();
+        stream.write(http.responseBody);
+        stream.saveToFile(name,2);//2,create,overwrite
+        stream.close();
+    }
+
+    var requireRes = function(url){
+        JObj.Ajax.send({
+            url:url,
+            async:false,//同步
+            onSuccess:on_success
+        })
+    }
+
+    var map = {};
+    var replace_by_map = function(){
+        return map[arguments[0]];
+    }
+
+	var reg = /<img[^>]*src\s*=\s*('|")?([^'">]*)\1([^>])*>/ig
+    var getRes = function(ctx){
+		var ma,urls = [];;
+		while(null != (ma = reg.exec(ctx))){
+
+			if(acceptDomainReg.test(ma[2])){
+                requireRes(ma[2]);
+                urls.push(ma[2]);
+                map[ma[2]] = saveDir + fso.getFileName(ma[2]);
+			}
+		}
+        ctx = ctx.replace(new RegExp(urls.join("|"),"ig"),replace_by_map);
+
+        map = {};urls = [];
+        return ctx;
+    }
+
+
+
+    var ts = fso.openTextFile("backup.htm")
+    var ctx;
+    var title,inTime,cat = 0,cnt;
+    var tip;
+    while(!ts.atEndOfStream){
+        ctx = ts.readLine();
+
+        if(ctx.trim().indexOf("<td>日志标题：") == 0) {
+            if(title != null){
+
+                tip = document.createTextNode("正在下载使用到的图片。。。");
+                result.insertBefore(tip,result.firstChild);
+                result.insertBefore(document.createElement("BR"),tip);
+				
+				cnt = getRes(cnt);
+/*				tip = document.createTextNode(cnt);
+				result.insertBefore(tip,result.firstChild);
+				result.insertBefore(document.createElement("BR"),tip);
+				result.insertBefore(document.createElement("BR"),tip);*/
+				
+                var sql = "SELECT * FROM ART";
+                rst.open(sql,conn,1,3);
+                rst.AddNew(['TITLE','IN_TIME','CAT','CONTENT'],[title,inTime,cat,cnt])
+                rst.update();
+                rst.close();
+
+                tip = document.createTextNode(title + " 处理完毕");
+                result.insertBefore(tip,result.firstChild)
+                result.insertBefore(document.createElement("BR"),tip);
+                result.insertBefore(document.createElement("BR"),tip);
+            }
+
+            title = ctx.trim().replace(/(<td>日志标题：|\r|\n|&nbsp;|<br>)/ig,"");
+			document.body.title = title;
+            tip = document.createTextNode("正在处理：" + title);
+            result.insertBefore(tip,result.firstChild);
+            result.insertBefore(document.createElement("BR"),tip);
+            cnt = "";
+            cat = 0;
+        }else if(ctx.trim().indexOf("发表时间：") == 0){
+            inTime = ctx.trim().replace(/(发表时间：|\r|\n|<br>)/ig,"");
+        }else{
+            cnt += ctx;
+        }
+    }
+	
+
+	//最后一笔！
+	tip = document.createTextNode("正在下载使用到的图片。。。");
+	result.insertBefore(tip,result.firstChild);
+	result.insertBefore(document.createElement("BR"),tip);
+	
+	cnt = getRes(cnt);
+	
+	var sql = "SELECT * FROM ART";
+	rst.open(sql,conn,1,3);
+	rst.AddNew(['TITLE','IN_TIME','CAT','CONTENT'],[title,inTime,cat,cnt])
+	rst.update();
+	rst.close();
+	conn.close();
+
+	tip = document.createTextNode(title + " 处理完毕");
+	result.insertBefore(tip,result.firstChild)
+	result.insertBefore(document.createElement("BR"),tip);
+	result.insertBefore(document.createElement("BR"),tip);	
+
+    alert("全部处理完成！");
+</script>
+</html>

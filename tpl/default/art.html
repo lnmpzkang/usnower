@@ -11,94 +11,112 @@
 <link href="css/art.css" rel="stylesheet" type="text/css" />
 {/design}
 </head>
-
 <body>
 {include file="header.html"}
 <div class="art">
-	<div class="areaA">
-		<div class="header">
-			Current Position:
-			{section name="idx" loop=$art.catPath.ids}
-			<a href="artCat.php?id={$art.catPath.ids[idx]}">{$art.catPath.names[idx]}</a>{if !$smarty.section.idx.last}&nbsp;>>&nbsp;{/if}
-			{/section}	
-		</div>
-		<div class="body">
-			<div class="left">
-				<h2>{$art.title}</h2>
-				<h5><a href="{$art.comeFrom|default:'http://www.usnower.com'}" target="_blank">{$art.comeFrom|default:"usnower"}</a> Time:{$art.inTime}&nbsp;&nbsp;Author:{$art.author|default:"usnower"}&nbsp;&nbsp;View:{getClickNum}</h5>
-			</div>
-			<div class="right">
-			{nextAndPre assign="nap"}
-				{if $nap.preId ne ''}<div>Pre:<a href="art.php?id={$nap.preId}">{$nap.preTitle}</a></div>{/if}
-				{if $nap.nextId ne ''}<div>Next:<a href="art.php?id={$nap.nextId}">{$nap.nextTitle}</a></div>{/if}
-			{/nextAndPre}				
-			</div>
-			<div class="clearBoth"></div>
-		</div>
-		<div class="footer"></div>
-	</div>
-	
-	<br />
-	
-	<div class="areaB">
-		<div class="header"></div>
-		<div class="body">
-			<div class="left">
-			{$art.content}			</div>
-			<div class="right">
-
-			<div class="topList">
-				<div>
-				The News:
-				<ul>
-				{artList cat=0 num=10 assign="artList"}
-					{section name="idx" loop=$artList}
-					<li><span class="title"><a href="/art.php?id={$artList[idx].id}">{$artList[idx].title}</a></span></li>
-					{/section}
-				{/artList}
-				</ul>
-				
-				The hot:
-				<ul>
-				{artList cat=0 num=10 assign="artList" orderBy="click"}
-					{section name="idx" loop=$artList}
-					<li><span class="title"><a href="/art.php?id={$artList[idx].id}">{$artList[idx].title}</a>({$artList[idx].click})</span></li>
-					{/section}
-				{/artList}	
-				</ul>
-				</div>
-				
-				{if $art.commentAble eq 1}
-				<div>
-				{msg}{if $msg != null}<div class="errMsg">{$msg}</div>{/if}{/msg}
-				<form action="{$smarty.server.REQUEST_URI}" method="post">
-				<input type="hidden"  name="token" value="{token form='comment'}" />
-				<input type="hidden" name="forId" value="{$art.id}"  />
-				<label>Name:<input type="text" name="name" /></label><br />
-				<label>Email:<input type="text" name="email" /></label><br />
-				<label>Web site:<input type="text" name="http" /></label><br />
-				<label>Content:<textarea name="content"></textarea></label><br />
-				<input type="submit"><label><input type="checkbox" name="forAdmin" />Only for admin</label>
-				</form>				
-				</div>{/if}
-				<div id="cmt"></div>
-				<div>
-				
-				</div>
-			</div>
-	
-			</div>
-		</div>
-		<div class="footer"></div>
-	</div>
-	<div>Keywords:
-	{section name="idx" loop=$art.keywords.ids}
-		<a href="artKeyword?id={$art.keywords.ids[idx]}">{$art.keywords.names[idx]}</a>&nbsp;&nbsp;
-	{/section}
-	</div>
+<div class="areaA">
+  <div class="header"> Current Position:
+    {section name="idx" loop=$art.catPath.ids} <a href="artCat.php?id={$art.catPath.ids[idx]}">{$art.catPath.names[idx]}</a>{if !$smarty.section.idx.last}&nbsp;>>&nbsp;{/if}
+    {/section} </div>
+  <div class="body">
+    <div class="left">
+      <h2>{$art.title}</h2>
+      <h5><a href="{$art.comeFrom|default:'http://www.usnower.com'}" target="_blank">{$art.comeFrom|default:"usnower"}</a> Time:{$art.inTime}&nbsp;&nbsp;Author:{$art.author|default:"usnower"}&nbsp;&nbsp;View:{getClickNum}</h5>
+    </div>
+    <div class="right"> {nextAndPre assign="nap"}
+      {if $nap.preId ne ''}
+      <div>Pre:<a href="art.php?id={$nap.preId}">{$nap.preTitle}</a></div>
+      {/if}
+      {if $nap.nextId ne ''}
+      <div>Next:<a href="art.php?id={$nap.nextId}">{$nap.nextTitle}</a></div>
+      {/if}
+      {/nextAndPre} </div>
+    <div class="clearBoth"></div>
+  </div>
+  <div class="footer"></div>
 </div>
-
-
+<br />
+<div class="areaB">
+  <div class="header"></div>
+  <div class="body">
+    <div class="left"> {$art.content} </div>
+    <div class="right">
+      <div class="topList">
+        <div> The News:
+          <ul>
+            {artList cat=0 num=10 assign="artList"}
+            {section name="idx" loop=$artList}
+            <li><span class="title"><a href="/art.php?id={$artList[idx].id}">{$artList[idx].title}</a></span></li>
+            {/section}
+            {/artList}
+          </ul>
+          The hot:
+          <ul>
+            {artList cat=0 num=10 assign="artList" orderBy="click"}
+            {section name="idx" loop=$artList}
+            <li><span class="title"><a href="/art.php?id={$artList[idx].id}">{$artList[idx].title}</a>({$artList[idx].click})</span></li>
+            {/section}
+            {/artList}
+          </ul>
+        </div>
+        {if $art.commentAble eq 1}
+        <div> {msg}{if $msg != null}
+          <div class="errMsg">{$msg}</div>
+          {/if}{/msg}
+          <form action="{$smarty.server.REQUEST_URI}" method="post">
+            <input type="hidden"  name="token" value="{token form='comment'}" />
+            <input type="hidden" name="forId" value="{$art.id}"  />
+            <label>Title:
+            <input type="text" name="title" />
+            </label>
+            <br />
+            <label>Name:
+            <input type="text" name="name" />
+            </label>
+            <br />
+            <label>Email:
+            <input type="text" name="email" />
+            </label>
+            <br />
+            <label>Web site:
+            <input type="text" name="http" />
+            </label>
+            <br />
+            <label>Content:
+            <textarea name="content"></textarea>
+            </label>
+            <br />
+            <input type="submit">
+            <label>
+            <input type="checkbox" name="forAdmin" />
+            Only for admin</label>
+          </form>
+        </div>
+        {/if}
+        <div id="cmt"></div>
+		
+		<span id="cmtTpl"><!--
+        <div>
+          <div>title</div>
+          <div>
+            <div>
+              <div>content</div>
+              <div>name</div>
+            </div>
+          </div>
+          <div>inTime </div>
+        </div>
+		--></span>
+		
+		
+      </div>
+    </div>
+    <div class="footer"></div>
+  </div>
+  <div>Keywords:
+    {section name="idx" loop=$art.keywords.ids} <a href="artKeyword?id={$art.keywords.ids[idx]}">{$art.keywords.names[idx]}</a>&nbsp;&nbsp;
+    {/section} </div>
+</div>
 <div class="clearBoth"></div>
 {include file="footer.html"}
 <script>
@@ -115,7 +133,29 @@ var cmt_onsuccess = function(http,status){
 				cmt.innerHTML = JObj.Xml.getNodeAtt(root.firstChild,"msg");
 			}else{
 				var cmtList = JObj.Xml.extractNodes(root);
-				alert(cmtList.length);
+				var cmtTpl = JObj.$("cmtTpl").innerHTML.replace(/(<!--|-->)/g,"");
+				var title,content,name,inTime,http,str,item;
+				
+				if(cmtList.length > 0)  cmt.innerHTML = "";
+				
+				for(var i=0;item = cmtList[i];i++){
+					title =  JObj.Xml.getNodeAtt(item,"title");
+					name = JObj.Xml.getNodeAtt(item,"name");
+					inTime = JObj.Xml.getNodeAtt(item,"inTime");
+					http = JObj.Xml.getNodeAtt(item,"http");
+					content = item.firstChild.nodeValue;
+					
+					str = cmtTpl.replace(/(title|name|inTime|http|content)/g,function(){
+						switch(arguments[0]){
+							case "title": return title ;break;
+							case "name": return name;break;
+							case "inTime": return inTime;break;
+							case "http": return http;break;
+							case "content" : return content;break;
+						}
+					});
+					cmt.innerHTML += str;
+				}
 			}
 		}
 }

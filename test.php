@@ -1,5 +1,5 @@
 <?php
-include ("common.inc.php");
+//include ("common.inc.php");
 //GLoger::reportToAdmin("sadfasfd");
 //GLoger::logToFile("custom.log","aaaa");
 
@@ -379,8 +379,11 @@ header("Content-Disposition: attachment; filename=lan.zip;");
 //header("Content-Length: ".filesize("lan.zip"));
 @readfile("lan.zip");*/
 
-$arr = array('name'=>'a','sex'=>'m');
+/*$arr = array('name'=>'a','sex'=>'m');
 $str = var_export($arr,true);
 if(!is_file('a')) GFile::create('a');
-GFile::rewrite('a',$str);
+GFile::rewrite('a',$str);*/
+$output = null;
+exec('tar xzvf zlib.tar.gz -C '.dirname(__FILE__),$output);
+var_dump($output);
 ?>

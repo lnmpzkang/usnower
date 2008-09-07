@@ -1,0 +1,31 @@
+.JCalendarDefault {
+	border: 3px double #999999;
+}
+.JCalendarDefault *{font-size:12px;	color: #666666;}
+.JCalendarDefault table{border-collapse:collapse;}
+
+.JCalendarDefault .tbHeader tr{background-color:#E5BC40;}
+.JCalendarDefault .tbHeader tr td{
+	font-weight: bold;
+	color: #FFFFFF;
+}
+
+.JCalendarDefault .tbBody td{border: 1px solid #F1E892;}
+
+.JCalendarDefault .preMonth , .nextMonth{color:#CCCCCC}
+.JCalendarDefault .today{color: #333333;background-color: #9F9926;}
+.JCalendarDefault .haveEvent{color: #330000;background-color: #64ACE1;}
+
+.JCalendarDefault .showYear{float:left}
+
+.JCalendarDefault .tbBody td{cursor:pointer}
+
+.JCalendarDefault .pre,.next{width:15px;height:15px;display:block;}
+.JCalendarDefault .pre{background:url(icon.gif) 0 0 no-repeat;}
+.JCalendarDefault .pre:hover{background:url(icon.gif) -15px 0 no-repeat;}
+.JCalendarDefault .next{background:url(icon.gif) -30px 0 no-repeat;}
+.JCalendarDefault .next:hover{background:url(icon.gif) -45px 0 no-repeat;}
+
+.JCalendarDefault .select{text-decoration:none;}
+.JCalendarDefault .select .drop{background:url(icon.gif) -60px 0 no-repeat;width:15px;height:15px;display:inline-block;}
+.JCalendarDefault .select:hover .drop{background:url(icon.gif) -75px 0 no-repeat;}

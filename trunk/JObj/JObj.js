@@ -41,6 +41,16 @@ var JObj = {};
     $.isFunction = function(p) {
         return p instanceof Function;
     }
+
+    $.isRate = function(p) {
+        if (!isNaN(p)) return false;
+        if (p.substr(p.length - 1, 1) != "%")
+            return false;
+        if (isNaN(p.substring(0, p.length - 1)))
+            return false;
+        return true;
+    }
+
     $.toSource = function(obj) {
         if (Object.toSource)
             return obj.toSource();
@@ -65,10 +75,10 @@ var JObj = {};
     $.doFunction = function(fun) {
         var args = [];
         //for (var i = 1; arg = arguments[i]; i++) { // 如果 arguments 的某个值为 0,这样写就会从0处断开循环。
-		for(var i=1;i<arguments.length;i++){
-			arg = arguments[i];
+        for (var i = 1; i < arguments.length; i++) {
+            arg = arguments[i];
             args.push(arg);
-        }                                                   
+        }
         return function() {
             fun.apply(null, args)
         };
@@ -90,17 +100,46 @@ var JObj = {};
         return evt;
     }
 
-    $.addEvent = function(obj,type,fun){
+    $.addEvent = function(obj, type, fun) {
         obj = $.$(obj);
-        if(obj.attachEvent){
-            if(! /^on/.test(type))
+        if (obj.attachEvent) {
+            if (! /^on/.test(type))
                 type = 'on' + type;
-            obj.attachEvent(type,fun);
-        }else if(obj.addEventListener){
-            if(/^on/.test(type))
+            obj.attachEvent(type, fun);
+        } else if (obj.addEventListener) {
+            if (/^on/.test(type))
                 type = type.substr(2);
-            obj.addEventListener(type,fun,false);
+            obj.addEventListener(type, fun, false);
         }
+    }
+
+    $.removeEvent = function(obj, type, fun) {
+        obj = $.$(obj);
+        if (obj.attachEvent) {
+            if (! /^on/.test(type))
+                type = 'on' + type;
+            obj.detachEvent(type, fun);
+        } else if (obj.addEventListener) {
+            if (/^on/.test(type))
+                type = type.substr(2);
+            obj.removeEventListener(type, fun, false);
+        }
+    }
+
+    $.getUniqueId = function(obj) {
+        obj = JObj.$(obj);
+        if (obj == window) return "window";
+        if (obj == document) return "document";
+
+        var id = obj.getAttribute("__JOBJ_UNIQUE_ID__");
+        if (id != null && id != "")
+            return id;
+
+        if (obj.uniqueID) id = obj.uniqueID;
+        else id = (((new Date()).valueOf() * 100000) + Math.random() * 100000).toString(32);
+
+        obj.setAttribute("__JOBJ_UNIQUE_ID__", id);
+        return id;
     }
 
     /*------------------------*/
@@ -134,7 +173,7 @@ var JObj = {};
         }
 
         $$.$name = $.$name = function(name, node) {
-            return $$.$(undefined == node || null == node? document : node).getElementsByName(name);
+            return $$.$(undefined == node || null == node ? document : node).getElementsByName(name);
         }
 
         $$.$class = $.$class = function(className) {
@@ -162,6 +201,7 @@ var JObj = {};
     for (i = 0; script = scripts[i]; i++) {
         if ((/JObj\.js$/i).test(script.src)) {
             $.path = script.src.replace(/JObj\.js$/i, "");
+            $.path == "" && ($.path = "./");
             break;
         }
     }
@@ -212,11 +252,11 @@ var JObj = {};
         $.netscape = !$.firefox && !$.opera && !$.safari && !$.seamonkey && (b == "Netscape");
         $.ie = !$.opera && (b == "Microsoft Internet Explorer");
 
-        $.name = ($.ie ? "IE" : ($.firefox ? "Firefox" :($.seamonkey ? "SeaMonkey" : ($.netscape ? "Netscape" : ($.opera ? "Opera" : ($.safari ? "Safari" : "Unknow"))))));
+        $.name = ($.ie ? "IE" : ($.firefox ? "Firefox" : ($.seamonkey ? "SeaMonkey" : ($.netscape ? "Netscape" : ($.opera ? "Opera" : ($.safari ? "Safari" : "Unknow"))))));
 
         switch ($.name) {
             case "Opera":
-                //$.fullVersion = ua.substr(ua.indexOf("opera") + 6);
+            //$.fullVersion = ua.substr(ua.indexOf("opera") + 6);
                 $.fullVersion = n_.appVersion.split(" ")[0];
                 $.os = n_.appVersion.split(";")[1];
                 break;
@@ -246,7 +286,7 @@ var JObj = {};
         $.os = $.os || n_.platform;
         $.browserLang = n_.browserLange || n_.language;
         $.osLang = n_.language;
-        
+
         $$.setLoadedModule("JObj.Browser", true);
     })($.Browser, $);
 
@@ -267,7 +307,7 @@ var JObj = {};
 
         $.getXMLHttp = function() {
             var xmlHttp = null;
-			//if($$.Browser.ie && $$.Browser.version < 7){ //用IE7内置的 XMLHttpRequest 对象，不能加载本地文件．
+            //if($$.Browser.ie && $$.Browser.version < 7){ //用IE7内置的 XMLHttpRequest 对象，不能加载本地文件．
             if ($$.Browser.ie) {
                 var v = ['MSXML2.XMLHTTP.8.0', 'MSXML2.XMLHTTP.7.0', 'MSXML2.XMLHTTP.6.0', 'MSXML2.XMLHTTP.5.0', 'MSXML2.XMLHTTP.4.0', 'MSXML2.XMLHTTP.3.0', 'MSXML2.XMLHTTP.2.6', 'MSXML2.XMLHTTP', 'Microsoft.XMLHTTP'];
                 if (typeof(vars.ACTIVEXOBJECT_XMLHTTP) == "string")
@@ -380,7 +420,7 @@ var JObj = {};
                 var s = "";
                 for (o in dataRule) {
                     s += encodeURIComponent(o) + "=" + encodeURIComponent(dataRule[o]) + "&";
-					//必须要： encodeURIComponent,否则，post 不成功！
+                    //必须要： encodeURIComponent,否则，post 不成功！
                 }
 
                 if ($.method.toUpperCase() == "GET") {
@@ -400,8 +440,8 @@ var JObj = {};
                 $.onReady = rule.onReady;
             }
 
-            $.xmlHttp = $$.Xml.getXMLHttp(); 
-            
+            $.xmlHttp = $$.Xml.getXMLHttp();
+
             var xmlHttp_onreadystatechange = function() {
                 var http = $.xmlHttp;
                 if (http.readyState == 4) {
@@ -447,17 +487,17 @@ var JObj = {};
     $.Loader = {};
     (function($, $$) {
         /*
-          QUEUE[url] = {
-              beginTime:开始加载的时间,
-              endTime:加载成功的时间,
-              time:请求次数
-          }
-          */
+         QUEUE[url] = {
+         beginTime:开始加载的时间,
+         endTime:加载成功的时间,
+         time:请求次数
+         }
+         */
 
         /*		if($$.Browser.ie)
-              var fp = document.createDocumentFragment();
-          else
-              var fp = document.body;*/
+         var fp = document.createDocumentFragment();
+         else
+         var fp = document.body;*/
 
         var fp = document.createDocumentFragment();
         var styleSheet = null;
@@ -491,7 +531,7 @@ var JObj = {};
                 // 不能用 appendChild(a), return a.href; 这样得到的 href 依然是 path
                 var div = $$.$c("DIV");
                 div.innerHTML = "<a href='" + path + "' />";
-				//div.innerHTML   "<A href=\"http://blog/js/js.php\"></A>"
+                //div.innerHTML   "<A href=\"http://blog/js/js.php\"></A>"
                 return div.innerHTML.match(/href=\"(.*)\"/)[1];
             }
         }
@@ -561,7 +601,7 @@ var JObj = {};
 
                 if ($$.Browser.ie) {
                     script.onreadystatechange = $$.doFunction(script_onreadystatechange, p, succCallBack);
-					//script.onreadystatechange = function(){script_onreadystatechange(script,p,succCallBack);};
+                    //script.onreadystatechange = function(){script_onreadystatechange(script,p,succCallBack);};
                 } else {
                     script.onload = $$.doFunction(script_onload, p, succCallBack);
                     script.onerror = $$.doFunction(script_onerror, p, unsuccCallBack);

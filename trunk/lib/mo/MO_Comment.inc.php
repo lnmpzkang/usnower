@@ -139,11 +139,13 @@ class MO_Comment extends MO {
 		while ($arr = GMysql::fetchAssocWithMap($rst,$map)){
 			$cmt = $dom->createElement('cmt');
 			$root->appendChild($cmt);
-			$cmt->setAttribute('IP',$arr['ip']);
-			$cmt->setAttribute('Name',$arr['name']);
-			$cmt->setAttribute('Email',$arr['email']);
-			$cmt->setAttribute('Http',$arr['http']);
+			//$cmt->setAttribute('IP',$arr['ip']);
+			$cmt->setAttribute('title',$arr['title']);
+			$cmt->setAttribute('name',$arr['name']);
+			//$cmt->setAttribute('Email',$arr['email']);
+			$cmt->setAttribute('http',$arr['http']);
 			$cmt->setAttribute('forAdmin',$arr['forAdmin']);
+			$cmt->setAttribute('inTime',$arr['inTime']);
 			
 			if($arr['forAdmin'] == true)
 				$content = $dom->createCDATASection('This message is for admin!');

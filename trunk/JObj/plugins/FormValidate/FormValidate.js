@@ -15,6 +15,7 @@ JObj.Plugin.FormValidate = {};
     var Username = "$.checkUsername(obj,rule)";
     var Filter = "$.doFilter(obj,rule)";
     var Date = "$.isDate(obj, rule)";
+	var Time	= "$.isTime(obj,rule)";
     var Repeat = "$.repeat(form,obj,rule)";
     var Range = "getAttribute('min') < (value|0) && (value|0) < getAttribute('max')";
     var Compare = "$.compare(value,getAttribute('operator'),getAttribute('to'))";
@@ -129,24 +130,25 @@ JObj.Plugin.FormValidate = {};
         }
 
         if (rule.type == undefined && rule.required !== true) return;
-        var type = rule.type
+        var type = rule.type || "";
 
-        switch (type) {
-            case "Date" :
-            case "Repeat" :
-            case "Range" :
-            case "Compare" :
-            case "Custom" :
-            case "Group" :
-            case "Limit" :
-            case "LimitB" :
-            case "SafeString" :
-            case "Filter" :
-            case "Int":
-            case "Double":
-            case "Num":
-            case "Username":
-            case "Repeat":
+        switch (type.toUpperCase()) {
+            case "DATE" :
+			case "TIME":
+            case "REPEAT" :
+            case "RANGE" :
+            case "COMPARE" :
+            case "CUSTOM" :
+            case "GROUP" :
+            case "LIMIT" :
+            case "LIMITB" :
+            case "SAFESTRING" :
+            case "FILTER" :
+            case "INT":
+            case "DOUBLE":
+            case "NUM":
+            case "USERNAME":
+            case "REPEAT":
                 if (!eval(eval(type))) {
                     $.addError(rule);
                     return false;
@@ -179,13 +181,19 @@ JObj.Plugin.FormValidate = {};
     }
 
 
-    $.isDate = function(obj, rule) {
+    $.isDate = function(obj) {
         var r = obj.value.match(/^(\d{1,4})(-|\/)(\d{1,2})\2(\d{1,2})$/);
         if (r == null) return false;
         var d = new window.Date(r[1], r[3] - 1, r[4]);
         return (d.getFullYear() == r[1] && (d.getMonth() + 1) == r[3] && d.getDate() == r[4]);
     }
 
+	$.isTime = function(obj){
+		var r = obj.value.match(/^(\d{2}):(\d{2}):(\d{2})$/)
+		if(r == null) return false;
+		var h = r[1],i=r[2],s=r[3];
+		return h < 24 && i  < 60 && s < 60;
+	}
 
     $.mustChecked = function(obj, rule) {
         var o;

@@ -100,4 +100,30 @@ function vControl(pChoice,pParm){
 			break;
 	}
 }
+
+/*    var str = 'aaaa<img src = "aaa.gif" alt="aaa" />asdfsaccc<img src="bbb.jpg"/>aaaaaaa';
+    //$reg = '/<img.*src\s*=\s*(\'|")?(?<url>.*)\1.*>/iUs';
+    var reg = /<img[^>]*src\s*=\s*('|")?([^'">]*)\1([^>])*>/ig
+    //rst = reg.exec(str);
+
+    while(null != (rst = reg.exec(str))){
+        alert(rst[2]);
+    }*/
+
+/*var pattern = /\bJava\w*\b/g;
+var text = "JavaScript is more fun than Java or JavaBeans!";
+var result;
+while((result = pattern.exec(text)) != null) {
+    alert("Matched '" + result[0] +
+          "' at position " + result.index +
+          " next search begins at position " + pattern.lastIndex);
+}*/
+
+var obj = {name:"xling",sex:"m"};
+var str = "name sex";
+	str = str.replace(/(name|sex)/g,function(){
+		//alert(obj[arguments[0]])
+		return obj[arguments[0]];
+	});
+alert(str)
 </script>

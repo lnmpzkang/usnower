@@ -1,0 +1,21 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>无标题文档</title>
+<script language="javascript" src="JObj.js"></script>
+</head>
+<body>
+<input type="text" id="aa" />
+<input  type="text" id="bb" />
+<script type="text/javascript">
+    var user = {"阮刚":1,"刚阮":2,"刚成阮":3,"大猪头":4,"肉猪":5,"猪肉":6};
+    var eng = {"blue":1,"blueidea":2,"good":3,"goodidea":4,"xling":5,"xlingfairy":6,"fairy":7};
+
+    JObj.plugin("JSuggest");
+    var sg = JObj.Plugin.JSuggest;
+    sg.listen("aa",user);
+    sg.listen("bb",eng);
+</script>
+</body>
+</html>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <title></title>
+      <script type="text/javascript" src="JObj.js"></script>
+  </head>
+  <body>
+  <div id="calendarShow"></div>
+  <script type="text/javascript">
+      JObj.plugin("JMenuTab");
+      var jmt = JObj.Plugin.JMenuTab.getInstance(500,300);
+      jmt.create();
+      jmt.addTab("About","calendarShow",true);
+	  jmt.addTab("Read More");
+	  jmt.setActiveTab(0);
+	  
+	  JObj.plugin("JCalendar");
+	  cld = JObj.Plugin.JCalendar.getInstance("calendarShow");
+	  cld.create();
+  </script>
+  </body>
+</html>

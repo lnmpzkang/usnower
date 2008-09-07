@@ -6,7 +6,25 @@ class VO_Comment extends VO {
 	private $http,$content;
 	private $inTime,$showAble = false ,$forAdmin = false;
 	private $forId;
+	private $title;
 	
+	/**
+	 * @return unknown
+	 */
+	public function getTitle() {
+		return $this->title;
+	}
+	
+	/**
+	 * @param unknown_type $title
+	 */
+	public function setTitle($title) {
+		$title = trim($title);
+		if(!GValidate::checkString($title,array('required'=>true,'max'=>100))){
+			throw new GDataException('Title required.And it\'s length must between 1 and 100');
+		}
+		$this->title = $title;
+	}
 	/**
 	 * @return unknown
 	 */

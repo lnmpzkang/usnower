@@ -10,6 +10,7 @@ if(GToken::isToken($token,'comment',true)){
 	$vo = new VO_Comment();
 	try{
 		$vo->setForId($_POST['forId']);
+		
 		$vo->setName($_POST['name']);
 		$vo->setEmail($_POST['email']);
 		$vo->setHttp($_POST['http']);
